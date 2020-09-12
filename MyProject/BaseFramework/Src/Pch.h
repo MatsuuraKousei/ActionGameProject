@@ -94,6 +94,6 @@
 // 自作System
 //
 //===============================================
-#include "System/KdSystem.h"
+#include "System/System.h"
 
 
