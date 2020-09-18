@@ -10,8 +10,8 @@
 namespace Math = DirectX::SimpleMath;
 
 // 角度変換
-constexpr float KdToRadians = (3.141592654f / 180.0f);
-constexpr float KdToDegrees = (180.0f / 3.141592654f);
+constexpr float Radians = (3.141592654f / 180.0f);
+constexpr float Degrees = (180.0f / 3.141592654f);
 
 // 安全にReleaseするための関数
 template<class T>

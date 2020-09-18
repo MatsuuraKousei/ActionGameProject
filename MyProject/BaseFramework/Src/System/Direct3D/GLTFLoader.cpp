@@ -144,7 +144,7 @@ static void MatrixMirrorZ(Math::Matrix& mat)
 // 　・クォータニオン：xとyに-1を乗算
 // 　・座標：zに-1を乗算
 //===================================================
-std::shared_ptr<GLTFModel> KdLoadGLTFModel(const std::string& path)
+std::shared_ptr<GLTFModel> LoadGLTFModel(const std::string& path)
 {
 #ifdef GLTF_DEBUG
 	// コンソールウィンドウ表示
@@ -640,7 +640,7 @@ std::shared_ptr<GLTFModel> KdLoadGLTFModel(const std::string& path)
 
 				for (UINT ki = 0; ki < timeGetter.GetAccessor()->count; ki++)
 				{
-					KdKeyVector3 v;
+					KeyVector3 v;
 					// 時間
 					v.Time = timeGetter.GetValue_Float(ki) * 60.0f;	// 元が60fpsとして変換
 					if (v.Time > animation->MaxLength)
@@ -687,7 +687,7 @@ std::shared_ptr<GLTFModel> KdLoadGLTFModel(const std::string& path)
 			{
 				for (UINT ki = 0; ki < timeGetter.GetAccessor()->count; ki++)
 				{
-					KdKeyVector3 v;
+					KeyVector3 v;
 					// 時間
 					v.Time = timeGetter.GetValue_Float(ki) * 60.0f;	// 元が60fpsとして変換
 					if (v.Time > animation->MaxLength)
@@ -734,7 +734,7 @@ std::shared_ptr<GLTFModel> KdLoadGLTFModel(const std::string& path)
 
 				for (UINT ki = 0; ki < timeGetter.GetAccessor()->count; ki++)
 				{
-					KdKeyQuaternion q;
+					KeyQuaternion q;
 					// 時間
 					q.Time = timeGetter.GetValue_Float(ki) * 60.0f;	// 元が60fpsとして変換
 					if (q.Time > animation->MaxLength)
