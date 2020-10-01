@@ -1,6 +1,6 @@
 ﻿#include "main.h"
 
-
+#include "Game/Scene.h"
 
 //===================================================================
 // メイン
@@ -76,6 +76,24 @@ bool Application::Init(int w, int h)
 	// オーディオ初期化
 	//===================================================================
 
+	//===================================================================
+	// imgui初期化
+	//===================================================================
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();			// ImGuiの生成
+
+	ImGui::StyleColorsClassic();	// 色設定
+
+	ImGui_ImplWin32_Init(m_window.GetWndHandle());	// 画面の情報を渡している
+	ImGui_ImplDX11_Init(D3D.GetDev(), D3D.GetDevContext());
+
+	#include "imgui/ja_glyph_ranges.h"		// 日本語対応？
+	ImGuiIO&		io = ImGui::GetIO();
+	ImFontConfig	config;					// フォントの設定
+	config.MergeMode = true;				// 合体してもいいフラグ？
+	io.Fonts->AddFontDefault();
+	// 日本語対応
+	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc",13.0f,&config,glyphRangesJapanese);
 
 
 	return true;
@@ -84,6 +102,10 @@ bool Application::Init(int w, int h)
 // アプリケーション終了
 void Application::Release()
 {
+	// imgui開放
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 
 	// シェーダ解放
 	SHADER.Release();
@@ -108,6 +130,11 @@ void Application::Execute()
 	if (APP.Init(1280, 720) == false) {
 		return;
 	}
+
+
+	// シーンの初期化
+	Scene::GetInstance().Init();
+
 
 	//===================================================================
 	// ゲームループ
@@ -158,9 +185,43 @@ void Application::Execute()
 		//
 		//=========================================
 
+		// ImGui開始
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
+		// ImGui Demo ウィンドウ表示　　※すごく参考になるウィンドウです。　imgui_demo.cpp参照
+		//ImGui::ShowDemoWindow(nullptr);
+
+		Scene::GetInstance().ImGuiUpdate();
+
+
+		// バックバッファクリア
+		// 書き込まれたバックバッファを塗りつぶし
+		D3D.GetDevContext()->ClearRenderTargetView(D3D.GetBackBuffer()->GetRTView(),
+			Math::Color(0.0f, 0.0f, 1.0f, 1.0f));	// 青色
+			//Math::Color(sinf(count*0.1),0.0f,1.0f,1.0f));	// 青色
+
+
+		// Zバッファクリア
+		// バックバッファの前後関係
+		D3D.GetDevContext()->ClearDepthStencilView(D3D.GetZBuffer()->GetDSView(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+		// シーンの更新
+		Scene::GetInstance().Update();
+
+		// シーンの描画
+		Scene::GetInstance().Draw();
+
+		// ImGui描画実行
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 
 
+		// バックバッファ画面表示
+		D3D.GetSwapChain()->Present(0, 0);
 
 
 
@@ -195,7 +256,7 @@ void Application::Execute()
 
 	}
 
-
+	Scene::GetInstance().Release();
 
 
 	//===================================================================

@@ -1,0 +1,32 @@
+{
+  "GameObjects": [
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess"
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "StageMap",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/StageMap.gltf",
+      "Scale": [ 1, 1, 1, 1 ]
+    },
+    {
+      "ClassName": "Lift",
+      "Name": "Lift00",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Box/Box2.gltf",
+      "Pos":[0,0,3],
+      "MoveTo":[0,10,3],
+      "Speed":0.01
+    },
+    {
+      "ClassName": "Human",
+      "Name": "PlayerHuman",
+      "Tag":19,
+      "ModelFileName": "Data/Textures/3DTexture/Human/Human.gltf",
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 270 , 0 , 0 ]
+    }
+  ]
+}

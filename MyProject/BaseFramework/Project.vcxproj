@@ -49,10 +49,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
-    <LibraryPath>$(WindowsSDK_LibraryPath_x86);$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -142,72 +139,126 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Library\imgui\imconfig.h" />
+    <ClInclude Include="..\Library\imgui\imgui.h" />
+    <ClInclude Include="..\Library\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="..\Library\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="..\Library\imgui\imgui_internal.h" />
+    <ClInclude Include="..\Library\imgui\imgui_stdlib.h" />
+    <ClInclude Include="..\Library\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\Library\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\Library\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\Library\imgui\ja_glyph_ranges.h" />
+    <ClInclude Include="..\Library\json11KdCustom\json11.hpp" />
     <ClInclude Include="..\Library\strconv.h" />
     <ClInclude Include="..\Library\tinygltf\json.hpp" />
     <ClInclude Include="..\Library\tinygltf\stb_image.h" />
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
+    <ClInclude Include="Src\Application\Component\CameraComponent.h" />
+    <ClInclude Include="Src\Application\Component\InputComponent.h" />
+    <ClInclude Include="Src\Application\Component\ModelComponent.h" />
+    <ClInclude Include="Src\Application\Game\Action\ActionGameProcess.h" />
+    <ClInclude Include="Src\Application\Game\Action\Human.h" />
+    <ClInclude Include="Src\Application\Game\Action\Lift.h" />
+    <ClInclude Include="Src\Application\Game\AnimationCamera.h" />
+    <ClInclude Include="Src\Application\Game\EditorCamera.h" />
+    <ClInclude Include="Src\Application\Game\GameObject.h" />
+    <ClInclude Include="Src\Application\Game\GameProcess.h" />
+    <ClInclude Include="Src\Application\Game\Scene.h" />
+    <ClInclude Include="Src\Application\ImGuiHelper.h" />
     <ClInclude Include="Src\Application\main.h" />
-    <ClInclude Include="src\System\Direct3D\Direct3D.h" />
-    <ClInclude Include="Src\System\Direct3D\GLTFLoader.h" />
-    <ClInclude Include="Src\System\Direct3D\Buffer.h" />
-    <ClInclude Include="src\System\Direct3D\Mesh.h" />
-    <ClInclude Include="src\System\Direct3D\Texture.h" />
+    <ClInclude Include="src\System\Direct3D\KdDirect3D.h" />
+    <ClInclude Include="Src\System\Direct3D\KdGLTFLoader.h" />
+    <ClInclude Include="src\System\Direct3D\KdBuffer.h" />
+    <ClInclude Include="src\System\Direct3D\KdMesh.h" />
+    <ClInclude Include="Src\System\Direct3D\KdModel.h" />
+    <ClInclude Include="Src\System\Direct3D\KdSquarePolygon.h" />
+    <ClInclude Include="src\System\Direct3D\KdTexture.h" />
     <ClInclude Include="src\Pch.h" />
-    <ClInclude Include="Src\System\Shader\EffectShader\EffectShader.h" />
-    <ClInclude Include="Src\System\Shader\ShaderManager.h" />
-    <ClInclude Include="Src\System\Shader\SpriteShader\SpriteShader.h" />
-    <ClInclude Include="Src\System\Shader\StandardShader\StandardShader.h" />
-    <ClInclude Include="Src\System\System.h" />
-    <ClInclude Include="src\System\Utility\Utility.h" />
-    <ClInclude Include="src\System\Window\Window.h" />
+    <ClInclude Include="Src\System\Direct3D\KdTrailPolygon.h" />
+    <ClInclude Include="Src\System\Math\KdAnimation.h" />
+    <ClInclude Include="Src\System\Math\KdCollision.h" />
+    <ClInclude Include="Src\System\Math\KdMath.h" />
+    <ClInclude Include="Src\System\Shader\EffectShader\KdEffectShader.h" />
+    <ClInclude Include="Src\System\Shader\KdShaderManager.h" />
+    <ClInclude Include="Src\System\Shader\SpriteShader\KdSpriteShader.h" />
+    <ClInclude Include="Src\System\Shader\StandardShader\KdStandardShader.h" />
+    <ClInclude Include="src\System\KdSystem.h" />
+    <ClInclude Include="Src\System\Utility\KdResorcefactory.h" />
+    <ClInclude Include="src\System\Utility\KdUtility.h" />
+    <ClInclude Include="src\System\Window\KdWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Library\imgui\imgui.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_stdlib.cpp" />
+    <ClCompile Include="..\Library\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\Library\json11KdCustom\json11.cpp" />
+    <ClCompile Include="Src\Application\Component\CameraComponent.cpp" />
+    <ClCompile Include="Src\Application\Component\InputComponent.cpp" />
+    <ClCompile Include="Src\Application\Component\ModelComponent.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Lift.cpp" />
+    <ClCompile Include="Src\Application\Game\AnimationCamera.cpp" />
+    <ClCompile Include="Src\Application\Game\EditorCamera.cpp" />
+    <ClCompile Include="Src\Application\Game\GameObject.cpp" />
+    <ClCompile Include="Src\Application\Game\Scene.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
-    <ClCompile Include="src\System\Direct3D\Direct3D.cpp" />
-    <ClCompile Include="Src\System\Direct3D\GLTFLoader.cpp" />
-    <ClCompile Include="Src\System\Direct3D\Buffer.cpp" />
-    <ClCompile Include="src\System\Direct3D\Mesh.cpp" />
-    <ClCompile Include="src\System\Direct3D\Texture.cpp" />
+    <ClCompile Include="src\System\Direct3D\KdDirect3D.cpp" />
+    <ClCompile Include="Src\System\Direct3D\KdGLTFLoader.cpp" />
+    <ClCompile Include="src\System\Direct3D\KdBuffer.cpp" />
+    <ClCompile Include="src\System\Direct3D\KdMesh.cpp" />
+    <ClCompile Include="Src\System\Direct3D\KdModel.cpp" />
+    <ClCompile Include="Src\System\Direct3D\KdSquarePolygon.cpp" />
+    <ClCompile Include="src\System\Direct3D\KdTexture.cpp" />
     <ClCompile Include="src\Pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\System\Shader\EffectShader\EffectShader.cpp" />
-    <ClCompile Include="Src\System\Shader\ShaderManager.cpp" />
-    <ClCompile Include="Src\System\Shader\SpriteShader\SpriteShader.cpp" />
-    <ClCompile Include="Src\System\Shader\StandardShader\StandardShader.cpp" />
-    <ClCompile Include="Src\System\Utility\Utility.cpp" />
-    <ClCompile Include="src\System\Window\Window.cpp" />
+    <ClCompile Include="Src\System\Direct3D\KdTrailPolygon.cpp" />
+    <ClCompile Include="Src\System\Math\KdAnimation.cpp" />
+    <ClCompile Include="Src\System\Math\KdCollision.cpp" />
+    <ClCompile Include="Src\System\Shader\EffectShader\KdEffectShader.cpp" />
+    <ClCompile Include="Src\System\Shader\KdShaderManager.cpp" />
+    <ClCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader.cpp" />
+    <ClCompile Include="Src\System\Shader\StandardShader\KdStandardShader.cpp" />
+    <ClCompile Include="Src\System\Utility\KdResorcefactory.cpp" />
+    <ClCompile Include="Src\System\Utility\KdUtility.cpp" />
+    <ClCompile Include="src\System\Window\KdWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\System\Shader\EffectShader\inc_EffectShader.hlsli" />
-    <None Include="Src\System\Shader\inc_Common.hlsli" />
-    <None Include="Src\System\Shader\SpriteShader\inc_SpriteShader.hlsli" />
-    <None Include="Src\System\Shader\StandardShader\inc_StandardShader.hlsli" />
+    <None Include="Src\System\Shader\EffectShader\inc_KdEffectShader.hlsli" />
+    <None Include="Src\System\Shader\inc_KdCommon.hlsli" />
+    <None Include="Src\System\Shader\SpriteShader\inc_KdSpriteShader.hlsli" />
+    <None Include="Src\System\Shader\StandardShader\inc_KdStandardShader.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\System\Shader\EffectShader\EffectShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\EffectShader\KdEffectShader_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\EffectShader\EffectShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\EffectShader\KdEffectShader_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\SpriteShader\SpriteShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\SpriteShader\SpriteShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\StandardShader\StandardShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\StandardShader\KdStandardShader_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\StandardShader\StandardShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\StandardShader\KdStandardShader_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>

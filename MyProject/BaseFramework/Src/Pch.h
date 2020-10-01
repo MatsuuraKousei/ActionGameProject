@@ -80,8 +80,20 @@
 // imgui
 //
 //===============================================
+#include "imgui/imgui.h"
 
+#define IMGUI_DEFINE_MATH_OPARETORS
+#define IMGUI_DEFINE_PLACEMENT_NEW
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx11.h"
+#include "imgui/imgui_stdlib.h"
 
+//===============================================
+//
+// json
+//
+//===============================================
+#include "json11KdCustom/json11.hpp"
 
 
 //===============================================
@@ -94,6 +106,6 @@
 // 自作System
 //
 //===============================================
-#include "System/System.h"
+#include "System/KdSystem.h"
 
 
