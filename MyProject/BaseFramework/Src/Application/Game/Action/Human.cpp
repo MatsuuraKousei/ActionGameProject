@@ -16,7 +16,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 1.5f, -5.0f);
-		m_spCameraComponent->OffsetMatrix().RotateX(25.0f * KdToRadians);
+		m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
 	}
 	if ((GetTag() & TAG_Player) != 0)
 	{
@@ -87,7 +87,7 @@ void Human::Update()
 	//カメラコンポーネントの更新
 	if (m_spCameraComponent)
 	{
-		KdMatrix trans;
+		Matrix trans;
 		trans.CreateTranslation(m_pos.x, m_pos.y, m_pos.z);
 		m_spCameraComponent->SetCameraMatrix(trans);
 	}
@@ -106,16 +106,16 @@ void Human::Update()
 			//対応するモデルノードの行列補完を実行
 
 			//クォーターニオンによる回転補間
-			KdMatrix rotate;
-			KdQuaternion resultQuat;
+			Matrix rotate;
+			Quaternion resultQuat;
 			if (rAnimNode.InterpolateRotations(resultQuat, m_animationTime))
 			{
 				rotate.CreateFromQuaternion(resultQuat);
 			}
 
 			//ベクターによる座標補間
-			KdMatrix trans;
-			KdVec3 resultVec;
+			Matrix trans;
+			Vector3 resultVec;
 			if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
 			{
 				trans.CreateTranslation(resultVec.x,resultVec.y,resultVec.z);
@@ -140,15 +140,15 @@ void Human::UpdateMove()
 	//入力情報の取得
 	const Math::Vector2& inputMove = m_spInputComponent->GetAxiz(Input::Axes::L);
 	//カメラの右方向＊レバー左右の入力＝キャラクター左右の移動方向
-	KdVec3 moveSide = m_spCameraComponent->GetCameraMatrix().GetAxisX() * inputMove.x;
+	Vector3 moveSide = m_spCameraComponent->GetCameraMatrix().GetAxisX() * inputMove.x;
 	//カメラの前方向＊レバー前後の入力＝キャラクター前後の移動方向
-	KdVec3 moveForward = m_spCameraComponent->GetCameraMatrix().GetAxisZ() * inputMove.y;
+	Vector3 moveForward = m_spCameraComponent->GetCameraMatrix().GetAxisZ() * inputMove.y;
 
 	//上下方向への移動成分はカット
 	moveForward.y = 0.0f;
 
 	//移動ベクトルの計算
-	KdVec3 moveVec = { moveSide + moveForward };
+	Vector3 moveVec = { moveSide + moveForward };
 
 	//正規化（斜めに進まれないように）
 	moveVec.Normalize();
@@ -175,16 +175,16 @@ void Human::UpdateCamera()
 
 	const Math::Vector2& inputCamera = m_spInputComponent->GetAxiz(Input::Axes::R);
 
-	m_spCameraComponent->OffsetMatrix().RotateY(inputCamera.x * m_camRotSpeed * KdToRadians);
+	m_spCameraComponent->OffsetMatrix().RotateY(inputCamera.x * m_camRotSpeed * Radians);
 }
 
 //r_moveDir 移動方向
-void Human::UpdateRotate(const KdVec3& rMoveDir)
+void Human::UpdateRotate(const Vector3& rMoveDir)
 {
 	if (rMoveDir.LengthSquared() == 0.0f) { return; }
 
 	//今のキャラクターの方向ベクトル
-	KdVec3 nowDir = m_mWorld.GetAxisZ();
+	Vector3 nowDir = m_mWorld.GetAxisZ();
 	nowDir.Normalize();
 
 	//キャラクターの今向いている方向の角度を求める（ラジアン角）
@@ -207,7 +207,7 @@ void Human::UpdateRotate(const KdVec3& rMoveDir)
 	}
 
 	//一回のの回転角度をm_rotateAngle
-	rotateRadian = std::clamp(rotateRadian, -m_rotateAngle * KdToRadians, m_rotateAngle * KdToRadians);
+	rotateRadian = std::clamp(rotateRadian, -m_rotateAngle * Radians, m_rotateAngle * Radians);
 
 	m_rot.y += rotateRadian;
 }
@@ -242,7 +242,7 @@ bool Human::CheckGround(float& rDstDistance)
 
 	//レイの結果格納用
 	rayInfo.m_maxRange = FLT_MAX;
-	KdRayResult finalRayResult;
+	RayResult finalRayResult;
 
 	std::shared_ptr<GameObject> hitObj = nullptr;
 
@@ -253,7 +253,7 @@ bool Human::CheckGround(float& rDstDistance)
 		if (obj.get() == this) { continue; }
 		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
 		if (!(obj->GetTag() & (TAG_StageObject))) { continue; }
-		KdRayResult rayResult;
+		RayResult rayResult;
 
 		if (obj->HitCheckByRay(rayInfo, rayResult))
 		{

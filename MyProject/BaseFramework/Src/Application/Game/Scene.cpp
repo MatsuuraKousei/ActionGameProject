@@ -94,7 +94,7 @@ void Scene::Init()
     }
 
     // モデルの読み込み
-    m_spSky = KdResorceFactory::GetInstance().GetModel("Data/Textures/3DTexture/Sky/Sky.gltf");
+    m_spSky = ResorceFactory::GetInstance().GetModel("Data/Textures/3DTexture/Sky/Sky.gltf");
 
     // エディターカメラ
     m_spCamera = std::make_shared<EditorCamera>();
@@ -274,7 +274,7 @@ void Scene::LoadScene(const std::string& sceneFilename)
     Reset();        // 各項目のクリア
 
     // JSON読み込み
-    json11::Json json = KdResFac.GetJSON(sceneFilename);
+    json11::Json json = ResFac.GetJSON(sceneFilename);
     if (json.is_null())
     {
         assert(0 && "[LoadScene]jsonファイル読み込み失敗");
@@ -292,7 +292,7 @@ void Scene::LoadScene(const std::string& sceneFilename)
         auto newGameObj = CreateGameObject(objJsonData["ClassName"].string_value());
 
         // プレハブ指定ありの場合は、プレハブ側のものをベースにこのJSONをマージする
-        KdMergePrefab(objJsonData);
+        MergePrefab(objJsonData);
 
         // オブジェクトのデシリアライズ
         newGameObj->Deserialize(objJsonData);
@@ -395,7 +395,7 @@ void Scene::ImGuiPrefabFactoryUpdate()
         if (ImGui::Button(u8"ファイル選択"))
         {
             // エクスプローラーを開いてファイルを選択
-            if (KdWindow::OpenFileDialog(m_PathText, "Jsonファイルを選択してください", "\0*.json"))
+            if (Window::OpenFileDialog(m_PathText, "Jsonファイルを選択してください", "\0*.json"))
             {
                 //選択したファイルのパスをログに表示
                 m_Editor_Log->AddLog(u8"読み込んだJsonファイルのパス = %s", m_PathText.c_str());
@@ -405,7 +405,7 @@ void Scene::ImGuiPrefabFactoryUpdate()
         // Createボタン
         if (ImGui::Button("Create"))
         {
-            json11::Json json = KdResFac.GetJSON(m_PathText);
+            json11::Json json = ResFac.GetJSON(m_PathText);
 
             // 成功
             if (!json.is_null())
@@ -423,7 +423,7 @@ void Scene::ImGuiPrefabFactoryUpdate()
             std::shared_ptr<GameObject> gm = CreateGameObject(json["ClassName"].string_value());
 
             // Prefabのマージ処理
-            KdMergePrefab(json);
+            MergePrefab(json);
 
             // 初期化
             gm->Deserialize(json);
@@ -459,7 +459,7 @@ std::shared_ptr<GameObject> Scene::FindObjectWithName(const std::string& name)
 void Scene::AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color)
 {
     // ラインの開始頂点
-    KdEffectShader::Vertex ver;
+    EffectShader::Vertex ver;
     ver.Color = color;
     ver.UV = { 0.0f,0.0f };
     ver.Pos = p1;
@@ -473,7 +473,7 @@ void Scene::AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const
 // デバッグスフィア描画                           座標          半径                  色
 void Scene::AddDebugSphereLine(const Math::Vector3& pos, float radius, const Math::Color& color)
 {
-    KdEffectShader::Vertex ver;
+    EffectShader::Vertex ver;
     ver.Color = color;
     ver.UV = { 0.0f,0.0f };
 
@@ -482,35 +482,35 @@ void Scene::AddDebugSphereLine(const Math::Vector3& pos, float radius, const Mat
     {
         // XZ平面
         ver.Pos = pos;
-        ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;    // 授業で説明
-        ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.x += cos((float)i * (360 / kDetail) * Radians) * radius;    // 授業で説明
+        ver.Pos.z += sin((float)i * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
 
         ver.Pos = pos;
-        ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-        ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
+        ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
 
         // XY平面
         ver.Pos = pos;
-        ver.Pos.x += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-        ver.Pos.y += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.x += cos((float)i * (360 / kDetail) * Radians) * radius;
+        ver.Pos.y += sin((float)i * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
 
         ver.Pos = pos;
-        ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-        ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
+        ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
 
         // YZ平面
         ver.Pos = pos;
-        ver.Pos.y += cos((float)i * (360 / kDetail) * KdToRadians) * radius;
-        ver.Pos.z += sin((float)i * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.y += cos((float)i * (360 / kDetail) * Radians) * radius;
+        ver.Pos.z += sin((float)i * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
 
         ver.Pos = pos;
-        ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
-        ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * KdToRadians) * radius;
+        ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
+        ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
         m_debugLines.push_back(ver);
     }
 }
@@ -518,7 +518,7 @@ void Scene::AddDebugSphereLine(const Math::Vector3& pos, float radius, const Mat
 // デバッグ軸描画
 void Scene::AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale)
 {
-    KdEffectShader::Vertex ver;
+    EffectShader::Vertex ver;
     ver.UV = { 0.0f,0.0f };
 
     // X軸・赤

@@ -13,16 +13,16 @@ public:
 	~CameraComponent();		// デストラクタ
 
 	// オフセット行列取得
-	inline KdMatrix& OffsetMatrix() { return m_mOffset; }
+	inline Matrix& OffsetMatrix() { return m_mOffset; }
 
 	// カメラ行列取得
-	inline const KdMatrix& GetCameraMatrix() { return m_mCam; }
+	inline const Matrix& GetCameraMatrix() { return m_mCam; }
 
 	// ビュー行列取得
-	inline const KdMatrix& GetViewMatrix() { return m_mView; }
+	inline const Matrix& GetViewMatrix() { return m_mView; }
 
 	// カメラ行列・ビュー行列設定（行列 m と行列 Offsetが合成され、最終的なカメラ行列になる）
-	void SetCameraMatrix(const KdMatrix& m);
+	void SetCameraMatrix(const Matrix& m);
 
 	// カメラ情報（ビュー・射影行列など）をシェーダーへセット
 	void SetToShader();
@@ -30,14 +30,14 @@ public:
 protected:
 
 	// オフセット行列
-	KdMatrix		m_mOffset;
+	Matrix		m_mOffset;
 	// カメラ行列
-	KdMatrix		m_mCam;
+	Matrix		m_mCam;
 	// ビュー行列
-	KdMatrix		m_mView;
+	Matrix		m_mView;
 
 	// 射影行列
-	KdMatrix		m_mProj;
+	Matrix		m_mProj;
 
 	GameObject&		m_owner;
 

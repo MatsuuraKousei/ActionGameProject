@@ -3,7 +3,7 @@
 // コンストラクター
 CameraComponent::CameraComponent(GameObject& owner) : m_owner(owner)
 {
-	m_mProj.CreateProjectionPerspectiveFov(60 * KdToRadians,
+	m_mProj.CreateProjectionPerspectiveFov(60 * Radians,
 		D3D.GetBackBuffer()->GetAspectRatio(),0.01f,5000.0f);
 }
 
@@ -14,7 +14,7 @@ CameraComponent::~CameraComponent()
 }
 
 // カメラ行列・ビュー行列設定（行列 m と行列 Offsetが合成され、最終的なカメラ行列になる）
-void CameraComponent::SetCameraMatrix(const KdMatrix& m)
+void CameraComponent::SetCameraMatrix(const Matrix& m)
 {
 	// カメラ行列セット
 	m_mCam = m_mOffset * m;

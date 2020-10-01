@@ -37,8 +37,8 @@ public:
 
 	virtual void ImGuiUpdate();	// ImGuiの処理
 
-	inline const KdMatrix& GetMatrix()const { return m_mWorld; }
-	inline void SetMatrix(const KdMatrix& rMat) { m_mWorld = rMat; }
+	inline const Matrix& GetMatrix()const { return m_mWorld; }
+	inline void SetMatrix(const Matrix& rMat) { m_mWorld = rMat; }
 	// カプセル化
 	inline bool IsAlive() const { return m_alive; }
 	inline void Destroy() { m_alive = false; }
@@ -52,7 +52,7 @@ public:
 	bool HitCheckBySphere(const SphereInfo& rInfo);
 
 	// レイによる当たり判定
-	bool HitCheckByRay(const RayInfo& rInfo,KdRayResult& rResult);
+	bool HitCheckByRay(const RayInfo& rInfo,RayResult& rResult);
 
 	// カメラコンポーネント取得
 	std::shared_ptr<CameraComponent> GetCameraComponent() { return m_spCameraComponent; }
@@ -62,12 +62,12 @@ public:
 	// モデルコンポーネント取得
 	std::shared_ptr<ModelComponent> GetModelComponent() { return m_spModelComponent; }
 
-	const KdMatrix& GetPrevMatrix() { return m_mPrev; }
+	const Matrix& GetPrevMatrix() { return m_mPrev; }
 
 	//このキャラクターが動いた分の行列を取得
-	KdMatrix GetOneMove() 
+	Matrix GetOneMove() 
 	{
-		KdMatrix mPI = m_mPrev;
+		Matrix mPI = m_mPrev;
 		mPI.Inverse();			//動く前の逆行列
 		return mPI * m_mWorld;	//動く前の逆行列*今の行列=一回動いた分の行列
 	}
@@ -86,9 +86,9 @@ protected:
 	// モデルコンポーネント
 	std::shared_ptr<ModelComponent> m_spModelComponent = std::make_shared<ModelComponent>(*this);
 
-	KdMatrix		m_mWorld;					// ゲーム内の絶対座標(座標と回転と拡大)
+	Matrix		m_mWorld;					// ゲーム内の絶対座標(座標と回転と拡大)
 
-	KdMatrix		m_mPrev;					//動く前の行列
+	Matrix		m_mPrev;					//動く前の行列
 
 	bool			m_alive		= true;			// 生きているか死んでいるか
 	UINT			m_tag = OBJECT_TAG::TAG_None;
@@ -104,13 +104,13 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name);
 // 球判定に使うデータ
 struct SphereInfo
 {
-	KdVec3	m_pos = {};
+	Vector3	m_pos = {};
 	float	m_radius = 0.0f;
 };
 
 struct RayInfo
 {
-	KdVec3		m_pos;				// レイ(光線)の発射場所
-	KdVec3		m_dir;				// レイの発射方向
+	Vector3		m_pos;				// レイ(光線)の発射場所
+	Vector3		m_dir;				// レイの発射方向
 	float		m_maxRange=0.0f;	// レイが届く最大距離
 };

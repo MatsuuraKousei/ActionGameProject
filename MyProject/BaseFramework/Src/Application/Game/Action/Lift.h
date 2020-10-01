@@ -9,10 +9,10 @@ public:
 private:
 
 	//スタート地点
-	KdMatrix m_mStart;
+	Matrix m_mStart;
 
 	//ゴール地点の座標
-	KdVec3 m_vGoal = {};
+	Vector3 m_vGoal = {};
 
 	//リフトが進むスピード
 	float m_speed = 0.0f;

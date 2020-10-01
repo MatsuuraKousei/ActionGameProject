@@ -11,7 +11,7 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 	if (jsonObj["MoveTo"].is_array())
 	{
 		auto& p = jsonObj["MoveTo"].array_items();
-		m_vGoal = KdVec3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+		m_vGoal = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
 	}
 
 	//移動スピードの読み込み
@@ -31,10 +31,10 @@ void Lift::Update()
 	auto& vGoal = m_vGoal;
 
 	//目標地点までのベクトル
-	KdVec3 vTo = vGoal - vStart;
+	Vector3 vTo = vGoal - vStart;
 
 	//進行具合を加味して現在の地点を割り出す
-	KdVec3 vNow = vStart + vTo * m_progress;
+	Vector3 vNow = vStart + vTo * m_progress;
 
 	//地点を中間に合わせる
 	m_mWorld.SetTranslation(vNow);

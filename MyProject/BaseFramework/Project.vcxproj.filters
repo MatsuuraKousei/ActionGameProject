@@ -75,56 +75,14 @@
     <ClInclude Include="Src\Application\main.h">
       <Filter>Src\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\System\Direct3D\KdDirect3D.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Direct3D\KdTexture.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Direct3D\KdBuffer.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Direct3D\KdGLTFLoader.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Shader\KdShaderManager.h">
-      <Filter>Src\System\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Shader\EffectShader\KdEffectShader.h">
-      <Filter>Src\System\Shader\EffectShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Shader\SpriteShader\KdSpriteShader.h">
-      <Filter>Src\System\Shader\SpriteShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Shader\StandardShader\KdStandardShader.h">
-      <Filter>Src\System\Shader\StandardShader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Utility\KdUtility.h">
-      <Filter>Src\System\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\KdSystem.h">
-      <Filter>Src\System</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\strconv.h">
       <Filter>Library</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Window\KdWindow.h">
-      <Filter>Src\System\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Direct3D\KdMesh.h">
-      <Filter>Src\System\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Game\Scene.h">
       <Filter>Src\Application\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\Direct3D\KdModel.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Game\EditorCamera.h">
       <Filter>Src\Application\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Math\KdMath.h">
-      <Filter>Src\System\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\Library\imgui\imgui_stdlib.h">
       <Filter>Library\imgui</Filter>
@@ -159,9 +117,6 @@
     <ClInclude Include="Src\Application\Game\GameObject.h">
       <Filter>Src\Application\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\Utility\KdResorcefactory.h">
-      <Filter>Src\System\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Component\CameraComponent.h">
       <Filter>Src\Application\Component</Filter>
     </ClInclude>
@@ -171,16 +126,9 @@
     <ClInclude Include="Src\Application\Component\ModelComponent.h">
       <Filter>Src\Application\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\Math\KdCollision.h">
-      <Filter>Src\System\Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\Library\json11KdCustom\json11.hpp">
       <Filter>Library\json11KdCustom</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\Direct3D\KdSquarePolygon.h">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\System\Direct3D\KdTrailPolygon.h" />
     <ClInclude Include="Src\Application\Game\GameProcess.h">
       <Filter>Src\Application\Game</Filter>
     </ClInclude>
@@ -199,8 +147,62 @@
     <ClInclude Include="Src\Application\Game\Action\Lift.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
-    <ClInclude Include="Src\System\Math\KdAnimation.h">
+    <ClInclude Include="src\System\Direct3D\Buffer.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Direct3D\Direct3D.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Direct3D\GLTFLoader.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Direct3D\Mesh.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Direct3D\Model.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Direct3D\SquarePolygon.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Direct3D\Texture.h">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Math\Animation.h">
       <Filter>Src\System\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Math\Collision.h">
+      <Filter>Src\System\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Math\Math.h">
+      <Filter>Src\System\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Shader\EffectShader\EffectShader.h">
+      <Filter>Src\System\Shader\EffectShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Shader\SpriteShader\SpriteShader.h">
+      <Filter>Src\System\Shader\SpriteShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Shader\StandardShader\StandardShader.h">
+      <Filter>Src\System\Shader\StandardShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Shader\ShaderManager.h">
+      <Filter>Src\System\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Utility\Resorcefactory.h">
+      <Filter>Src\System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Utility\Utility.h">
+      <Filter>Src\System\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Window\Window.h">
+      <Filter>Src\System\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\System.h">
+      <Filter>Src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Direct3D\TrailPolygon.h">
+      <Filter>Src\System\Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,44 +212,8 @@
     <ClCompile Include="Src\Application\main.cpp">
       <Filter>Src\Application</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Direct3D\KdDirect3D.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\Direct3D\KdTexture.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\Direct3D\KdBuffer.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Direct3D\KdGLTFLoader.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Shader\KdShaderManager.cpp">
-      <Filter>Src\System\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Shader\EffectShader\KdEffectShader.cpp">
-      <Filter>Src\System\Shader\EffectShader</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader.cpp">
-      <Filter>Src\System\Shader\SpriteShader</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Shader\StandardShader\KdStandardShader.cpp">
-      <Filter>Src\System\Shader\StandardShader</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\Window\KdWindow.cpp">
-      <Filter>Src\System\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Utility\KdUtility.cpp">
-      <Filter>Src\System\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System\Direct3D\KdMesh.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Game\Scene.cpp">
       <Filter>Src\Application\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Direct3D\KdModel.cpp">
-      <Filter>Src\System\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Game\EditorCamera.cpp">
       <Filter>Src\Application\Game</Filter>
@@ -276,9 +242,6 @@
     <ClCompile Include="Src\Application\Game\GameObject.cpp">
       <Filter>Src\Application\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Src\System\Utility\KdResorcefactory.cpp">
-      <Filter>Src\System\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Component\CameraComponent.cpp">
       <Filter>Src\Application\Component</Filter>
     </ClCompile>
@@ -288,16 +251,9 @@
     <ClCompile Include="Src\Application\Component\ModelComponent.cpp">
       <Filter>Src\Application\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Src\System\Math\KdCollision.cpp">
-      <Filter>Src\System\Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\Library\json11KdCustom\json11.cpp">
       <Filter>Library\json11KdCustom</Filter>
     </ClCompile>
-    <ClCompile Include="Src\System\Direct3D\KdSquarePolygon.cpp">
-      <Filter>Src\System\Direct3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\System\Direct3D\KdTrailPolygon.cpp" />
     <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
@@ -310,41 +266,89 @@
     <ClCompile Include="Src\Application\Game\Action\Lift.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
-    <ClCompile Include="Src\System\Math\KdAnimation.cpp">
+    <ClCompile Include="src\System\Direct3D\Buffer.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Direct3D\Direct3D.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Direct3D\GLTFLoader.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Direct3D\Mesh.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Direct3D\Model.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Direct3D\SquarePolygon.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Direct3D\Texture.cpp">
+      <Filter>Src\System\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Math\Animation.cpp">
       <Filter>Src\System\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Math\Collision.cpp">
+      <Filter>Src\System\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Shader\EffectShader\EffectShader.cpp">
+      <Filter>Src\System\Shader\EffectShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Shader\SpriteShader\SpriteShader.cpp">
+      <Filter>Src\System\Shader\SpriteShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Shader\StandardShader\StandardShader.cpp">
+      <Filter>Src\System\Shader\StandardShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Shader\ShaderManager.cpp">
+      <Filter>Src\System\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Utility\Resorcefactory.cpp">
+      <Filter>Src\System\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Utility\Utility.cpp">
+      <Filter>Src\System\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Window\Window.cpp">
+      <Filter>Src\System\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Direct3D\TrailPolygon.cpp">
+      <Filter>Src\System\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\System\Shader\EffectShader\inc_KdEffectShader.hlsli">
+    <None Include="Src\System\Shader\EffectShader\inc_EffectShader.hlsli">
       <Filter>Src\System\Shader\EffectShader</Filter>
     </None>
-    <None Include="Src\System\Shader\inc_KdCommon.hlsli">
-      <Filter>Src\System\Shader</Filter>
-    </None>
-    <None Include="Src\System\Shader\SpriteShader\inc_KdSpriteShader.hlsli">
+    <None Include="Src\System\Shader\SpriteShader\inc_SpriteShader.hlsli">
       <Filter>Src\System\Shader\SpriteShader</Filter>
     </None>
-    <None Include="Src\System\Shader\StandardShader\inc_KdStandardShader.hlsli">
+    <None Include="Src\System\Shader\StandardShader\inc_StandardShader.hlsli">
       <Filter>Src\System\Shader\StandardShader</Filter>
+    </None>
+    <None Include="Src\System\Shader\inc_Common.hlsli">
+      <Filter>Src\System\Shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\System\Shader\EffectShader\KdEffectShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\EffectShader\EffectShader_PS.hlsl">
       <Filter>Src\System\Shader\EffectShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\EffectShader\KdEffectShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\EffectShader\EffectShader_VS.hlsl">
       <Filter>Src\System\Shader\EffectShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\SpriteShader\SpriteShader_PS.hlsl">
       <Filter>Src\System\Shader\SpriteShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\SpriteShader\SpriteShader_VS.hlsl">
       <Filter>Src\System\Shader\SpriteShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\StandardShader\KdStandardShader_PS.hlsl">
+    <FxCompile Include="Src\System\Shader\StandardShader\StandardShader_PS.hlsl">
       <Filter>Src\System\Shader\StandardShader</Filter>
     </FxCompile>
-    <FxCompile Include="Src\System\Shader\StandardShader\KdStandardShader_VS.hlsl">
+    <FxCompile Include="Src\System\Shader\StandardShader\StandardShader_VS.hlsl">
       <Filter>Src\System\Shader\StandardShader</Filter>
     </FxCompile>
   </ItemGroup>

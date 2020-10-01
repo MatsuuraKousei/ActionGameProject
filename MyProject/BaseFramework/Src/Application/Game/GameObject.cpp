@@ -37,10 +37,10 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 
 	if (m_spModelComponent)
 	{
-		m_spModelComponent->SetModel(KdResFac.GetModel(jsonObj["ModelFileName"].string_value()));
+		m_spModelComponent->SetModel(ResFac.GetModel(jsonObj["ModelFileName"].string_value()));
 	}
 	// 行列---------------------------------------
-	KdMatrix mTrans,mRotate,mScale;
+	Matrix mTrans,mRotate,mScale;
 
 	// 座標
 	const std::vector<json11::Json>& rPos = jsonObj["Pos"].array_items();
@@ -54,9 +54,9 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 	const std::vector<json11::Json>& rRot = jsonObj["Rot"].array_items();
 	if (rRot.size() == 3)
 	{
-		mRotate.CreateRotationX((float)rRot[0].number_value() * KdToRadians);
-		mRotate.RotateY((float)rRot[1].number_value() * KdToRadians);
-		mRotate.RotateZ((float)rRot[2].number_value() * KdToRadians);
+		mRotate.CreateRotationX((float)rRot[0].number_value() * Radians);
+		mRotate.RotateY((float)rRot[1].number_value() * Radians);
+		mRotate.RotateZ((float)rRot[2].number_value() * Radians);
 	}
 
 	// 拡大
@@ -99,7 +99,7 @@ void GameObject::ImGuiUpdate()
 		// テキストへの保存
 		if (ImGui::Button(u8"JSONテキストコピー"))
 		{
-			ImGui::SetClipboardText(KdFormat("\"Tag\":%d", m_tag).c_str());	// \はJsonの中の " と同じ KdFormatはprintfみたいなもの
+			ImGui::SetClipboardText(Format("\"Tag\":%d", m_tag).c_str());	// \はJsonの中の " と同じ KdFormatはprintfみたいなもの
 		}
 
 		ImGui::TreePop();
@@ -108,8 +108,8 @@ void GameObject::ImGuiUpdate()
 	// Transform
 	if (ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		KdVec3 pos = m_mWorld.GetTranslation();
-		KdVec3 rot = m_mWorld.GetAngles() * KdToDegrees;	// 表示したときにわかりやすいようにデグリー角に戻す
+		Vector3 pos = m_mWorld.GetTranslation();
+		Vector3 rot = m_mWorld.GetAngles() * Degrees;	// 表示したときにわかりやすいようにデグリー角に戻す
 
 		bool isChange = false;
 
@@ -120,9 +120,9 @@ void GameObject::ImGuiUpdate()
 		if (isChange)
 		{
 			// 計算するときはRadianに戻す
-			rot *= KdToRadians;
+			rot *= Radians;
 
-			KdMatrix mR;
+			Matrix mR;
 			mR.RotateX(rot.x);
 			mR.RotateY(rot.y);
 			mR.RotateZ(rot.z);
@@ -134,8 +134,8 @@ void GameObject::ImGuiUpdate()
 		// テキストへの保存
 		if (ImGui::Button(u8"JSONテキストコピー"))
 		{
-			std::string s = KdFormat("\"Pos\":[%.1f,%.1f,%.1f],\n", pos.x, pos.y, pos.z);
-			s += KdFormat("\"Rot\":[%.1f,%.1f,%.1f],\n", rot.x, rot.y, rot.z);
+			std::string s = Format("\"Pos\":[%.1f,%.1f,%.1f],\n", pos.x, pos.y, pos.z);
+			s += Format("\"Rot\":[%.1f,%.1f,%.1f],\n", rot.x, rot.y, rot.z);
 			ImGui::SetClipboardText(s.c_str());
 		}
 
@@ -150,10 +150,10 @@ bool GameObject::HitCheckBySphere(const SphereInfo& rInfo)
 	float hitRange = rInfo.m_radius + m_colRadius;
 
 	// 自分の座標ベクトル
-	KdVec3 myPos = m_mWorld.GetTranslation();
+	Vector3 myPos = m_mWorld.GetTranslation();
 
 	// 二点間のベクトルを計算
-	KdVec3 betweenVec = rInfo.m_pos - myPos;
+	Vector3 betweenVec = rInfo.m_pos - myPos;
 
 	// 二点間の距離を計算
 	float distance = betweenVec.Length();
@@ -194,7 +194,7 @@ bool GameObject::HitCheckBySphere(const SphereInfo& rInfo)
 
 // レイによる当たり判定
 // レイ判定は結構重いらしい
-bool GameObject::HitCheckByRay(const RayInfo& rInfo, KdRayResult& rResult)
+bool GameObject::HitCheckByRay(const RayInfo& rInfo, RayResult& rResult)
 {
 	// 無かったら早期リターン
 	if (!m_spModelComponent) { return false; }
@@ -204,10 +204,10 @@ bool GameObject::HitCheckByRay(const RayInfo& rInfo, KdRayResult& rResult)
 	{
 		if (!node.m_spMesh) { continue; }
 
-		KdRayResult tmpResult; //結果返送用
+		RayResult tmpResult; //結果返送用
 
 		// レイ判定(本体からのずれ分も加味して計算)
-		KdRayToMesh(rInfo.m_pos, rInfo.m_dir, rInfo.m_maxRange, *(node.m_spMesh),
+		RayToMesh(rInfo.m_pos, rInfo.m_dir, rInfo.m_maxRange, *(node.m_spMesh),
 			node.m_localTransform * m_mWorld, tmpResult);
 
 		// より近い判定を優先する

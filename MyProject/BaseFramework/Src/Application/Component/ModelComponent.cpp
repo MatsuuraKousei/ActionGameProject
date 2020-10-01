@@ -1,7 +1,7 @@
 ﻿#include "ModelComponent.h"
 
 // モデルセット
-void ModelComponent::SetModel(const std::shared_ptr<KdModel>& rModel)
+void ModelComponent::SetModel(const std::shared_ptr<Model>& rModel)
 {
 	// 使用しているモデルをセット
 	m_spModel = rModel;

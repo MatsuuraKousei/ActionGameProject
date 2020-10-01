@@ -70,7 +70,7 @@ private:
 	std::string m_nextSCeneFileName = "";				// 次のシーンのJsonファイル名
 	bool m_isRequestChangeScene = false;				// シーン遷移のリクエストがあったか
 
-	std::shared_ptr<KdModel>		m_spSky = nullptr;		// スカイスフィア
+	std::shared_ptr<Model>		m_spSky = nullptr;		// スカイスフィア
 	std::shared_ptr<EditorCamera>	m_spCamera = nullptr;		// 地面
 	bool							m_EditorCameraEnable = true;			// true:世界 false:プレイヤー
 
@@ -86,7 +86,7 @@ private:
 	std::weak_ptr<CameraComponent> m_wpTargetCamera;
 
 	// デバッグライン描画用の頂点配列
-	std::vector<KdEffectShader::Vertex> m_debugLines;
+	std::vector<EffectShader::Vertex> m_debugLines;
 
 
 	//ImGui用の課題変数/////////////////////////////////////////////////////////////

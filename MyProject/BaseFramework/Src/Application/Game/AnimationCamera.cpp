@@ -19,11 +19,11 @@ void AnimationCamera::Update()
 	auto& mEnd = end->GetCameraComponent()->GetCameraMatrix();
 
 	//座標の保管
-	const KdVec3& vStart = mStart.GetTranslation();
-	const KdVec3& vEnd = mEnd.GetTranslation();
+	const Vector3& vStart = mStart.GetTranslation();
+	const Vector3& vEnd = mEnd.GetTranslation();
 
-	KdVec3 vTo = vEnd - vStart;		//ゴール地点へのベクトル
-	KdVec3 vNow = vStart + vTo * m_progress;	//進行具合を加味して座標を求める
+	Vector3 vTo = vEnd - vStart;		//ゴール地点へのベクトル
+	Vector3 vNow = vStart + vTo * m_progress;	//進行具合を加味して座標を求める
 
 	//開始地点と終了地点のクォーターニオンを生成（行列→回転）
 	DirectX::XMVECTOR qSt = DirectX::XMQuaternionRotationMatrix(mStart);
@@ -33,10 +33,10 @@ void AnimationCamera::Update()
 	DirectX::XMVECTOR qOTW = DirectX::XMQuaternionSlerp(qSt, qEd, m_progress);
 
 	//クォーターニオンを回転行列に変換（回転行列）
-	KdMatrix mRot = DirectX::XMMatrixRotationQuaternion(qOTW);
+	Matrix mRot = DirectX::XMMatrixRotationQuaternion(qOTW);
 
 	//カメラに設定する行列
-	KdMatrix mCam = mRot;
+	Matrix mCam = mRot;
 	mCam.SetTranslation(vNow);
 
 	//カメラへセット
