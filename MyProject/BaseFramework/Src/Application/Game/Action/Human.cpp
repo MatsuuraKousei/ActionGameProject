@@ -11,6 +11,7 @@ const float Human::s_landingHeight = 0.1f;
 
 void Human::Deserialize(const json11::Json& jsonObj)
 {
+
 	GameObject::Deserialize(jsonObj);
 
 	if (m_spCameraComponent)
@@ -41,23 +42,24 @@ void Human::Update()
 		m_spInputComponent->Update();
 	}
 
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+	if (!Scene::GetInstance().EditorCameraEnable)
 	{
-		Edit = false;
-	}
-	if (GetAsyncKeyState(VK_TAB) & 0x8000)
-	{
-		Edit = true;
+		if (Edit)
+		{
+			ShowCursor(false);
+
+		}
 	}
 
-	if (Edit)
+
+
+	if (GetAsyncKeyState('Q') & 0x8000)
 	{
-		ShowCursor(false);
-	}
-	else
-	{
+		Edit = false;
 		ShowCursor(true);
 	}
+
+
 
 	//移動前の座標を覚える
 	m_prevPos = m_pos;
@@ -71,9 +73,7 @@ void Human::Update()
 	m_force.y -= m_gravity;
 
 	//移動力をキャラクターの座標に足しこむ
-	m_pos.x += m_force.x;
-	m_pos.y += m_force.y;
-	m_pos.z += m_force.z;
+	m_pos = m_pos + m_force;
 
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
@@ -118,7 +118,7 @@ void Human::Update()
 			Vector3 resultVec;
 			if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
 			{
-				trans.CreateTranslation(resultVec.x,resultVec.y,resultVec.z);
+				trans.CreateTranslation(resultVec.x, resultVec.y, resultVec.z);
 			}
 
 			rModelNode[idx].m_localTransform = rotate * trans;
@@ -156,6 +156,16 @@ void Human::UpdateMove()
 	//キャラクターの回転処理
 	UpdateRotate(moveVec);
 
+	//ダッシュ
+	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY)
+	{
+		m_moveSpeed = 0.35f;;
+	}
+	else
+	{
+		m_moveSpeed = 0.2f;
+	}
+
 	moveVec *= m_moveSpeed;
 
 	m_force.x = moveVec.x;
@@ -163,7 +173,7 @@ void Human::UpdateMove()
 
 	if (m_spInputComponent->GetButton(Input::A) & m_spInputComponent->ENTER && m_isGround)
 	{
-		m_force.y = 0.2f;
+		m_force.y = 0.3f;
 	}
 
 }
@@ -176,6 +186,7 @@ void Human::UpdateCamera()
 	const Math::Vector2& inputCamera = m_spInputComponent->GetAxiz(Input::Axes::R);
 
 	m_spCameraComponent->OffsetMatrix().RotateY(inputCamera.x * m_camRotSpeed * Radians);
+	//m_spCameraComponent->OffsetMatrix().RotateX(inputCamera.y * m_camRotSpeed * Radians);
 }
 
 //r_moveDir 移動方向
@@ -215,6 +226,7 @@ void Human::UpdateRotate(const Vector3& rMoveDir)
 void Human::UpdateCollision()
 {
 	float distanceFromGround = FLT_MAX;
+	float distanceFromWall = FLT_MAX;
 
 	//下方向への判定を行い、着地した
 	if (CheckGround(distanceFromGround))
@@ -224,6 +236,13 @@ void Human::UpdateCollision()
 
 		//地面があるので、y方向への移動力は０に
 		m_force.y = 0.0f;
+	}
+
+
+	if (CheckWall(distanceFromWall))
+	{
+		
+		m_force.x = 0.0f;
 	}
 }
 
@@ -297,11 +316,67 @@ bool Human::CheckGround(float& rDstDistance)
 		auto vOneMove = mOneMove.GetTranslation();
 
 		//相手の動いた分を自分の移動に含める
-		m_pos.x += vOneMove.x;
-		m_pos.y += vOneMove.y;
-		m_pos.z += vOneMove.z;
+		m_pos = m_pos + vOneMove;
 	}
 
 	//着地したかを返す
 	return m_isGround;
+}
+
+bool Human::CheckWall(float& rDstDistance)
+{
+	//レイ判定情報
+	RayInfo rayInfo;
+	rayInfo.m_pos = m_pos;//キャラクターの位置を発射地点に
+
+
+	rayInfo.m_pos.x += m_prevPos.x - m_pos.x;
+	rayInfo.m_pos.z += m_prevPos.z - m_pos.z;
+	//壁方向へのレイ
+	rayInfo.m_dir = { -1.0f,0.0f,-1.0f };
+
+	//レイの結果格納用
+	rayInfo.m_maxRange = FLT_MAX;
+	RayResult finalRayResult;
+
+	std::shared_ptr<GameObject> hitObj = nullptr;
+
+	//全員とレイ判定
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+		if (!(obj->GetTag() & (TAG_StageObject))) { continue; }
+		RayResult rayResult;
+
+		if (obj->HitCheckByRay(rayInfo, rayResult))
+		{
+			//もっとも当たったところまでの距離が短いものを保持する
+			if (rayResult.m_distance < finalRayResult.m_distance)
+			{
+				finalRayResult = rayResult;
+
+				hitObj = obj;
+			}
+		}
+
+	}
+
+	//補正分の長さを結果に反映＆衝突判定
+	float distanceFromWall = FLT_MAX;
+	//進行方向にステージオブジェクトがあった
+	if (finalRayResult.m_hit)
+	{
+		//壁との距離を算出
+		distanceFromWall = finalRayResult.m_distance - (m_prevPos.x - m_pos.x);
+	}
+
+	//壁からの距離
+	m_isWall = distanceFromWall;
+
+	//壁との距離を格納
+	rDstDistance = distanceFromWall;
+
+	return m_isWall;
 }

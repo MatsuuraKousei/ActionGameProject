@@ -1,0 +1,141 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.1.46",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0,
+                1,
+                2
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "lowman_shoes",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
+            ],
+            "scale" : [
+                0.07189656794071198,
+                0.07189656794071198,
+                0.07189656794071198
+            ]
+        },
+        {
+            "name" : "Lamp",
+            "rotation" : [
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                0.0007505714893341064,
+                5.470484733581543,
+                8.070455551147461
+            ]
+        },
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0.6008511185646057,
+                0.16430921852588654,
+                -0.1351400464773178,
+                0.7705307006835938
+            ],
+            "translation" : [
+                5.629260063171387,
+                6.297834396362305,
+                12.340009689331055
+            ]
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "lowman_shoes",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 15162,
+            "max" : [
+                32.128662109375,
+                7.431884765625,
+                0.31660300493240356
+            ],
+            "min" : [
+                -32.128875732421875,
+                -7.4663262367248535,
+                -82.80611419677734
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 15162,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 15162,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 88860,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 181944,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 181944,
+            "byteOffset" : 181944
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 121296,
+            "byteOffset" : 363888
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 177720,
+            "byteOffset" : 485184
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 662904,
+            "uri" : "BASEmodel.bin"
+        }
+    ]
+}

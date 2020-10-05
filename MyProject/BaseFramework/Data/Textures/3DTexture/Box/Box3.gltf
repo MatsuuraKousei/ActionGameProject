@@ -8,19 +8,48 @@
         {
             "name" : "Scene",
             "nodes" : [
-                0
+                0,
+                1,
+                2
             ]
         }
     ],
     "nodes" : [
         {
-            "mesh" : 0,
-            "name" : "Sphere.001",
+            "name" : "Light",
             "rotation" : [
-                0.7071068286895752,
-                0,
-                0,
-                0.7071067094802856
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903861999511719,
+                -1.0054539442062378
+            ]
+        },
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0.483536034822464,
+                0.33687159419059753,
+                -0.20870360732078552,
+                0.7804827094078064
+            ],
+            "translation" : [
+                7.358891487121582,
+                4.958309173583984,
+                6.925790786743164
+            ]
+        },
+        {
+            "mesh" : 0,
+            "name" : "Cube",
+            "scale" : [
+                10,
+                10,
+                10
             ]
         }
     ],
@@ -32,20 +61,22 @@
                 0,
                 0
             ],
-            "name" : "Material.002",
+            "name" : "Material.001",
             "pbrMetallicRoughness" : {
-                "baseColorTexture" : {
-                    "index" : 0,
-                    "texCoord" : 0
-                },
+                "baseColorFactor" : [
+                    0.7471699714660645,
+                    0,
+                    0.8000000715255737,
+                    1
+                ],
                 "metallicFactor" : 0,
-                "roughnessFactor" : 1
+                "roughnessFactor" : 0.5
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Sphere.001",
+            "name" : "Cube.001",
             "primitives" : [
                 {
                     "attributes" : {
@@ -59,30 +90,18 @@
             ]
         }
     ],
-    "textures" : [
-        {
-            "source" : 0
-        }
-    ],
-    "images" : [
-        {
-            "mimeType" : "image/png",
-            "name" : "SkyDef",
-            "uri" : "SkyDef.png"
-        }
-    ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 559,
+            "count" : 109,
             "max" : [
-                1.000000238418579,
-                1.0000003576278687,
+                1,
+                1,
                 1
             ],
             "min" : [
-                -0.9999998211860657,
+                -1,
                 -1,
                 -1
             ],
@@ -91,48 +110,48 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 559,
+            "count" : 109,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 559,
+            "count" : 109,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 2880,
+            "count" : 294,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 6708,
+            "byteLength" : 1308,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 6708,
-            "byteOffset" : 6708
+            "byteLength" : 1308,
+            "byteOffset" : 1308
         },
         {
             "buffer" : 0,
-            "byteLength" : 4472,
-            "byteOffset" : 13416
+            "byteLength" : 872,
+            "byteOffset" : 2616
         },
         {
             "buffer" : 0,
-            "byteLength" : 5760,
-            "byteOffset" : 17888
+            "byteLength" : 588,
+            "byteOffset" : 3488
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 23648,
-            "uri" : "Sky.bin"
+            "byteLength" : 4076,
+            "uri" : "Box3.bin"
         }
     ]
 }

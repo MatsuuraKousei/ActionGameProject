@@ -110,11 +110,13 @@ void GameObject::ImGuiUpdate()
 	{
 		Vector3 pos = m_mWorld.GetTranslation();
 		Vector3 rot = m_mWorld.GetAngles() * Degrees;	// 表示したときにわかりやすいようにデグリー角に戻す
+		//Vector3 scale = m_mWorld	// 表示したときにわかりやすいようにデグリー角に戻す
 
 		bool isChange = false;
 
 		isChange |= ImGui::DragFloat3("Position", &pos.x, 0.01f);	// 先頭のpos.xを渡すとx,y,zの全部渡せる?
 		isChange |= ImGui::DragFloat3("Rotation", &rot.x, 0.1f);
+		//isChange |= ImGui::DragFloat3("Rotation", &, 0.1f);
 
 
 		if (isChange)
@@ -232,7 +234,7 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 		return std::make_shared<Lift>();
 	}
 
-	if (name == "Sky")
+	if (name == "StageProcess")
 	{
 
 	}

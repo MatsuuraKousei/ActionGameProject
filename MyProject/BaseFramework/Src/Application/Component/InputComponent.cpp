@@ -115,6 +115,8 @@ void ActionPlayerInputComponent::Update()
 	if (GetAsyncKeyState('D') & 0x8000) { m_axes[Input::Axes::L].x = 1.0f; }
 	if (GetAsyncKeyState('A') & 0x8000) { m_axes[Input::Axes::L].x = -1.0f; }
 
+	
+
 	//右側の入力（マウスの入力）
 	POINT nowMousePos;
 	GetCursorPos(&nowMousePos);	//マウスの現在位置の取得
@@ -124,21 +126,9 @@ void ActionPlayerInputComponent::Update()
 
 	//ボタン入力
 	//ジャンプ処理
-	if (GetAsyncKeyState('E') & 0x8000) { PushButton(Input::Buttons::A); }
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000) { PushButton(Input::Buttons::A); }
 	else { ReleaseButton(Input::Buttons::A); }
-}
-
-void LessonPlayerInputComponent::Update()
-{
-	//各種の初期化
-	for (auto& rAxis : m_axes)
-	{
-		rAxis = { 0.0f,0.0f };
-	}
-
-	//左軸の入力
-	if (GetAsyncKeyState('W') & 0x8000) { m_axes[Input::Axes::L].y = 1.0f; }
-	if (GetAsyncKeyState('S')& 0x8000) { m_axes[Input::Axes::L].y = -1.0f; }
-	
-	
+	//ダッシュ処理
+	if ((GetAsyncKeyState(VK_LSHIFT) & 0x8000)|| (GetAsyncKeyState(VK_RBUTTON) & 0x8000)) { PushButton(Input::Buttons::L1); }
+	else { ReleaseButton(Input::Buttons::L1); }
 }

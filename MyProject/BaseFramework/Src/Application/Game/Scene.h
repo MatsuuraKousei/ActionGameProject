@@ -54,7 +54,7 @@ public:
 	// デバッグ軸描画
 	void AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale = 1.0f);
 
-
+	bool							EditorCameraEnable = true;			// true:世界 false:プレイヤー
 
 private:
 
@@ -70,9 +70,7 @@ private:
 	std::string m_nextSCeneFileName = "";				// 次のシーンのJsonファイル名
 	bool m_isRequestChangeScene = false;				// シーン遷移のリクエストがあったか
 
-	std::shared_ptr<Model>		m_spSky = nullptr;		// スカイスフィア
 	std::shared_ptr<EditorCamera>	m_spCamera = nullptr;		// 地面
-	bool							m_EditorCameraEnable = true;			// true:世界 false:プレイヤー
 
 
 	// vectorは横並びだけどlistはバラバラなものを線でつないでいるイメージ

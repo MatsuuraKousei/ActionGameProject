@@ -115,13 +115,3 @@ public:
 
 	POINT m_prevMousePos;
 };
-
-class LessonPlayerInputComponent :public InputComponent
-{
-public:
-	LessonPlayerInputComponent(GameObject& rOwner) :InputComponent(rOwner) {}
-
-	virtual void Update()override;
-
-	POINT m_prevMousePos;
-};

@@ -93,9 +93,6 @@ void Scene::Init()
         }
     }
 
-    // モデルの読み込み
-    m_spSky = ResorceFactory::GetInstance().GetModel("Data/Textures/3DTexture/Sky/Sky.gltf");
-
     // エディターカメラ
     m_spCamera = std::make_shared<EditorCamera>();
 
@@ -123,7 +120,7 @@ void Scene::Release()
 void Scene::Update()
 {
     // カメラ
-    if (m_EditorCameraEnable)
+    if (EditorCameraEnable)
     {
         m_spCamera->Update();
     }
@@ -165,7 +162,7 @@ void Scene::Update()
 void Scene::Draw()
 {
     // カメラのセット
-    if (m_EditorCameraEnable)
+    if (EditorCameraEnable)
     {
         m_spCamera->SetToShader();
     }
@@ -192,15 +189,6 @@ void Scene::Draw()
     // 透明度のあるシェーダーはeffectShaderを使う
      // 変更した拡大率をセットする
     SHADER.m_effectShader.SetWorldMatrix(skyScale);
-
-    // モデルの描画(メッシュ情報とマテリアルの情報を渡す)
-    if (m_spSky)
-    {
-        SHADER.m_effectShader.DrawMesh(m_spSky->GetMesh(0).get(), m_spSky->GetMaterials());
-    }
-
-
-
 
     // 不透明物描画
     SHADER.m_standardShader.SetToDevice();
@@ -339,7 +327,7 @@ void Scene::ImGuiUpdate()
     {
         //          ↓utf-8に変換する
         //ImGui::Text(u8"今日はいい天気だから\n飛行機の座標でも表示しようかな");
-        ImGui::Checkbox("EditorCamera", &m_EditorCameraEnable); // チェックボックスで変更できるようになる
+        ImGui::Checkbox("EditorCamera", &EditorCameraEnable); // チェックボックスで変更できるようになる
 
         // オブジェクトリストの描画
         if (ImGui::CollapsingHeader("Object List", ImGuiTreeNodeFlags_DefaultOpen))

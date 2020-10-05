@@ -34,7 +34,7 @@ public:
 		y = _y;
 		z = _z;
 	}
-	
+
 	// XMVECTORから代入してきた時
 	Vector3(const DirectX::XMVECTOR& v)	// XMVECTORは計算用のベクター
 	{
@@ -59,6 +59,17 @@ public:
 	{
 		*this = DirectX::XMVectorScale(*this, s);
 		return *this;
+	}
+
+	Vector3& operator+ (Vector3& vec)
+	{
+		Vector3 vec2;
+
+		vec2.x = x + vec.x;
+		vec2.y = y + vec.y;
+		vec2.z = z + vec.z;
+
+		return vec2;
 	}
 
 	// 自分を正規化
@@ -340,6 +351,8 @@ public:
 
 		return angles;
 	}
+
+	
 
 	// 自分で作ってもいい
 	// 例えば２点の間を求めるとか
