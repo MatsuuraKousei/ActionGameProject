@@ -195,9 +195,9 @@ public:
 	// 作成＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
 	// 移動行列作成
-	void CreateTranslation(float x, float y, float z)
+	void CreateTranslation(Vector3 trans)
 	{
-		*this = DirectX::XMMatrixTranslation(x, y, z);
+		*this = DirectX::XMMatrixTranslation(trans.x, trans.y, trans.z);
 	}
 
 	// 座標を直接格納(回転行列の情報が消えない 自作)

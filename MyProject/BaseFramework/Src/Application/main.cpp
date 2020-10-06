@@ -254,6 +254,12 @@ void Application::Execute()
 			count = 0;
 		}
 
+		//強制終了
+		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+		{
+			break;
+		}
+
 	}
 
 	Scene::GetInstance().Release();

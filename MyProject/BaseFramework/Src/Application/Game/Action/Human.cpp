@@ -11,12 +11,15 @@ const float Human::s_landingHeight = 0.1f;
 
 void Human::Deserialize(const json11::Json& jsonObj)
 {
-
 	GameObject::Deserialize(jsonObj);
 
 	if (m_spCameraComponent)
 	{
-		m_spCameraComponent->OffsetMatrix().CreateTranslation(0.0f, 1.5f, -5.0f);
+		m_CameraTrans.x = 0.0f;
+		m_CameraTrans.y = 1.5f;
+		m_CameraTrans.z = -5.0f;
+
+		m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
 		m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
 	}
 	if ((GetTag() & TAG_Player) != 0)
@@ -32,6 +35,10 @@ void Human::Deserialize(const json11::Json& jsonObj)
 		//再生するアニメーションデータを保持しとく
 		m_spAnimation = m_spModelComponent->GetAnimation("Stand");
 	}
+
+	MaxRange.x = 60;
+	MaxRange.y = 100;
+	MaxRange.z = 230;
 }
 
 void Human::Update()
@@ -73,8 +80,43 @@ void Human::Update()
 	m_force.y -= m_gravity;
 
 	//移動力をキャラクターの座標に足しこむ
-	m_pos = m_pos + m_force;
+	if (MaxRange.x+200 >= m_pos.x && -MaxRange.x<= m_pos.x)
+	{
+		if (MaxRange.y >= m_pos.y && -MaxRange.y <= m_pos.y)
+		{
+			if (MaxRange.z >= m_pos.z && -MaxRange.z<= m_pos.z)
+			{
+				m_pos = m_pos + m_force;
+			}
+		}
+	}
 
+	//簡易移動制限
+	if (m_pos.x >= MaxRange.x+200)
+	{
+		m_pos.x = MaxRange.x+200;
+	}
+	if (m_pos.x <= -MaxRange.x)
+	{
+		m_pos.x = -MaxRange.x;
+	}
+	if (m_pos.y >= MaxRange.y)
+	{
+		m_pos.y = MaxRange.y;
+	}
+	if (m_pos.y <= -MaxRange.y)
+	{
+		m_pos.x = -MaxRange.y;
+	}
+	if (m_pos.z >= MaxRange.z)
+	{
+		m_pos.z = MaxRange.z;
+	}
+	if (m_pos.z <= -MaxRange.z)
+	{
+		m_pos.z = -MaxRange.z;
+	}
+	
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
 
@@ -88,7 +130,7 @@ void Human::Update()
 	if (m_spCameraComponent)
 	{
 		Matrix trans;
-		trans.CreateTranslation(m_pos.x, m_pos.y, m_pos.z);
+		trans.CreateTranslation(m_pos);
 		m_spCameraComponent->SetCameraMatrix(trans);
 	}
 
@@ -118,7 +160,7 @@ void Human::Update()
 			Vector3 resultVec;
 			if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
 			{
-				trans.CreateTranslation(resultVec.x, resultVec.y, resultVec.z);
+				trans.CreateTranslation(resultVec);
 			}
 
 			rModelNode[idx].m_localTransform = rotate * trans;
@@ -157,9 +199,9 @@ void Human::UpdateMove()
 	UpdateRotate(moveVec);
 
 	//ダッシュ
-	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY)
+	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY&&m_isGround)
 	{
-		m_moveSpeed = 0.35f;;
+		m_moveSpeed = 0.35f;
 	}
 	else
 	{

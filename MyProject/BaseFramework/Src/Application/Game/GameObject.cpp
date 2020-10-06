@@ -44,10 +44,16 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 
 	// 座標
 	const std::vector<json11::Json>& rPos = jsonObj["Pos"].array_items();
+
+	Vector3 trans;
+
 	if (rPos.size() == 3)
 	{
-		mTrans.CreateTranslation((float)rPos[0].number_value(), (float)rPos[1].number_value(),
-			(float)rPos[2].number_value());
+		trans.x = (float)rPos[0].number_value();
+		trans.y = (float)rPos[1].number_value();
+		trans.z = (float)rPos[2].number_value();
+
+		mTrans.CreateTranslation(trans);
 	}
 
 	// 回転

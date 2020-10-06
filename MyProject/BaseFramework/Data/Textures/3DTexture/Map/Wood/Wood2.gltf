@@ -9,43 +9,38 @@
             "name" : "Scene",
             "nodes" : [
                 0,
-                1,
-                2
+                1
             ]
         }
     ],
     "nodes" : [
         {
-            "name" : "Light",
-            "rotation" : [
-                0.16907575726509094,
-                0.7558803558349609,
-                -0.27217137813568115,
-                0.570947527885437
-            ],
-            "translation" : [
-                4.076245307922363,
-                5.903861999511719,
-                -1.0054539442062378
-            ]
-        },
-        {
-            "name" : "Camera",
-            "rotation" : [
-                0.483536034822464,
-                0.33687159419059753,
-                -0.20870360732078552,
-                0.7804827094078064
-            ],
-            "translation" : [
-                7.358891487121582,
-                4.958309173583984,
-                6.925790786743164
-            ]
-        },
-        {
             "mesh" : 0,
-            "name" : "map"
+            "name" : "Cone006",
+            "scale" : [
+                0.02539999969303608,
+                0.02539999969303608,
+                0.02539999969303608
+            ],
+            "translation" : [
+                0,
+                -1.25,
+                0
+            ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Cylinder001",
+            "scale" : [
+                0.02539999969303608,
+                0.02539999969303608,
+                0.02539999969303608
+            ],
+            "translation" : [
+                0,
+                -1.25,
+                0
+            ]
         }
     ],
     "materials" : [
@@ -56,14 +51,10 @@
                 0,
                 0
             ],
-            "name" : "grass",
-            "normalTexture" : {
-                "index" : 0,
-                "texCoord" : 0
-            },
+            "name" : "Material.002",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
-                    "index" : 1,
+                    "index" : 0,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -77,24 +68,20 @@
                 0,
                 0
             ],
-            "name" : "sand",
-            "normalTexture" : {
-                "index" : 2,
-                "texCoord" : 0
-            },
+            "name" : "Material #48",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
-                    "index" : 3,
+                    "index" : 1,
                     "texCoord" : 0
                 },
-                "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
+                "metallicFactor" : 1,
+                "roughnessFactor" : 0.858578622341156
             }
         }
     ],
     "meshes" : [
         {
-            "name" : "Plane",
+            "name" : "Mesh",
             "primitives" : [
                 {
                     "attributes" : {
@@ -104,7 +91,12 @@
                     },
                     "indices" : 3,
                     "material" : 0
-                },
+                }
+            ]
+        },
+        {
+            "name" : "Mesh.001",
+            "primitives" : [
                 {
                     "attributes" : {
                         "POSITION" : 4,
@@ -123,152 +115,136 @@
         },
         {
             "source" : 1
-        },
-        {
-            "source" : 2
-        },
-        {
-            "source" : 3
         }
     ],
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "NormalMapDef",
-            "uri" : "NormalMapDef.png"
+            "name" : "Untitled",
+            "uri" : "Untitled.png"
         },
         {
             "mimeType" : "image/png",
-            "name" : "MapDef",
-            "uri" : "MapDef.png"
-        },
-        {
-            "mimeType" : "image/png",
-            "name" : "NormalMapDef2",
-            "uri" : "NormalMapDef2.png"
-        },
-        {
-            "mimeType" : "image/png",
-            "name" : "mapDef2",
-            "uri" : "mapDef2.png"
+            "name" : "Wood",
+            "uri" : "Wood.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 43740,
+            "count" : 475,
             "max" : [
-                135,
-                9.839065551757812,
-                135
+                35.43307113647461,
+                72.83464050292969,
+                33.6988525390625
             ],
             "min" : [
-                -41,
-                0,
-                -135
+                -35.43307113647461,
+                -0.7696876525878906,
+                -33.6988525390625
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 43740,
+            "count" : 475,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 43740,
+            "count" : 475,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 65610,
+            "count" : 1530,
             "type" : "SCALAR"
         },
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 3780,
+            "count" : 102,
             "max" : [
-                101,
-                6.14673376083374,
-                135.54901123046875
+                7.874016284942627,
+                0,
+                7.4886345863342285
             ],
             "min" : [
-                87,
-                -3.590874195098877,
-                -135
+                -7.874016284942627,
+                -19.685039520263672,
+                -7.48863410949707
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 3780,
+            "count" : 102,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 3780,
+            "count" : 102,
             "type" : "VEC2"
         },
         {
             "bufferView" : 7,
             "componentType" : 5123,
-            "count" : 5670,
+            "count" : 348,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 524880,
+            "byteLength" : 5700,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 524880,
-            "byteOffset" : 524880
+            "byteLength" : 5700,
+            "byteOffset" : 5700
         },
         {
             "buffer" : 0,
-            "byteLength" : 349920,
-            "byteOffset" : 1049760
+            "byteLength" : 3800,
+            "byteOffset" : 11400
         },
         {
             "buffer" : 0,
-            "byteLength" : 131220,
-            "byteOffset" : 1399680
+            "byteLength" : 3060,
+            "byteOffset" : 15200
         },
         {
             "buffer" : 0,
-            "byteLength" : 45360,
-            "byteOffset" : 1530900
+            "byteLength" : 1224,
+            "byteOffset" : 18260
         },
         {
             "buffer" : 0,
-            "byteLength" : 45360,
-            "byteOffset" : 1576260
+            "byteLength" : 1224,
+            "byteOffset" : 19484
         },
         {
             "buffer" : 0,
-            "byteLength" : 30240,
-            "byteOffset" : 1621620
+            "byteLength" : 816,
+            "byteOffset" : 20708
         },
         {
             "buffer" : 0,
-            "byteLength" : 11340,
-            "byteOffset" : 1651860
+            "byteLength" : 696,
+            "byteOffset" : 21524
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 1663200,
-            "uri" : "Map1.bin"
+            "byteLength" : 22220,
+            "uri" : "Wood2.bin"
         }
     ]
 }

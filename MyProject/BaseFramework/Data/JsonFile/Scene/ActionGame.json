@@ -9,14 +9,74 @@
       "Name": "Sky",
       "Tag":4,
       "ModelFileName": "Data/Textures/3DTexture/Sky/Sky.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
       "Scale": [ 1000, 1000, 1000 ]
     },
     {
       "ClassName": "GameObject",
-      "Name": "StageMap",
+      "Name": "Area",
       "Tag":4,
-      "ModelFileName": "Data/Textures/3DTexture/Map/Map1/Map1.gltf",
+      "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
+      "Pos":[0,-4.5,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1000, 1000, 1000 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Map",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Map1/Map1.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
       "Scale": [ 2, 2, 2]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Bridge1",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge1.gltf",
+      "Pos":[190,1,0],
+      "Rot":[90,0,0],
+      "Scale": [ 2, 1, 1]
+    },
+     {
+      "ClassName": "GameObject",
+      "Name": "Tree1",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Wood/Wood1.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 0.4, 0.5, 0.4]
+    },
+     {
+      "ClassName": "GameObject",
+      "Name": "Tree2",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Object/Pallier.gltf",
+      "Pos":[0,7,10],
+      "Rot":[0,0,0],
+      "Scale": [ 3, 4, 3]
+    },
+    {
+     "ClassName": "GameObject",
+     "Name": "Bridge2",
+     "Tag":4,
+     "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge2.gltf",
+     "Pos":[185,9,200],
+     "Rot":[0,0,2],
+     "Scale": [ 2, 1, 1]
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "River1",
+     "Tag":4,
+     "ModelFileName":"Data/Textures/3DTexture/Map/River/River1.gltf",
+     "Pos":[190,-3,0],
+     "MoveTo":[190,-3,10],
+     "Speed":0.01,
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 2, 1, 2]
     },
     {
       "ClassName": "Lift",
@@ -42,8 +102,9 @@
       "Name": "Player",
       "Tag":19,
       "ModelFileName": "Data/Textures/3DTexture/Human/Human.gltf",
+      "Pos":[200,10,0],
       "Scale": [ 1, 1, 1 ],
-      "Rot":[ 270 , 0 , 0 ]
+      "Rot":[ 0 , 0 , 0 ]
     },
     {
       "ClassName": "GameObject",
@@ -51,7 +112,7 @@
       "Tag":17,
       "ModelFileName": "Data/Textures/3DTexture/proto/BASEmodel.gltf",
       "Pos":[0,1,100],
-      "Scale": [ 0.2, 0.2, 0.2 ]
+      "Scale": [ 5, 5, 5 ]
     }
   ]
 }

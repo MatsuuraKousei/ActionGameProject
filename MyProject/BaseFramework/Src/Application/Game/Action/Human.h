@@ -42,6 +42,10 @@ private:
 	std::shared_ptr<AnimationData>	m_spAnimation = nullptr;	//再生するアニメーションデータ
 	float	m_animationTime = 0.0f;	//再生中のアニメーション位置
 
+	Vector3 MaxRange;
+
+	Vector3 m_CameraTrans;
+
 	bool Edit = true;;
 	LPPOINT lp;
 	POINT p;
