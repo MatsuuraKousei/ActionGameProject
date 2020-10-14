@@ -7,6 +7,16 @@ class GameObject;
 class CameraComponent;
 class CustomImGui;
 
+enum StageProcess
+{
+	OPNING,
+	TOWN,
+	FIELD,
+	DUNGEON,
+	CLEAR,
+	OVER
+};
+
 class Scene
 {
 public:
@@ -55,6 +65,8 @@ public:
 	void AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale = 1.0f);
 
 	bool							EditorCameraEnable = true;			// true:世界 false:プレイヤー
+
+	StageProcess					stageProcess = FIELD;
 
 private:
 

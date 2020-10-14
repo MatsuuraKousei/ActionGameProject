@@ -36,9 +36,10 @@ void Human::Deserialize(const json11::Json& jsonObj)
 		m_spAnimation = m_spModelComponent->GetAnimation("Stand");
 	}
 
-	MaxRange.x = 60;
+	MaxRange.x = 250;
 	MaxRange.y = 100;
-	MaxRange.z = 230;
+	MaxRange.z = 250;
+
 }
 
 void Human::Update()
@@ -49,23 +50,21 @@ void Human::Update()
 		m_spInputComponent->Update();
 	}
 
-	if (!Scene::GetInstance().EditorCameraEnable)
+	//Editorモード切替
+	if (m_spInputComponent->GetButton(Input::R1) & m_spInputComponent->ENTER)
 	{
-		if (Edit)
+		if (Scene::GetInstance().EditorCameraEnable)
 		{
+			Scene::GetInstance().EditorCameraEnable = false;
 			ShowCursor(false);
 
 		}
+		else
+		{
+			Scene::GetInstance().EditorCameraEnable = true;
+			ShowCursor(true);
+		}
 	}
-
-
-
-	if (GetAsyncKeyState('Q') & 0x8000)
-	{
-		Edit = false;
-		ShowCursor(true);
-	}
-
 
 
 	//移動前の座標を覚える
@@ -73,28 +72,31 @@ void Human::Update()
 
 	UpdateCamera();
 
-	//入力による移動の更新
-	UpdateMove();
-
 	//重力をキャラクターのYの移動力に加える
 	m_force.y -= m_gravity;
 
-	//移動力をキャラクターの座標に足しこむ
-	if (MaxRange.x+200 >= m_pos.x && -MaxRange.x<= m_pos.x)
+	if (m_alive)
 	{
-		if (MaxRange.y >= m_pos.y && -MaxRange.y <= m_pos.y)
+		//入力による移動の更新
+		UpdateMove();
+
+		//移動力をキャラクターの座標に足しこむ
+		if (MaxRange.x + 200 >= m_pos.x && -MaxRange.x <= m_pos.x)
 		{
-			if (MaxRange.z >= m_pos.z && -MaxRange.z<= m_pos.z)
+			if (MaxRange.y >= m_pos.y && -MaxRange.y <= m_pos.y)
 			{
-				m_pos = m_pos + m_force;
+				if (MaxRange.z >= m_pos.z && -MaxRange.z <= m_pos.z)
+				{
+					m_pos = m_pos + m_force;
+				}
 			}
 		}
 	}
 
 	//簡易移動制限
-	if (m_pos.x >= MaxRange.x+200)
+	if (m_pos.x >= MaxRange.x+10)
 	{
-		m_pos.x = MaxRange.x+200;
+		m_pos.x = MaxRange.x+10;
 	}
 	if (m_pos.x <= -MaxRange.x)
 	{
@@ -112,9 +114,9 @@ void Human::Update()
 	{
 		m_pos.z = MaxRange.z;
 	}
-	if (m_pos.z <= -MaxRange.z)
+	if (m_pos.z <= -MaxRange.z+160)
 	{
-		m_pos.z = -MaxRange.z;
+		m_pos.z = -MaxRange.z+160;
 	}
 	
 	//座標の更新を行った後に当たり判定
@@ -134,44 +136,49 @@ void Human::Update()
 		m_spCameraComponent->SetCameraMatrix(trans);
 	}
 
-	//アニメーションの更新
-	if (m_spAnimation && m_spModelComponent)
+	if (m_alive)
 	{
-		auto& rModelNode = m_spModelComponent->GetChangebleNodes();
-
-		//全てのアニメーションノード（モデルの行列を補完する情報）の行列補間を実行する
-		for (auto& rAnimNode : m_spAnimation->m_nodes)
+		//アニメーションの更新
+		if (m_spAnimation && m_spModelComponent)
 		{
-			//対応するモデルノードのインデックス
-			UINT idx = rAnimNode.m_nodeOffset;
+			auto& rModelNode = m_spModelComponent->GetChangebleNodes();
 
-			//対応するモデルノードの行列補完を実行
-
-			//クォーターニオンによる回転補間
-			Matrix rotate;
-			Quaternion resultQuat;
-			if (rAnimNode.InterpolateRotations(resultQuat, m_animationTime))
+			//全てのアニメーションノード（モデルの行列を補完する情報）の行列補間を実行する
+			for (auto& rAnimNode : m_spAnimation->m_nodes)
 			{
-				rotate.CreateFromQuaternion(resultQuat);
+				//対応するモデルノードのインデックス
+				UINT idx = rAnimNode.m_nodeOffset;
+
+				//対応するモデルノードの行列補完を実行
+
+				//クォーターニオンによる回転補間
+				Matrix rotate;
+				Quaternion resultQuat;
+				if (rAnimNode.InterpolateRotations(resultQuat, m_animationTime))
+				{
+					rotate.CreateFromQuaternion(resultQuat);
+				}
+
+				//ベクターによる座標補間
+				Matrix trans;
+				Vector3 resultVec;
+				if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
+				{
+					trans.CreateTranslation(resultVec);
+				}
+
+				rModelNode[idx].m_localTransform = rotate * trans;
 			}
 
-			//ベクターによる座標補間
-			Matrix trans;
-			Vector3 resultVec;
-			if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
-			{
-				trans.CreateTranslation(resultVec);
-			}
+			//アニメーションのフレームを１フレーム進める
+			m_animationTime += 1.0f;
 
-			rModelNode[idx].m_localTransform = rotate * trans;
+			//アニメーションデータの最後のフレームを超えたらアニメーションの最初に戻る（ループさせる
+			if (m_animationTime >= m_spAnimation->m_maxLength) { m_animationTime = 0.0f; }
 		}
-
-		//アニメーションのフレームを１フレーム進める
-		m_animationTime += 1.0f;
-
-		//アニメーションデータの最後のフレームを超えたらアニメーションの最初に戻る（ループさせる
-		if (m_animationTime >= m_spAnimation->m_maxLength) { m_animationTime = 0.0f; }
 	}
+
+	
 }
 
 void Human::UpdateMove()
@@ -222,13 +229,12 @@ void Human::UpdateMove()
 
 void Human::UpdateCamera()
 {
-
 	if (!m_spCameraComponent) { return; }
 
 	const Math::Vector2& inputCamera = m_spInputComponent->GetAxiz(Input::Axes::R);
 
+	//m_spCameraComponent->OffsetMatrix().RotateZ(inputCamera.y * m_camRotSpeed * Radians);
 	m_spCameraComponent->OffsetMatrix().RotateY(inputCamera.x * m_camRotSpeed * Radians);
-	//m_spCameraComponent->OffsetMatrix().RotateX(inputCamera.y * m_camRotSpeed * Radians);
 }
 
 //r_moveDir 移動方向

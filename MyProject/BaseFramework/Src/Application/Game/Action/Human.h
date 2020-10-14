@@ -5,12 +5,14 @@
 class Human :public GameObject
 {
 public:
+
 	virtual void Deserialize(const json11::Json& jsonObj)override;
 	virtual void Update()override;
 
 	//着地しているかどうか
 	bool IsGround() { return m_isGround; }
 
+	Matrix GetPosition() const { return m_mWorld; }
 private:
 
 	void UpdateMove();	//操作・キャラの行動による移動

@@ -106,7 +106,30 @@ void Scene::Init()
 void Scene::Deserialize()
 {
     //アクションゲームシーン
-    LoadScene("Data/JsonFile/Scene/ActionGame.json");
+    switch (stageProcess)
+    {
+    case OPNING:
+        LoadScene("Data/JsonFile/Scene/Oping.json");
+        break;
+    case TOWN:
+        LoadScene("Data/JsonFile/Scene/Town.json");
+        break;
+    case FIELD:
+        LoadScene("Data/JsonFile/Scene/Field.json");
+        break;
+    case DUNGEON:
+        LoadScene("Data/JsonFile/Scene/DunGeon.json");
+        break;
+    case CLEAR:
+        LoadScene("Data/JsonFile/Scene/Clear.json");
+        break;
+    case OVER:
+        LoadScene("Data/JsonFile/Scene/Over.json");
+        break;
+    default:
+        LoadScene("Data/JsonFile/Scene/Field.json");
+        break;
+    }
 }
 
 // 開放
@@ -183,12 +206,7 @@ void Scene::Draw()
     // エフェクトシェーダーを描画デバイスにセット
     SHADER.m_effectShader.SetToDevice();
 
-    // 1年の時にやってた拡大率の変更と一緒　名前が少し違うだけ
-    Math::Matrix skyScale = DirectX::XMMatrixScaling(100.0, 100.0f, 100.0f);
-
-    // 透明度のあるシェーダーはeffectShaderを使う
-     // 変更した拡大率をセットする
-    SHADER.m_effectShader.SetWorldMatrix(skyScale);
+   
 
     // 不透明物描画
     SHADER.m_standardShader.SetToDevice();
@@ -197,7 +215,10 @@ void Scene::Draw()
     // 範囲for(戻り値がポインタ)
     for (auto pObject : m_spObjects)
     {
-        pObject->Draw();
+        if (pObject->IsAlive())
+        {
+            pObject->Draw();
+        }
     }
 
     // 半透明物描画
@@ -272,7 +293,6 @@ void Scene::LoadScene(const std::string& sceneFilename)
     // オブジェクトリスト所得
     auto& objectDataList = json["GameObjects"].array_items();
 
-
     // オブジェクトリスト所得
     for (auto&& objJsonData : objectDataList)   // 右辺値参照、左辺値参照で調べればauto&&について出るらしい
     {
@@ -327,7 +347,7 @@ void Scene::ImGuiUpdate()
     {
         //          ↓utf-8に変換する
         //ImGui::Text(u8"今日はいい天気だから\n飛行機の座標でも表示しようかな");
-        ImGui::Checkbox("EditorCamera", &EditorCameraEnable); // チェックボックスで変更できるようになる
+        //ImGui::Checkbox("EditorCamera", &EditorCameraEnable); // チェックボックスで変更できるようになる
 
         // オブジェクトリストの描画
         if (ImGui::CollapsingHeader("Object List", ImGuiTreeNodeFlags_DefaultOpen))
@@ -443,6 +463,11 @@ std::shared_ptr<GameObject> Scene::FindObjectWithName(const std::string& name)
     return nullptr;
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//デバック関係
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // デバッグライン描画
 void Scene::AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color)
 {
@@ -533,3 +558,5 @@ void Scene::AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale)
     ver.Pos.z += 1.0f * scale;
     m_debugLines.push_back(ver);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////

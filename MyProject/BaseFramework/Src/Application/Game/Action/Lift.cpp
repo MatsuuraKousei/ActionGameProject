@@ -19,6 +19,16 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 	{
 		m_speed = jsonObj["Speed"].number_value();
 	}
+
+	//回転の読み込み
+	if (jsonObj["RotSpeed"].is_array())
+	{
+		auto& p = jsonObj["RotSpeed"].array_items();
+		m_vRotSpeed = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+	}
+	m_vRot.x = m_vRotSpeed.x;
+	m_vRot.y = m_vRotSpeed.y;
+	m_vRot.z = m_vRotSpeed.z;
 }
 
 void Lift::Update()
@@ -29,6 +39,26 @@ void Lift::Update()
 	//スタート地点とゴール地点の座標を取得
 	auto& vStart = m_mStart.GetTranslation();
 	auto& vGoal = m_vGoal;
+
+	
+
+	//回転
+	if (m_vRot.x >= 360)
+	{
+		m_vRot.x = 0;
+	}
+	if (m_vRot.y >= 360)
+	{
+		m_vRot.y = 0;
+	}
+	if (m_vRot.z >= 360)
+	{
+		m_vRot.z = 0;
+	}
+	
+	m_mWorld.RotateX(m_vRot.x);
+	m_mWorld.RotateY(m_vRot.y);
+	m_mWorld.RotateZ(m_vRot.z);
 
 	//目標地点までのベクトル
 	Vector3 vTo = vGoal - vStart;

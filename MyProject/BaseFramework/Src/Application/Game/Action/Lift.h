@@ -17,9 +17,15 @@ private:
 	//リフトが進むスピード
 	float m_speed = 0.0f;
 
+	//リフトが回るスピード
+	Vector3 m_vRotSpeed = {};
+	Vector3 m_vRot = {};
+
 	//ゴール地点に向かっている割合(0-1)
 	float m_progress = 0.0f;
 
 	//ゴール地点に向かっている状態(true)、引き返している状態(false)
 	bool m_goTo = true;
+
+	
 };
