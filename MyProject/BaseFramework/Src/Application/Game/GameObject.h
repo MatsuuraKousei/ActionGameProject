@@ -17,6 +17,14 @@ enum OBJECT_TAG
 	TAG_Player		= 0x00000002,	// プレイヤー属性
 	TAG_StageObject = 0x00000004,	// 背景オブジェクト属性
 	TAG_AttackHit	= 0x00000010,	// 攻撃をくらう属性(16) 
+	TAG_Enemy		= 0x00000011	// 敵
+};
+
+struct Rot
+{
+	int x;
+	int y;
+	int z;
 };
 
 class GameObject : public std::enable_shared_from_this<GameObject>	// thisポインタをshared_ptrに変換する
@@ -91,6 +99,8 @@ protected:
 	Matrix		m_mPrev;					//動く前の行列
 
 	bool			m_alive		= true;			// 生きているか死んでいるか
+	int				m_Hp;						// ヒットポイント
+	Rot				m_rotation;					// 回転
 	UINT			m_tag = OBJECT_TAG::TAG_None;
 	std::string		m_name = "GameObject";		// 名前
 

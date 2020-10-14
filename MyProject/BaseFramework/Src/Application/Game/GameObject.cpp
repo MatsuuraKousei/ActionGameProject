@@ -5,6 +5,7 @@
 #include "Action/ActionGameProcess.h"
 #include "Action/Human.h"
 #include"Action/Lift.h"
+#include"Action/Enemy.h"
 
 // コンストラクタ
 GameObject::GameObject()
@@ -79,7 +80,10 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 }
 
 // 更新
-void GameObject::Update() { m_mPrev = m_mWorld; }
+void GameObject::Update() 
+{
+	m_mPrev = m_mWorld;
+}
 
 // 描画
 void GameObject::Draw()
@@ -101,6 +105,7 @@ void GameObject::ImGuiUpdate()
 		ImGui::CheckboxFlags("Player", &m_tag, TAG_Player);
 		ImGui::CheckboxFlags("StageObject", &m_tag, TAG_StageObject);
 		ImGui::CheckboxFlags("AttackHit", &m_tag, TAG_AttackHit);
+		ImGui::CheckboxFlags("Enemy", &m_tag, TAG_Enemy);
 
 		// テキストへの保存
 		if (ImGui::Button(u8"JSONテキストコピー"))
@@ -235,14 +240,24 @@ void GameObject::Release()
 // クラス名からGameObjectを生成する関数
 std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 {
-	if (name == "Lift")
+	if (name == "ActionGameProcess")
 	{
-		return std::make_shared<Lift>();
+		return std::make_shared<ActionGameProcess>();
 	}
 
 	if (name == "StageProcess")
 	{
 
+	}
+
+	if (name == "Lift")
+	{
+		return std::make_shared<Lift>();
+	}
+
+	if (name == "Enemy")
+	{
+		return std::make_shared<Enemy>();
 	}
 
 	if (name == "Human")
@@ -253,11 +268,6 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "GameObject")
 	{
 		return std::make_shared<GameObject>();
-	}
-	
-	if (name == "ActionGameProcess")
-	{
-		return std::make_shared<ActionGameProcess>();
 	}
 	// 文字列が既存のクラスに一致しなかった
 	assert(0 && "存在しないGameObjectクラスです!");
