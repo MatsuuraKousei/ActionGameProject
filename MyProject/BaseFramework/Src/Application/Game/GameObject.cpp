@@ -6,6 +6,7 @@
 #include "Action/Human.h"
 #include"Action/Lift.h"
 #include"Action/Enemy.h"
+#include"Action/Item.h"
 
 // コンストラクタ
 GameObject::GameObject()
@@ -106,6 +107,7 @@ void GameObject::ImGuiUpdate()
 		ImGui::CheckboxFlags("StageObject", &m_tag, TAG_StageObject);
 		ImGui::CheckboxFlags("AttackHit", &m_tag, TAG_AttackHit);
 		ImGui::CheckboxFlags("Enemy", &m_tag, TAG_Enemy);
+		ImGui::CheckboxFlags("DamegeObject", &m_tag, TAG_DamegeObject);
 
 		// テキストへの保存
 		if (ImGui::Button(u8"JSONテキストコピー"))
@@ -253,6 +255,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Lift")
 	{
 		return std::make_shared<Lift>();
+	}
+
+	if (name == "Item")
+	{
+		return std::make_shared<Item>();
 	}
 
 	if (name == "Enemy")

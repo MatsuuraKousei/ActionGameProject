@@ -68,6 +68,8 @@ public:
 
 	StageProcess					stageProcess = FIELD;
 
+
+
 private:
 
 	// メンバ関数=============================================================================
@@ -89,6 +91,7 @@ private:
 	// シェアードポインタ(代入されたときにカウンタが増えたり？)
 	std::list<std::shared_ptr<GameObject>> m_spObjects;
 
+
 	// Imguiで選択されたオブジェクト
 	std::weak_ptr<GameObject> m_wpImguiSelectObj;
 
@@ -97,7 +100,6 @@ private:
 
 	// デバッグライン描画用の頂点配列
 	std::vector<EffectShader::Vertex> m_debugLines;
-
 
 	//ImGui用の課題変数/////////////////////////////////////////////////////////////
 	std::string							m_PathText;	// ImGuiのjsonのパスを入れる

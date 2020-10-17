@@ -132,21 +132,7 @@ public:
 
 			mRot = DirectX::XMMatrixRotationAxis(vRotAxis, radian);
 
-			*this = TransformNormal(mRot);
-
-
-			// radian分thisを回転させる
-			DirectX::XMMATRIX rotateMat;
-
-			rotateMat = DirectX::XMMatrixRotationAxis(vRotAxis, radian);
-
-			Vector3 CameraAngleEffect(rotateMat.r[3]);
-
-			DirectX::XMMATRIX mat = DirectX::XMMatrixRotationAxis(vRotAxis, radian);
-
-			*this = Vector3({ this->x + CameraAngleEffect.x,this->y + CameraAngleEffect.y,this->z + CameraAngleEffect.z });
-
-			this->Normalize();
+			*this = TransformNormal(mRot);		
 		}
 	}
 };
@@ -193,6 +179,10 @@ public:
 	}
 
 	// 作成＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+	void RotateAxis(DirectX::XMVECTOR vec, float angle)
+	{
+		*this *= DirectX::XMMatrixRotationAxis(vec, angle);
+	}
 
 	// 移動行列作成
 	void CreateTranslation(Vector3 trans)
@@ -212,6 +202,18 @@ public:
 	void CreateRotationX(float angle)
 	{
 		*this = DirectX::XMMatrixRotationX(angle);
+	}
+
+	// Y回転行列作成
+	void CreateRotationY(float angle)
+	{
+		*this = DirectX::XMMatrixRotationY(angle);
+	}
+
+	// Z回転行列作成
+	void CreateRotationZ(float angle)
+	{
+		*this = DirectX::XMMatrixRotationZ(angle);
 	}
 
 	// 逆行列にする

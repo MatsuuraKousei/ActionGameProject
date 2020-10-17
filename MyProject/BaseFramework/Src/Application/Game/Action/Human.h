@@ -11,8 +11,6 @@ public:
 
 	//着地しているかどうか
 	bool IsGround() { return m_isGround; }
-
-	Matrix GetPosition() const { return m_mWorld; }
 private:
 
 	void UpdateMove();	//操作・キャラの行動による移動
@@ -40,6 +38,8 @@ private:
 	Vector3 m_prevPos;							//1フレーム前の座標
 	bool m_isGround;							//着地しているかどうか
 	bool m_isWall;								//壁に当たっているかどうか
+
+	float						m_uniqueCol = 3.0f;
 
 	std::shared_ptr<AnimationData>	m_spAnimation = nullptr;	//再生するアニメーションデータ
 	float	m_animationTime = 0.0f;	//再生中のアニメーション位置

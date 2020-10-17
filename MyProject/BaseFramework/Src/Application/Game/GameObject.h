@@ -12,12 +12,13 @@ struct RayInfo;
 enum OBJECT_TAG
 {
 	// 0x は16進数
-	TAG_None		= 0x00000000,	// 属性なし：初期設定
-	TAG_Character	= 0x00000001,	// キャラクター設定
-	TAG_Player		= 0x00000002,	// プレイヤー属性
+	TAG_None = 0x00000000,	// 属性なし：初期設定
+	TAG_Character = 0x00000001,	// キャラクター設定
+	TAG_Player = 0x00000002,	// プレイヤー属性
 	TAG_StageObject = 0x00000004,	// 背景オブジェクト属性
-	TAG_AttackHit	= 0x00000010,	// 攻撃をくらう属性(16) 
-	TAG_Enemy		= 0x00000011	// 敵
+	TAG_AttackHit = 0x00000010,	// 攻撃をくらう属性(16) 
+	TAG_Enemy = 0x00000020,	// 敵
+	TAG_DamegeObject = 0x00000100,	// ダメージオブジェクト
 };
 
 struct Rot
@@ -41,7 +42,9 @@ public:
 
 	inline const std::string& GetName()const { return m_name; }
 
-	virtual void DrawEffect(){}	// 半透明物の描画
+	virtual void DrawEffect() {}	// 半透明物の描画
+
+	virtual void Draw2D() {}
 
 	virtual void ImGuiUpdate();	// ImGuiの処理
 
@@ -52,7 +55,7 @@ public:
 	inline void Destroy() { m_alive = false; }
 
 	inline void SetTag(UINT tag) { m_tag = tag; }
-	inline UINT GetTag() const	 { return m_tag; }
+	inline UINT GetTag() const { return m_tag; }
 
 	inline const char* Getname() const { return m_name.c_str(); }
 
@@ -60,7 +63,7 @@ public:
 	bool HitCheckBySphere(const SphereInfo& rInfo);
 
 	// レイによる当たり判定
-	bool HitCheckByRay(const RayInfo& rInfo,RayResult& rResult);
+	bool HitCheckByRay(const RayInfo& rInfo, RayResult& rResult);
 
 	// カメラコンポーネント取得
 	std::shared_ptr<CameraComponent> GetCameraComponent() { return m_spCameraComponent; }
@@ -73,13 +76,16 @@ public:
 	const Matrix& GetPrevMatrix() { return m_mPrev; }
 
 	//このキャラクターが動いた分の行列を取得
-	Matrix GetOneMove() 
+	Matrix GetOneMove()
 	{
 		Matrix mPI = m_mPrev;
 		mPI.Inverse();			//動く前の逆行列
 		return mPI * m_mWorld;	//動く前の逆行列*今の行列=一回動いた分の行列
 	}
 
+	int				m_Hp = 1;						// ヒットポイント
+
+	bool			m_alive = true;			// 生きているか死んでいるか
 protected:
 	virtual void Release();		// 開放
 
@@ -98,8 +104,6 @@ protected:
 
 	Matrix		m_mPrev;					//動く前の行列
 
-	bool			m_alive		= true;			// 生きているか死んでいるか
-	int				m_Hp;						// ヒットポイント
 	Rot				m_rotation;					// 回転
 	UINT			m_tag = OBJECT_TAG::TAG_None;
 	std::string		m_name = "GameObject";		// 名前
@@ -122,5 +126,5 @@ struct RayInfo
 {
 	Vector3		m_pos;				// レイ(光線)の発射場所
 	Vector3		m_dir;				// レイの発射方向
-	float		m_maxRange=0.0f;	// レイが届く最大距離
+	float		m_maxRange = 0.0f;	// レイが届く最大距離
 };

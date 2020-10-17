@@ -1,4 +1,5 @@
 ﻿#include "Human.h"
+#include"Enemy.h"
 
 #include "../Scene.h"
 
@@ -12,6 +13,12 @@ const float Human::s_landingHeight = 0.1f;
 void Human::Deserialize(const json11::Json& jsonObj)
 {
 	GameObject::Deserialize(jsonObj);
+
+	if (jsonObj["Pos"].is_array())
+	{
+		auto& p = jsonObj["Pos"].array_items();
+		m_pos = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+	}
 
 	if (m_spCameraComponent)
 	{
@@ -40,6 +47,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	MaxRange.y = 100;
 	MaxRange.z = 250;
 
+	m_Hp = 4;
 }
 
 void Human::Update()
@@ -94,9 +102,9 @@ void Human::Update()
 	}
 
 	//簡易移動制限
-	if (m_pos.x >= MaxRange.x+10)
+	if (m_pos.x >= MaxRange.x + 10)
 	{
-		m_pos.x = MaxRange.x+10;
+		m_pos.x = MaxRange.x + 10;
 	}
 	if (m_pos.x <= -MaxRange.x)
 	{
@@ -114,11 +122,11 @@ void Human::Update()
 	{
 		m_pos.z = MaxRange.z;
 	}
-	if (m_pos.z <= -MaxRange.z+160)
+	if (m_pos.z <= -MaxRange.z + 160)
 	{
-		m_pos.z = -MaxRange.z+160;
+		m_pos.z = -MaxRange.z + 160;
 	}
-	
+
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
 
@@ -178,7 +186,12 @@ void Human::Update()
 		}
 	}
 
-	
+
+	if (m_pos.y < -4.5)
+	{
+		m_Hp--;
+		m_force.y = 0.3f;
+	}
 }
 
 void Human::UpdateMove()
@@ -206,7 +219,7 @@ void Human::UpdateMove()
 	UpdateRotate(moveVec);
 
 	//ダッシュ
-	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY&&m_isGround)
+	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY && m_isGround)
 	{
 		m_moveSpeed = 0.35f;
 	}
@@ -233,8 +246,13 @@ void Human::UpdateCamera()
 
 	const Math::Vector2& inputCamera = m_spInputComponent->GetAxiz(Input::Axes::R);
 
-	//m_spCameraComponent->OffsetMatrix().RotateZ(inputCamera.y * m_camRotSpeed * Radians);
-	m_spCameraComponent->OffsetMatrix().RotateY(inputCamera.x * m_camRotSpeed * Radians);
+	float radX = inputCamera.x * m_camRotSpeed * Radians;
+	float radY = inputCamera.y * m_camRotSpeed * Radians;
+
+	if (radY > 1.0f)radY = 1.0f;
+	else if (radY < -1.0f)radY = -1.0f;
+	m_spCameraComponent->OffsetMatrix().RotateY(radX);
+	m_spCameraComponent->OffsetMatrix().RotateAxis(m_spCameraComponent->OffsetMatrix().GetAxisX(), radY);
 }
 
 //r_moveDir 移動方向
@@ -289,7 +307,7 @@ void Human::UpdateCollision()
 
 	if (CheckWall(distanceFromWall))
 	{
-		
+
 		m_force.x = 0.0f;
 	}
 }
@@ -319,20 +337,21 @@ bool Human::CheckGround(float& rDstDistance)
 		//自分自身は無視
 		if (obj.get() == this) { continue; }
 		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
-		if (!(obj->GetTag() & (TAG_StageObject))) { continue; }
-		RayResult rayResult;
-
-		if (obj->HitCheckByRay(rayInfo, rayResult))
+		if (obj->GetTag() & TAG_StageObject)
 		{
-			//もっとも当たったところまでの距離が短いものを保持する
-			if (rayResult.m_distance < finalRayResult.m_distance)
-			{
-				finalRayResult = rayResult;
+			RayResult rayResult;
 
-				hitObj = obj;
+			if (obj->HitCheckByRay(rayInfo, rayResult))
+			{
+				//もっとも当たったところまでの距離が短いものを保持する
+				if (rayResult.m_distance < finalRayResult.m_distance)
+				{
+					finalRayResult = rayResult;
+
+					hitObj = obj;
+				}
 			}
 		}
-
 	}
 	//補正分の長さを結果に反映＆着地判定
 	float distanceFromGround = FLT_MAX;
