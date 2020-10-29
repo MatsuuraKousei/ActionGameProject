@@ -106,6 +106,7 @@ void Scene::Init()
 void Scene::Deserialize()
 {
 	//アクションゲームシーン
+
 	switch (stageProcess)
 	{
 	case OPNING:
@@ -125,6 +126,9 @@ void Scene::Deserialize()
 		break;
 	case OVER:
 		LoadScene("Data/JsonFile/Scene/Over.json");
+		break;
+	case DEBUG:
+		LoadScene("Data/JsonFile/Scene/Debug.json");
 		break;
 	default:
 		LoadScene("Data/JsonFile/Scene/Field.json");
@@ -263,13 +267,13 @@ void Scene::Draw()
 	SHADER.m_effectShader.SetTexture(D3D.GetWhiteTex()->GetSRView());
 	{
 		// 白線
-		AddDebugLine(Math::Vector3(), Math::Vector3(0.0f, 10.0f, 0.0f));
+		//AddDebugLine(Math::Vector3(), Math::Vector3(0.0f, 10.0f, 0.0f));
 
 		// 球体
-		AddDebugSphereLine(Math::Vector3(5.0f, 5.0f, 0.0f), 2.0f);
+		//AddDebugSphereLine(Math::Vector3(5.0f, 5.0f, 0.0f), 2.0f);
 
 		// 軸
-		AddDebugCoordinateAxisLine(Math::Vector3(0.0f, 5.0f, 5.0f), 3.0f);
+		//AddDebugCoordinateAxisLine(Math::Vector3(0.0f, 5.0f, 5.0f), 3.0f);
 
 		// Zバッファ使用OFF・書き込みOFF
 		D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZDisable_ZWriteDisable, 0);

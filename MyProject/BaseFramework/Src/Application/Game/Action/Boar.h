@@ -10,21 +10,18 @@ enum Faze
 	Attack
 };
 
-class Enemy :public GameObject
+class Boar :public GameObject
 {
 public:
 
-	virtual void Deserialize(const json11::Json& jsonObj)override;
 	virtual void Update()override;
 
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
 
+	Vector3						m_pos;
+
 private:
 	void Move();
-
-	void Wonder();
-
-	//void TargettingObj();
 
 	void UpdateCollision();
 
@@ -33,11 +30,8 @@ private:
 	void PlayerSphere();
 
 	float						m_rotateAngle = 4.0f;				//キャラクターの回転角度
-	Vector3 m_rot;
-	Vector3 m_pos;
-	Vector3 m_force;	// キャラの移動量
-
-	double						m_speed = 0.5f;
+	
+	double						m_speed = 0.29f;
 
 	bool						m_ActionState = false;
 
@@ -47,18 +41,20 @@ private:
 
 	std::weak_ptr<GameObject>	m_wpTarget;
 
+	Vector3						m_rot;
+	Vector3						m_force;	// キャラの移動量
 	Vector3						m_Player;
 	Vector3						m_Move;
 	Vector3						m_prevPos = {};
+
+	int							AnimCounter = 2;
+	int							AttackCounter = 60;
+	int							WaitCounter = 15;
 
 	bool						StopMove = false;
 	int i = 0;
 
 
-	float						m_uniqueCol = 20.0f;
-
-	bool						m_XFlg = false;
-	bool						m_ZFlg = false;
-
+	float						m_uniqueCol = 10.0f;
 	int							m_AttackTime = 60;
 };

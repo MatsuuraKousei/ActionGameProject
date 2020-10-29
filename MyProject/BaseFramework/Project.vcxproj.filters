@@ -55,6 +55,12 @@
     <Filter Include="Src\Application\Game\Action">
       <UniqueIdentifier>{fd851ce2-53a5-4679-897a-9f95e83ff8ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Game\Action\Gimmic">
+      <UniqueIdentifier>{56fee61a-9f6d-41dd-9a85-532229673df8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Game\Action\Weapon">
+      <UniqueIdentifier>{dae2d026-ec95-49d6-b48a-9ed898586336}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -204,10 +210,25 @@
     <ClInclude Include="Src\System\Direct3D\TrailPolygon.h">
       <Filter>Src\System\Direct3D</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\Action\Enemy.h">
+    <ClInclude Include="Src\Application\Game\Action\Item.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\Action\Item.h">
+    <ClInclude Include="Src\Application\Game\SceneManage.h">
+      <Filter>Src\Application\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Bullet.h">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\ShotGimmic.h">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Weapon\Sword.h">
+      <Filter>Src\Application\Game\Action\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\SpawnManager.h">
+      <Filter>Src\Application\Game\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Boar.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
   </ItemGroup>
@@ -323,10 +344,25 @@
     <ClCompile Include="Src\System\Direct3D\TrailPolygon.cpp">
       <Filter>Src\System\Direct3D</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\Action\Enemy.cpp">
+    <ClCompile Include="Src\Application\Game\Action\Item.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\Action\Item.cpp">
+    <ClCompile Include="Src\Application\Game\SceneManage.cpp">
+      <Filter>Src\Application\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Bullet.cpp">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\ShotGimmic.cpp">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Weapon\Sword.cpp">
+      <Filter>Src\Application\Game\Action\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\SpawnManager.cpp">
+      <Filter>Src\Application\Game\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Boar.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,0 +1,31 @@
+{
+  "GameObjects": [
+    {
+      "ClassName": "Human",
+      "Name": "Player",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Human/HumanLaser.gltf",
+      "Pos":[0,0,0],
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 0 , 73 , 0 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Sphere",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Objects/Plane/Plane.gltf",
+      "Pos":[0,0,0],
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 0 , 73 , 0 ]
+    },
+    {
+    "ClassName": "ShotGimmic",
+      "Name": "Sphere",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Objects/Cube/Cube.gltf",
+      "Pos":[0,0,0],
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 0 , 73 , 0 ]
+    }
+  ]
+}

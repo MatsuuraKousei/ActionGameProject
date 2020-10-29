@@ -2,6 +2,8 @@
 
 #include "../GameObject.h"
 
+class Sword;
+
 class Human :public GameObject
 {
 public:
@@ -14,6 +16,9 @@ public:
 private:
 
 	void UpdateMove();	//操作・キャラの行動による移動
+
+	void SwordInit();	// 剣初期化
+	void SwordUpdate();	// 剣更新
 
 	float m_moveSpeed = 0.2f;	//キャラの移動速度
 	Vector3 m_pos;			//ワールド行列上の座標
@@ -33,13 +38,18 @@ private:
 
 	void UpdateCollision();						//当たり判定全般
 	bool CheckGround(float& rDstDistance);		//地面との判定
-	bool CheckWall(float& rDstDistance);		//壁との判定
+	void CheckBump();
 
 	Vector3 m_prevPos;							//1フレーム前の座標
 	bool m_isGround;							//着地しているかどうか
 	bool m_isWall;								//壁に当たっているかどうか
 
 	float						m_uniqueCol = 3.0f;
+
+	float f;
+	bool b = false;
+
+	std::shared_ptr<Sword> m_spSword;
 
 	std::shared_ptr<AnimationData>	m_spAnimation = nullptr;	//再生するアニメーションデータ
 	float	m_animationTime = 0.0f;	//再生中のアニメーション位置

@@ -53,24 +53,43 @@ public:
 	// 自分自身のポインタをMath::Vector3に変換して実体かしている
 	operator Math::Vector3& () { return *(Math::Vector3*)this; }
 
-	// 算術演算子　乗算(＊)
-	// *=   って処理が書かれたらここを通るようになる？
+	// 算術演算子/////////////////////////////////////
+
+	// 加算
+	Vector3& operator+= (Vector3& vec)
+	{
+		this->x += vec.x;
+		this->y += vec.y;
+		this->z += vec.z;
+		return *this;
+	}
+
+	// 減算
+	Vector3& operator-= (Vector3& vec)
+	{
+		this->x -= vec.x;
+		this->y -= vec.y;
+		this->z -= vec.z;
+		return *this;
+	}
+
+	// 乗算
 	Vector3& operator*=(float s)
 	{
 		*this = DirectX::XMVectorScale(*this, s);
 		return *this;
 	}
 
-	Vector3& operator+ (Vector3& vec)
+	// 除算
+	Vector3& operator/= (Vector3& vec)
 	{
-		Vector3 vec2;
-
-		vec2.x = x + vec.x;
-		vec2.y = y + vec.y;
-		vec2.z = z + vec.z;
-
-		return vec2;
+		this->x /= vec.x;
+		this->y /= vec.y;
+		this->z /= vec.z;
+		return *this;
 	}
+
+	//////////////////////////////////////////////////
 
 	// 自分を正規化
 	void Normalize()

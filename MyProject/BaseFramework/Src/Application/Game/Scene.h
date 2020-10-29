@@ -14,7 +14,8 @@ enum StageProcess
 	FIELD,
 	DUNGEON,
 	CLEAR,
-	OVER
+	OVER,
+	DEBUG
 };
 
 class Scene
@@ -66,9 +67,7 @@ public:
 
 	bool							EditorCameraEnable = true;			// true:世界 false:プレイヤー
 
-	StageProcess					stageProcess = FIELD;
-
-
+	StageProcess					stageProcess =FIELD;
 
 private:
 

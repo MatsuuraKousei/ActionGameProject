@@ -7,6 +7,7 @@ class ModelComponent;
 
 struct SphereInfo;
 struct RayInfo;
+struct SphereResult;
 
 // タグ定数
 enum OBJECT_TAG
@@ -64,6 +65,9 @@ public:
 
 	// レイによる当たり判定
 	bool HitCheckByRay(const RayInfo& rInfo, RayResult& rResult);
+
+
+	bool HitCheckBySphereToMesh(const SphereInfo& rInfo, SphereResult& rResult);
 
 	// カメラコンポーネント取得
 	std::shared_ptr<CameraComponent> GetCameraComponent() { return m_spCameraComponent; }
@@ -127,4 +131,10 @@ struct RayInfo
 	Vector3		m_pos;				// レイ(光線)の発射場所
 	Vector3		m_dir;				// レイの発射方向
 	float		m_maxRange = 0.0f;	// レイが届く最大距離
+};
+
+struct SphereResult
+{
+	Vector3 m_push;
+	bool m_hit = false;
 };

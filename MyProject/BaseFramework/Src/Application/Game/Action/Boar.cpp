@@ -1,34 +1,21 @@
-﻿#include "Enemy.h"
+﻿#include "Boar.h"
 #include "../Scene.h"
 
-void Enemy::Deserialize(const json11::Json& jsonObj)
+void Boar::Update()
 {
-	GameObject::Deserialize(jsonObj);
-
-}
-
-void Enemy::Update()
-{
-	Scene::GetInstance().AddDebugLine(m_mWorld.GetTranslation(), Math::Vector3(0.0f, 10.0f, 0.0f));
-
-
-	if (m_alive == false) { return; }
+	if (!m_alive) { return; }
 
 	m_prevPos = m_mWorld.GetTranslation();
-
-	for (auto spOblect : Scene::GetInstance().GetObjects())
-	{
-		if (spOblect->GetTag() == TAG_Player)
-		{
-			m_Player = spOblect->GetMatrix().GetTranslation();
-		}
-	}
 
 	// 行動
 	switch (m_faze)
 	{
 	case Default:
-		//Wonder();
+		m_force.y = 0.1f;
+		if (m_pos.y > 1)
+		{
+			m_pos.y = 1;
+		}
 		break;
 	case Action:
 		Move();
@@ -64,9 +51,11 @@ void Enemy::Update()
 			// 当たり判定
 			if (obj->HitCheckBySphere(info))
 			{
-				Scene::GetInstance().AddDebugSphereLine(
+				/*Scene::GetInstance().AddDebugSphereLine(
 					m_mWorld.GetTranslation(), m_uniqueCol, { 1.0f,0.0f,0.0f,1.0f }
-				);
+				);*/
+
+				m_Player = obj->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
 
 				//今のキャラクターの方向ベクトル
 				Vector3 nowDir = m_mWorld.GetAxisZ();
@@ -97,18 +86,19 @@ void Enemy::Update()
 
 				StopMove = true;
 
-				m_wpTarget = obj;
 				if (rotateRadian != 0)
 				{
 					m_rot.y += rotateRadian;
 				}
-				else
-				{
-					
-					//m_faze = Action;
 
+				if (rotateRadian<0.01 && rotateRadian>-0.01)
+				{
+					AttackCounter = 60;
+					m_wpTarget = obj;
+					m_faze = Action;
 				}
 			}
+
 		}
 	}
 
@@ -116,7 +106,7 @@ void Enemy::Update()
 	PlayerSphere();
 }
 
-void Enemy::Move()
+void Boar::Move()
 {
 	if (!StopMove) { return; }
 
@@ -130,109 +120,44 @@ void Enemy::Move()
 	if (target)
 	{
 		Matrix mat;
-		mat.SetTranslation(target->GetMatrix().GetTranslation());
+		mat.SetTranslation(target->GetMatrix().GetTranslation() - m_mWorld.GetTranslation());
 
 		VectorMove(mat);
 
 	}
-	Vector3 move = m_mWorld.GetAxisZ();
-	move.Normalize();
-
-	move *= (float)m_speed;
-
-	m_force = m_force + move;
-}
-
-void Enemy::Wonder()
-{
-	if (!StopMove)
+	if (AttackCounter > 0)
 	{
-		Vector3 vec[6];
+		Vector3 move = m_mWorld.GetAxisZ();
+		move.Normalize();
 
-		for (int i = 0; i < 6; i++)
+		move *= (float)m_speed;
+
+		m_force = m_force + move;
+
+		AttackCounter--;
+
+	}
+	else
+	{
+		StopMove = true;
+		if (WaitCounter < 0)
 		{
-			Vector3 suppot;
-
-			switch (i)
+			m_force.y = -0.1f;
+			if (m_pos.y < -2)
 			{
-			case 0:
-				suppot.x = 0.0f;
-				suppot.z = 5.0f;
-				break;
-			case 1:
-				suppot.x = 2.5f;
-				suppot.z = 7.5f;
-				break;
-			case 2:
-				suppot.x = 5.0f;
-				suppot.z = 5.0f;
-				break;
-			case 3:
-				suppot.x = 5.0f;
-				suppot.z = 0.0f;
-				break;
-			case 4:
-				suppot.x = 2.5f;
-				suppot.z = -2.5f;
-				break;
-			case 5:
-				suppot.x = 0.0f;
-				suppot.z = 0.0f;
-				break;
-			}
-
-			vec[i] = vec[i] + suppot;
-		}
-
-		if (m_pos.x > vec[i].x)
-		{
-			m_force.x = -0.5f;
-			if (m_pos.x == vec[i].x)
-			{
-				m_force.x = 0;
+				m_alive = false;
 			}
 		}
-		if (m_pos.x < vec[i].x)
-		{
-			m_force.x = 0.5f;
-			if (m_pos.x == vec[i].x)
-			{
-				m_force.x = 0;
-			}
-		}
-		if (m_pos.z > vec[i].z)
-		{
-			m_force.z = -0.5f;
-			if (m_pos.z == vec[i].z)
-			{
-				m_force.x = 0;
-			}
-		}
-		if (m_pos.z < vec[i].z)
-		{
-			m_force.z = 0.5f;
-			if (m_pos.z == vec[i].z)
-			{
-				m_force.x = 0;
-			}
-		}
-
-		if (m_pos.x == vec[i].x && m_pos.z == vec[i].z)
-		{
-			i++;
-		}
-		if (i > 5)
-		{
-			i = 0;
-		}
+		WaitCounter--;
 	}
 }
 
-void Enemy::UpdateCollision()
+
+void Boar::UpdateCollision()
 {
 }
 
-void Enemy::VectorMove(Matrix mat)
+void Boar::VectorMove(Matrix mat)
 {
 
 	Vector3 rMoveDir = mat.GetTranslation();
@@ -270,7 +195,7 @@ void Enemy::VectorMove(Matrix mat)
 	m_rot.y += rotateRadian;
 }
 
-void Enemy::PlayerSphere()
+void Boar::PlayerSphere()
 {
 	// 球情報の作成
 	SphereInfo info;

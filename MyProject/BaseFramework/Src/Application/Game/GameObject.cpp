@@ -1,12 +1,17 @@
 ﻿#include "GameObject.h"
+#include"SceneManage.h"
 #include "../Component/CameraComponent.h"
 #include "../Component/InputComponent.h"
 #include "../Component/ModelComponent.h"
+#include"Action/SpawnManager.h"
 #include "Action/ActionGameProcess.h"
 #include "Action/Human.h"
 #include"Action/Lift.h"
-#include"Action/Enemy.h"
+#include"Action/Boar.h"
 #include"Action/Item.h"
+#include"Action/Weapon/Sword.h"
+#include "Action/Gimmic/ShotGimmic.h"
+#include "Action/Gimmic/Bullet.h"
 
 // コンストラクタ
 GameObject::GameObject()
@@ -42,7 +47,7 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 		m_spModelComponent->SetModel(ResFac.GetModel(jsonObj["ModelFileName"].string_value()));
 	}
 	// 行列---------------------------------------
-	Matrix mTrans,mRotate,mScale;
+	Matrix mTrans, mRotate, mScale;
 
 	// 座標
 	const std::vector<json11::Json>& rPos = jsonObj["Pos"].array_items();
@@ -81,7 +86,7 @@ void GameObject::Deserialize(const json11::Json& jsonObj)
 }
 
 // 更新
-void GameObject::Update() 
+void GameObject::Update()
 {
 	m_mPrev = m_mWorld;
 }
@@ -234,6 +239,32 @@ bool GameObject::HitCheckByRay(const RayInfo& rInfo, RayResult& rResult)
 	return rResult.m_hit;
 }
 
+bool GameObject::HitCheckBySphereToMesh(const SphereInfo& rInfo, SphereResult& rResult)
+{
+	// 無かったら早期リターン
+	if (!m_spModelComponent) { return false; }
+
+	Vector3 pushedFromNodesPos = rInfo.m_pos;
+
+	for (auto& node : m_spModelComponent->GetNodes())
+	{
+		if (!node.m_spMesh) { continue; }
+
+		if (SphereToMesh(pushedFromNodesPos, rInfo.m_radius, *node.m_spMesh, node.m_localTransform * m_mWorld, pushedFromNodesPos))
+		{
+			rResult.m_hit = true;
+		}
+
+	}
+
+	if (rResult.m_hit)
+	{
+		rResult.m_push = pushedFromNodesPos - rInfo.m_pos;
+	}
+
+	return rResult.m_hit;
+}
+
 // 開放
 void GameObject::Release()
 {
@@ -247,9 +278,29 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 		return std::make_shared<ActionGameProcess>();
 	}
 
-	if (name == "StageProcess")
+	if (name == "SceneManage")
 	{
+		return std::make_shared<SceneManeger>();
+	}
 
+	if (name == "SpawnManage")
+	{
+		return std::make_shared<SpawnManeger>();
+	}
+
+	if (name == "ShotGimmic")
+	{
+		return std::make_shared<ShotGimmic>();
+	}
+
+	if (name == "Bullet")
+	{
+		return std::make_shared<Bullet>();
+	}
+
+	if (name == "Sword")
+	{
+		return std::make_shared<Sword>();
 	}
 
 	if (name == "Lift")
@@ -262,9 +313,9 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 		return std::make_shared<Item>();
 	}
 
-	if (name == "Enemy")
+	if (name == "Boar")
 	{
-		return std::make_shared<Enemy>();
+		return std::make_shared<Boar>();
 	}
 
 	if (name == "Human")

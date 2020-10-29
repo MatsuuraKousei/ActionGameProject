@@ -1,4 +1,5 @@
 ﻿#include "Item.h"
+#include"../Scene.h"
 
 void Item::Deserialize(const json11::Json& jsonObj)
 {
@@ -10,19 +11,23 @@ void Item::Deserialize(const json11::Json& jsonObj)
 
 void Item::Update()
 {
-	//m_Rotate += 0.1f;
-
-	m_Trans.y -= 0.01f;
-
-	if (m_Trans.y > 0.05)
+	// 球情報の作成
+	SphereInfo info;
+	info.m_pos = m_mWorld.GetTranslation();
+	info.m_radius = 1;
+	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
-		m_Trans *= -1;
-	}
-	if (m_Trans.y < -0.05)
-	{
-		m_Trans *= -1;
-	}
 
-	m_mWorld.RotateY(m_Rotate);
-	m_mWorld.Move(m_Trans);
+		// 自分自身を無視
+		if (obj.get() == this) { continue; }
+
+		// キャラクターと当たり判定をするのでそれ以外は無視
+		if (!(obj->GetTag() & TAG_Player)) { continue; }
+
+		// 当たり判定
+		if (obj->HitCheckBySphere(info))
+		{
+			m_alive = false;
+		}
+	}
 }

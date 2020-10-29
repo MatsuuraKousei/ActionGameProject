@@ -1,8 +1,7 @@
 ﻿#include "Human.h"
-#include"Enemy.h"
-
+#include"Boar.h"
+#include"Weapon/Sword.h"
 #include "../Scene.h"
-
 #include "../../Component/CameraComponent.h"
 #include "../../Component/InputComponent.h"
 #include "../../Component/ModelComponent.h"
@@ -43,6 +42,8 @@ void Human::Deserialize(const json11::Json& jsonObj)
 		m_spAnimation = m_spModelComponent->GetAnimation("Stand");
 	}
 
+	SwordInit();
+
 	MaxRange.x = 250;
 	MaxRange.y = 100;
 	MaxRange.z = 250;
@@ -75,6 +76,8 @@ void Human::Update()
 	}
 
 
+	SwordUpdate();
+
 	//移動前の座標を覚える
 	m_prevPos = m_pos;
 
@@ -95,13 +98,13 @@ void Human::Update()
 			{
 				if (MaxRange.z >= m_pos.z && -MaxRange.z <= m_pos.z)
 				{
-					m_pos = m_pos + m_force;
+					m_pos += m_force;
 				}
 			}
 		}
 	}
 
-	//簡易移動制限
+	// 簡易移動制限
 	if (m_pos.x >= MaxRange.x + 10)
 	{
 		m_pos.x = MaxRange.x + 10;
@@ -127,14 +130,15 @@ void Human::Update()
 		m_pos.z = -MaxRange.z + 160;
 	}
 
-	//座標の更新を行った後に当たり判定
-	UpdateCollision();
 
 	//ワールド行列の合成する
 	m_mWorld.CreateRotationX(m_rot.x);
 	m_mWorld.RotateY(m_rot.y);
 	m_mWorld.RotateZ(m_rot.z);
 	m_mWorld.Move(m_pos);
+
+	//座標の更新を行った後に当たり判定
+	UpdateCollision();
 
 	//カメラコンポーネントの更新
 	if (m_spCameraComponent)
@@ -240,6 +244,44 @@ void Human::UpdateMove()
 
 }
 
+void Human::SwordInit()
+{
+	m_spSword = std::make_shared<Sword>();
+
+	m_spSword->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sword.Json"));
+
+	m_spSword->SetOwner(shared_from_this());
+
+	Scene::GetInstance().AddObject(m_spSword);
+}
+
+void Human::SwordUpdate()
+{
+	Vector3 vArmRHand;
+
+	Model::Node* ArmR = m_spModelComponent->FileNode("Arm.R");
+	if (ArmR)
+	{
+		Vector3 vec;
+		vec.x = ArmR->m_localTransform.GetTranslation().x;
+		vec.y = ArmR->m_localTransform.GetTranslation().y;
+		vec.z = ArmR->m_localTransform.GetTranslation().z;
+		Scene::GetInstance().AddDebugCoordinateAxisLine(vec, 3.0f);
+
+		ArmR->m_localTransform.RotateX(0.01f);
+
+		vArmRHand.x = ArmR->m_localTransform.GetTranslation().x;
+		vArmRHand.y = ArmR->m_localTransform.GetTranslation().y - 0.4;
+		vArmRHand.z = ArmR->m_localTransform.GetTranslation().z + 0.4;
+	}
+
+	Matrix mat;
+	f += 0.01f;
+	mat.SetTranslation(vArmRHand);
+	mat.RotateX(f);
+	m_spSword->SetMatrix(mat);
+}
+
 void Human::UpdateCamera()
 {
 	if (!m_spCameraComponent) { return; }
@@ -249,10 +291,27 @@ void Human::UpdateCamera()
 	float radX = inputCamera.x * m_camRotSpeed * Radians;
 	float radY = inputCamera.y * m_camRotSpeed * Radians;
 
+
 	if (radY > 1.0f)radY = 1.0f;
 	else if (radY < -1.0f)radY = -1.0f;
+
+	if (radX > 1.0f)radX = 1.0f;
+	else if (radX < -1.0f)radX = -1.0f;
+
 	m_spCameraComponent->OffsetMatrix().RotateY(radX);
-	m_spCameraComponent->OffsetMatrix().RotateAxis(m_spCameraComponent->OffsetMatrix().GetAxisX(), radY);
+
+	Vector3 CameraCompAxisX=m_spCameraComponent->OffsetMatrix().GetAxisX();
+
+	if (CameraCompAxisX.x > 10)
+	{
+		CameraCompAxisX.x = 10;
+	}
+	else if (CameraCompAxisX.x > -10)
+	{
+		CameraCompAxisX.x = -10;
+	}
+
+	m_spCameraComponent->OffsetMatrix().RotateAxis(CameraCompAxisX, radY);
 }
 
 //r_moveDir 移動方向
@@ -294,6 +353,7 @@ void Human::UpdateCollision()
 	float distanceFromGround = FLT_MAX;
 	float distanceFromWall = FLT_MAX;
 
+
 	//下方向への判定を行い、着地した
 	if (CheckGround(distanceFromGround))
 	{
@@ -302,13 +362,6 @@ void Human::UpdateCollision()
 
 		//地面があるので、y方向への移動力は０に
 		m_force.y = 0.0f;
-	}
-
-
-	if (CheckWall(distanceFromWall))
-	{
-
-		m_force.x = 0.0f;
 	}
 }
 
@@ -390,21 +443,12 @@ bool Human::CheckGround(float& rDstDistance)
 	return m_isGround;
 }
 
-bool Human::CheckWall(float& rDstDistance)
+void Human::CheckBump()
 {
-	//レイ判定情報
-	RayInfo rayInfo;
-	rayInfo.m_pos = m_pos;//キャラクターの位置を発射地点に
-
-
-	rayInfo.m_pos.x += m_prevPos.x - m_pos.x;
-	rayInfo.m_pos.z += m_prevPos.z - m_pos.z;
-	//壁方向へのレイ
-	rayInfo.m_dir = { -1.0f,0.0f,-1.0f };
-
-	//レイの結果格納用
-	rayInfo.m_maxRange = FLT_MAX;
-	RayResult finalRayResult;
+	SphereInfo sphereInfo;
+	sphereInfo.m_pos = m_pos;
+	sphereInfo.m_pos.y += 0.8f;
+	sphereInfo.m_radius = 0.4f;
 
 	std::shared_ptr<GameObject> hitObj = nullptr;
 
@@ -414,36 +458,14 @@ bool Human::CheckWall(float& rDstDistance)
 		//自分自身は無視
 		if (obj.get() == this) { continue; }
 		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
-		if (!(obj->GetTag() & (TAG_StageObject))) { continue; }
-		RayResult rayResult;
-
-		if (obj->HitCheckByRay(rayInfo, rayResult))
+		if (obj->GetTag() & TAG_StageObject)
 		{
-			//もっとも当たったところまでの距離が短いものを保持する
-			if (rayResult.m_distance < finalRayResult.m_distance)
-			{
-				finalRayResult = rayResult;
+			SphereResult sphereResult;
 
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
 				hitObj = obj;
 			}
 		}
-
 	}
-
-	//補正分の長さを結果に反映＆衝突判定
-	float distanceFromWall = FLT_MAX;
-	//進行方向にステージオブジェクトがあった
-	if (finalRayResult.m_hit)
-	{
-		//壁との距離を算出
-		distanceFromWall = finalRayResult.m_distance - (m_prevPos.x - m_pos.x);
-	}
-
-	//壁からの距離
-	m_isWall = distanceFromWall;
-
-	//壁との距離を格納
-	rDstDistance = distanceFromWall;
-
-	return m_isWall;
 }
