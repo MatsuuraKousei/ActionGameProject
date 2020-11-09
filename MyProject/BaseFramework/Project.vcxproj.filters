@@ -61,6 +61,12 @@
     <Filter Include="Src\Application\Game\Action\Weapon">
       <UniqueIdentifier>{dae2d026-ec95-49d6-b48a-9ed898586336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Game\Action\Manage">
+      <UniqueIdentifier>{05ae6cfb-dddd-495a-a5ee-681c19acc0cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Game\Action\Enemy">
+      <UniqueIdentifier>{a89e988e-6c1a-4d1c-9ae5-533efa3701fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -225,11 +231,23 @@
     <ClInclude Include="Src\Application\Game\Action\Weapon\Sword.h">
       <Filter>Src\Application\Game\Action\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\Action\SpawnManager.h">
-      <Filter>Src\Application\Game\Action</Filter>
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Alligator.h">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\Action\Boar.h">
-      <Filter>Src\Application\Game\Action</Filter>
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Eagle.h">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Boar.h">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Manage\SpawnManager.h">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\AnimationEffect.h">
+      <Filter>Src\Application\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\EffectObject.h">
+      <Filter>Src\Application\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,11 +377,23 @@
     <ClCompile Include="Src\Application\Game\Action\Weapon\Sword.cpp">
       <Filter>Src\Application\Game\Action\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\Action\SpawnManager.cpp">
-      <Filter>Src\Application\Game\Action</Filter>
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Alligator.cpp">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\Action\Boar.cpp">
-      <Filter>Src\Application\Game\Action</Filter>
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Eagle.cpp">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Boar.cpp">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Manage\SpawnManager.cpp">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\AnimationEffect.cpp">
+      <Filter>Src\Application\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\EffectObject.cpp">
+      <Filter>Src\Application\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

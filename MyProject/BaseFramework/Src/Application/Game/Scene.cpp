@@ -247,11 +247,6 @@ void Scene::Draw()
 	D3D.GetDevContext()->RSSetState(SHADER.m_rs_CullNone);
 
 
-	for (auto spObj : m_spObjects)
-	{
-		spObj->DrawEffect();
-	}
-
 	// 終わったら元に戻す
 	D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
 	D3D.GetDevContext()->RSSetState(SHADER.m_rs_CullBack);
@@ -293,6 +288,13 @@ void Scene::Draw()
 		// 終わったら元通りにする
 		// Zバッファ使用ON・書き込みON
 		D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
+
+
+		for (auto spObj : m_spObjects)
+		{
+			spObj->DrawEffect();
+		}
+
 	}
 }
 

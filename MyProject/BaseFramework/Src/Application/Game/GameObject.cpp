@@ -3,11 +3,13 @@
 #include "../Component/CameraComponent.h"
 #include "../Component/InputComponent.h"
 #include "../Component/ModelComponent.h"
-#include"Action/SpawnManager.h"
+#include"Action/Manage/SpawnManager.h"
 #include "Action/ActionGameProcess.h"
 #include "Action/Human.h"
 #include"Action/Lift.h"
-#include"Action/Boar.h"
+#include"Action/Enemy/Boar.h"
+#include"Action/Enemy/Alligator.h"
+#include"Action/Enemy/Eagle.h"
 #include"Action/Item.h"
 #include"Action/Weapon/Sword.h"
 #include "Action/Gimmic/ShotGimmic.h"
@@ -316,6 +318,16 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Boar")
 	{
 		return std::make_shared<Boar>();
+	}
+
+	if (name == "Alligator")
+	{
+		return std::make_shared<Alligator>();
+	}
+
+	if (name == "Eagle")
+	{
+		return std::make_shared<Eagle>();
 	}
 
 	if (name == "Human")

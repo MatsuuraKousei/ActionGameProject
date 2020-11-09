@@ -1,10 +1,11 @@
 ﻿#include "Human.h"
-#include"Boar.h"
+#include"Enemy/Boar.h"
 #include"Weapon/Sword.h"
 #include "../Scene.h"
 #include "../../Component/CameraComponent.h"
 #include "../../Component/InputComponent.h"
 #include "../../Component/ModelComponent.h"
+#include"../AnimationEffect.h"
 
 const float Human::s_allowToStepHeight = 0.8f;
 const float Human::s_landingHeight = 0.1f;
@@ -84,7 +85,10 @@ void Human::Update()
 	UpdateCamera();
 
 	//重力をキャラクターのYの移動力に加える
-	m_force.y -= m_gravity;
+	if (m_gravityFlg)
+	{
+		m_force.y -= m_gravity;
+	}
 
 	if (m_alive)
 	{
@@ -139,6 +143,21 @@ void Human::Update()
 
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
+
+	if (!m_damegeStayFlg)
+	{
+		Damege();
+		m_damegeStayFlg = true;
+	}
+	else
+	{
+		m_damegeStayTime--;
+		if (m_damegeStayTime < 0)
+		{
+			m_damegeStayFlg = false;
+			m_damegeStayTime = 15;
+		}
+	}
 
 	//カメラコンポーネントの更新
 	if (m_spCameraComponent)
@@ -260,26 +279,45 @@ void Human::SwordUpdate()
 	Vector3 vArmRHand;
 
 	Model::Node* ArmR = m_spModelComponent->FileNode("Arm.R");
+	Model::Node* HandR = m_spModelComponent->FileNode("Hand.R");
+
 	if (ArmR)
 	{
 		Vector3 vec;
 		vec.x = ArmR->m_localTransform.GetTranslation().x;
 		vec.y = ArmR->m_localTransform.GetTranslation().y;
 		vec.z = ArmR->m_localTransform.GetTranslation().z;
-		Scene::GetInstance().AddDebugCoordinateAxisLine(vec, 3.0f);
+
+		Vector3 pos;
+		pos.x = ArmR->m_localTransform.GetTranslation().x;
+		pos.y = ArmR->m_localTransform.GetTranslation().y;
+		pos.z = ArmR->m_localTransform.GetTranslation().z;
 
 		ArmR->m_localTransform.RotateX(0.01f);
 
-		vArmRHand.x = ArmR->m_localTransform.GetTranslation().x;
-		vArmRHand.y = ArmR->m_localTransform.GetTranslation().y - 0.4;
-		vArmRHand.z = ArmR->m_localTransform.GetTranslation().z + 0.4;
+		ArmR->m_localTransform.SetTranslation(pos);
+
+		Matrix armmat;
+		armmat.CreateRotationX(ArmR->m_localTransform.GetAxisZ().x);
+
+		HandR->m_localTransform.SetTranslation(armmat.GetTranslation());
+
+		Vector3 pos2;
+		pos2.x = HandR->m_localTransform.GetTranslation().x;
+		pos2.y = HandR->m_localTransform.GetTranslation().y;
+		pos2.z = HandR->m_localTransform.GetTranslation().z;
+
+
+		Matrix mat;
+		vArmRHand.x += m_pos.x;
+		vArmRHand.y += m_pos.y;
+		vArmRHand.z += m_pos.z;
+
+		vArmRHand += pos2;
+		mat.SetTranslation(vArmRHand);
+		m_spSword->SetMatrix(mat);
 	}
 
-	Matrix mat;
-	f += 0.01f;
-	mat.SetTranslation(vArmRHand);
-	mat.RotateX(f);
-	m_spSword->SetMatrix(mat);
 }
 
 void Human::UpdateCamera()
@@ -300,16 +338,7 @@ void Human::UpdateCamera()
 
 	m_spCameraComponent->OffsetMatrix().RotateY(radX);
 
-	Vector3 CameraCompAxisX=m_spCameraComponent->OffsetMatrix().GetAxisX();
-
-	if (CameraCompAxisX.x > 10)
-	{
-		CameraCompAxisX.x = 10;
-	}
-	else if (CameraCompAxisX.x > -10)
-	{
-		CameraCompAxisX.x = -10;
-	}
+	Vector3 CameraCompAxisX = m_spCameraComponent->OffsetMatrix().GetAxisX();
 
 	m_spCameraComponent->OffsetMatrix().RotateAxis(CameraCompAxisX, radY);
 }
@@ -351,8 +380,6 @@ void Human::UpdateRotate(const Vector3& rMoveDir)
 void Human::UpdateCollision()
 {
 	float distanceFromGround = FLT_MAX;
-	float distanceFromWall = FLT_MAX;
-
 
 	//下方向への判定を行い、着地した
 	if (CheckGround(distanceFromGround))
@@ -363,6 +390,8 @@ void Human::UpdateCollision()
 		//地面があるので、y方向への移動力は０に
 		m_force.y = 0.0f;
 	}
+
+	CheckBump();
 }
 
 bool Human::CheckGround(float& rDstDistance)
@@ -446,12 +475,12 @@ bool Human::CheckGround(float& rDstDistance)
 void Human::CheckBump()
 {
 	SphereInfo sphereInfo;
+
 	sphereInfo.m_pos = m_pos;
 	sphereInfo.m_pos.y += 0.8f;
 	sphereInfo.m_radius = 0.4f;
 
-	std::shared_ptr<GameObject> hitObj = nullptr;
-
+	Vector3 push;
 	//全員とレイ判定
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
@@ -464,8 +493,75 @@ void Human::CheckBump()
 
 			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
 			{
-				hitObj = obj;
+				push += sphereResult.m_push;
 			}
+		}
+		if (obj->GetTag() & TAG_ActiveObject)
+		{
+			SphereResult sphereResult;
+
+			m_gravityFlg = false;
+
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
+				push += sphereResult.m_push;
+			}
+		}
+		else
+		{
+			m_gravityFlg = true;
+		}
+	}
+	m_pos += push;
+
+}
+
+void Human::Damege()
+{
+	// 球情報の作成
+	SphereInfo info;
+	info.m_pos = m_pos;
+	info.m_radius = 2;
+
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+
+		// キャラクターと当たり判定をするのでそれ以外は無視
+		if (!(obj->GetTag() & TAG_Enemy)) { continue; }
+
+		// 当たり判定
+		if (obj->HitCheckBySphere(info))
+		{
+			Scene::GetInstance().AddDebugSphereLine(
+				m_mWorld.GetTranslation(), info.m_radius, { 1.0f,0.0f,0.0f,1.0f }
+			);
+
+			Explosion(m_pos);
+			m_Hp--;
 		}
 	}
 }
+
+// 爆発
+void Human::Explosion(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Attack.png"), 5.0f, 3, 3, (float)(rand() % 360), 0.4f);
+	// 場所を自分の位置に合わせる
+	effect->SetMatrix(m_mWorld);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
+}
+
+
