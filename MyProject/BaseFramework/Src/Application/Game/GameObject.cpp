@@ -3,6 +3,7 @@
 #include "../Component/CameraComponent.h"
 #include "../Component/InputComponent.h"
 #include "../Component/ModelComponent.h"
+#include"SceneCameraManage.h"
 #include"Action/Manage/SpawnManager.h"
 #include "Action/ActionGameProcess.h"
 #include "Action/Human.h"
@@ -285,6 +286,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 		return std::make_shared<SceneManeger>();
 	}
 
+	if (name == "SceneCameraManage")
+	{
+		return std::make_shared<SceneCameraManage>();
+	}
+
 	if (name == "SpawnManage")
 	{
 		return std::make_shared<SpawnManeger>();
@@ -339,6 +345,8 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	{
 		return std::make_shared<GameObject>();
 	}
+
+
 	// 文字列が既存のクラスに一致しなかった
 	assert(0 && "存在しないGameObjectクラスです!");
 

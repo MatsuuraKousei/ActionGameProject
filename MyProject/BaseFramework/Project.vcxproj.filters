@@ -249,6 +249,15 @@
     <ClInclude Include="Src\Application\Game\EffectObject.h">
       <Filter>Src\Application\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Boss.h">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Wolf.h">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\SceneCameraManage.h">
+      <Filter>Src\Application\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -393,6 +402,15 @@
       <Filter>Src\Application\Game</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Game\EffectObject.cpp">
+      <Filter>Src\Application\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Boss.cpp">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Wolf.cpp">
+      <Filter>Src\Application\Game\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\SceneCameraManage.cpp">
       <Filter>Src\Application\Game</Filter>
     </ClCompile>
   </ItemGroup>

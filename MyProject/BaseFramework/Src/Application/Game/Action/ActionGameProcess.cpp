@@ -5,6 +5,9 @@
 
 void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 {
+	// タイトルテクスチャ
+	m_spTitleTex = ResFac.GetTexture("Data/Textures/2DTexture/Title/Title.png");
+
 	// UI用テクスチャの読み込み
 	m_spMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HPBer.png");
 
@@ -34,7 +37,37 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 void ActionGameProcess::Draw2D()
 {
+	// 2D描画
+	SHADER.m_spriteShader.SetMatrix(m_mWorld);
 
+	if (Scene::GetInstance().stageProcess == OPNING)
+	{
+		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
+	}
+
+	if (Scene::GetInstance().stageProcess == FIELD)
+	{
+		SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
+		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
+
+		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
+
+		// 分母
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().MAXDia].get(), Dia.x + 500, Dia.y);
+		//「/」
+		SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
+		// 分子
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().getDia].get(), Dia.x + 400, Dia.y);
+
+		for (int i = 0; i < m_iPlayerHP; i++)
+		{
+			SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (37 - (26 * i)), UIPos.y);
+		}
+	}
+}
+
+void ActionGameProcess::Update()
+{
 	for (auto pObject : Scene::GetInstance().GetObjects())
 	{
 		if (pObject->GetTag() & TAG_Player)
@@ -42,29 +75,6 @@ void ActionGameProcess::Draw2D()
 			m_iPlayerHP = pObject->m_Hp;
 		}
 	}
-
-	// 2D描画
-	SHADER.m_spriteShader.SetMatrix(m_mWorld);
-	SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
-	SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
-
-	SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
-
-	// 分母
-	SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().MAXDia].get(), Dia.x + 500, Dia.y);
-	//「/」
-	SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
-	// 分子
-	SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().getDia].get(), Dia.x + 400, Dia.y);
-
-	for (int i = 0; i < m_iPlayerHP; i++)
-	{
-		SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (37 - (26 * i)), UIPos.y);
-	}
-}
-
-void ActionGameProcess::Update()
-{
 	if (ActionGameProcess::GetInstance().m_getFlg)
 	{
 		ViewDiamond();

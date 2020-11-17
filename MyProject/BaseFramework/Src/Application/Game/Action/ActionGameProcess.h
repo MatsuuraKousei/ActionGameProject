@@ -35,6 +35,7 @@ private:
 
 	int						m_iPlayerHP;
 
+	std::shared_ptr<Texture> m_spTitleTex;		// タイトル
 	std::shared_ptr<Texture> m_spMotherHPTex;		// HPバー
 	std::shared_ptr<Texture> m_spDiamond;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI

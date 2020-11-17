@@ -1,8 +1,8 @@
-﻿#include "Boar.h"
+﻿#include "Wolf.h"
 #include"../Human.h"
 #include "../../Scene.h"
 
-void Boar::Update()
+void Wolf::Update()
 {
 	if (!m_alive) { return; }
 
@@ -12,12 +12,7 @@ void Boar::Update()
 	switch (m_faze)
 	{
 	case Default:
-		m_force.y = 0.1f;
-		if (m_pos.y > 1)
-		{
-			m_pos.y = 1;
-			m_faze = Action;
-		}
+		
 		break;
 	case Action:
 		Snipe();
@@ -40,46 +35,12 @@ void Boar::Update()
 	UpdateCollision();
 }
 
-void Boar::Move()
+void Wolf::Move()
 {
-	if (!StopMove) { return; }
-
-	// 変える前に座標を保存
-	m_prevPos = m_mWorld.GetTranslation();
-
-	// ターゲットをshared_ptr化
-	auto target = m_wpTarget.lock();
-
-
 	
-	if (AttackCounter > 0)
-	{
-		Vector3 move = m_mWorld.GetAxisZ();
-		move.Normalize();
-
-		move *= (float)m_speed;
-
-		m_force = m_force + move;
-
-		AttackCounter--;
-
-	}
-	else
-	{
-		StopMove = true;
-		if (WaitCounter < 0)
-		{
-			m_force.y = -0.1f;
-			if (m_pos.y < -2)
-			{
-				m_alive = false;
-			}
-		}
-		WaitCounter--;
-	}
 }
 
-void Boar::Snipe()
+void Wolf::Snipe()
 {
 	// 球情報の作成
 	SphereInfo info;
@@ -147,12 +108,12 @@ void Boar::Snipe()
 	}
 }
 
-void Boar::UpdateCollision()
+void Wolf::UpdateCollision()
 {
 	
 }
 
-void Boar::VectorMove(Matrix mat)
+void Wolf::VectorMove(Matrix mat)
 {
 
 	Vector3 rMoveDir = mat.GetTranslation();

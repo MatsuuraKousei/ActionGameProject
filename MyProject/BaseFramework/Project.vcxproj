@@ -161,7 +161,9 @@
     <ClInclude Include="Src\Application\Game\Action\ActionGameProcess.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Alligator.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Boar.h" />
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Boss.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Eagle.h" />
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Wolf.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Bullet.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\ShotGimmic.h" />
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="Src\Application\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Game\GameProcess.h" />
     <ClInclude Include="Src\Application\Game\Scene.h" />
+    <ClInclude Include="Src\Application\Game\SceneCameraManage.h" />
     <ClInclude Include="Src\Application\Game\SceneManage.h" />
     <ClInclude Include="Src\Application\ImGuiHelper.h" />
     <ClInclude Include="Src\Application\main.h" />
@@ -215,7 +218,9 @@
     <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Alligator.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Boar.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Boss.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Eagle.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Wolf.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Bullet.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\ShotGimmic.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
@@ -229,6 +234,7 @@
     <ClCompile Include="Src\Application\Game\EffectObject.cpp" />
     <ClCompile Include="Src\Application\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Game\Scene.cpp" />
+    <ClCompile Include="Src\Application\Game\SceneCameraManage.cpp" />
     <ClCompile Include="Src\Application\Game\SceneManage.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="src\System\Direct3D\Direct3D.cpp" />
