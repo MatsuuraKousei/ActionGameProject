@@ -52,6 +52,7 @@ private:
 	int							WaitCounter = 15;
 
 	bool						StopMove = false;
+	bool						m_falseFlg=false;
 	int i = 0;
 
 

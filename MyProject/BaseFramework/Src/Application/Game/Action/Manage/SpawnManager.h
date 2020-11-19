@@ -8,6 +8,13 @@ public:
 	virtual void Deserialize(const json11::Json& jsonObj)override;		// 初期化
 	virtual void Update()override;										// 更新
 
+	static bool& GetActive()
+	{
+		static bool Active;
+		return Active;
+	}
+
+private:
 	enum EnemyTag
 	{
 		Tag_None,
@@ -15,10 +22,6 @@ public:
 		Tag_Alligator,
 		Tag_Eagle
 	};
-
-	bool SpawnFlg = false;
-	bool SpawnEagleFlg = false;
-private:
 
 	EnemyTag m_enemTag = EnemyTag::Tag_None;
 

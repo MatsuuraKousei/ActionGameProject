@@ -31,8 +31,6 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 			break;
 		}
 	}
-
-	SpawnFlg = false;
 }
 
 void SpawnManeger::Update()
@@ -58,7 +56,7 @@ void SpawnManeger::Update()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
-			if (SpawnFlg) { return; }
+			if (GetActive()) { return; }
 			Scene::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
 			auto m_spBoar = std::make_shared<Boar>();
 			auto m_spAlligator = std::make_shared<Alligator>();
@@ -77,6 +75,7 @@ void SpawnManeger::Update()
 				m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spBoar);
+				GetActive() = true;
 				break;
 
 			case Tag_Alligator:
@@ -88,22 +87,17 @@ void SpawnManeger::Update()
 				m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spAlligator);
+				GetActive() = true;
 				break;
 			default:
 				break;
 			}
-
-			SpawnFlg = true;
-		}
-		else
-		{
-			SpawnFlg = false;
 		}
 	}
 
 	if (m_enemTag == Tag_Eagle)
 	{
-		if (SpawnEagleFlg) { return; }
+		if (GetActive()) { return; }
 		auto m_spEagle = std::make_shared<Eagle>();
 		m_spEagle->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Eagle.json"));
 		m_spEagle->m_pos.x = m_mWorld.GetTranslation().x;
@@ -115,6 +109,6 @@ void SpawnManeger::Update()
 		m_spEagle->m_target.z = m_mWorld.GetTranslation().z;
 
 		Scene::GetInstance().AddObject(m_spEagle);
-		SpawnEagleFlg = true;
+		GetActive() = true;
 	}
 }

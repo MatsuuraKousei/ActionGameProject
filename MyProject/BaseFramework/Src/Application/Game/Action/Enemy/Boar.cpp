@@ -1,6 +1,7 @@
 ﻿#include "Boar.h"
 #include"../Human.h"
 #include "../../Scene.h"
+#include"../Manage/SpawnManager.h"
 
 void Boar::Update()
 {
@@ -69,10 +70,39 @@ void Boar::Move()
 		StopMove = true;
 		if (WaitCounter < 0)
 		{
-			m_force.y = -0.1f;
-			if (m_pos.y < -2)
+			// 球情報の作成
+			SphereInfo info;
+			info.m_pos = m_mWorld.GetTranslation();
+			info.m_radius = m_uniqueCol-5;
+			for (auto& obj : Scene::GetInstance().GetObjects())
 			{
-				m_alive = false;
+				// 自分自身を無視
+				if (obj.get() == this) { continue; }
+
+				// キャラクターと当たり判定をするのでそれ以外は無視
+				if (!(obj->GetTag() & TAG_Player)) { continue; }
+
+				// 当たり判定
+				if (obj->HitCheckBySphere(info))
+				{
+					if (!m_falseFlg)
+					{
+						m_faze = Action;
+					}
+				}
+				else
+				{
+					m_falseFlg = true;
+				}
+			}
+			if (m_falseFlg)
+			{
+				m_force.y = -0.1f;
+				if (m_pos.y < -2)
+				{
+					m_alive = false;
+					SpawnManeger::GetActive() = false;
+				}
 			}
 		}
 		WaitCounter--;
@@ -84,7 +114,7 @@ void Boar::Snipe()
 	// 球情報の作成
 	SphereInfo info;
 	info.m_pos = m_mWorld.GetTranslation();
-	info.m_radius = m_uniqueCol;
+	info.m_radius = m_uniqueCol+5;
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		// 自分自身を無視

@@ -110,7 +110,7 @@ void Scene::Deserialize()
 	switch (stageProcess)
 	{
 	case OPNING:
-		LoadScene("Data/JsonFile/Scene/Oping.json");
+		LoadScene("Data/JsonFile/Scene/Opning.json");
 		break;
 	case TOWN:
 		LoadScene("Data/JsonFile/Scene/Town.json");
