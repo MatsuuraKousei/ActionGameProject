@@ -1,0 +1,124 @@
+{
+  "GameObjects": [
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess"
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Sky",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Sky/Sky.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1000, 1000, 1000 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Water",
+      "Tag":256,
+      "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
+      "Pos":[0,-2,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1000, 1000, 1000 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Map",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Map1/Map1.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 0.8, 0.8, 0.8]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Bridge1",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge1.gltf",
+      "Pos":[75,1,11],
+      "Rot":[90,0,0],
+      "Scale": [ 1, 0.7, 0.7]
+    },
+    {
+     "ClassName": "GameObject",
+     "Name": "Bridge2",
+     "Tag":4,
+     "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge2.gltf",
+     "Pos":[73.8,1.1,81],
+     "Rot":[0,0,0.4],
+     "Scale": [ 1, 0.7, 0.7]
+    },
+    {
+     "ClassName": "Item",
+     "Name": "Jewelry",
+     "Tag":1,
+     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
+     "Pos":[-80,1,-30],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1]
+    },
+     {
+     "ClassName": "Item",
+     "Name": "Jewelry",
+     "Tag":1,
+     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
+     "Pos":[0,0,0],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1]
+    },
+    {
+      "ClassName": "Lift",
+      "Name": "NormalLift00",
+      "Tag":4,
+      "LiftTag":0,
+      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+      "Pos":[24.6,-0.38,-14.45],
+      "Scale": [ 0.5, 0.5, 0.5],
+      "ToGoal":[29.9,-0.38,-14.45],
+      "Speed":0.01
+    },
+    {
+      "ClassName": "Lift",
+      "Name": "RotLift00",
+      "Tag":512,
+      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+      "Pos":[-81,-0.49,14],
+      "RotSpeed":[0,0,0.01],
+      "Scale": [ 0.5, 0.5, 0.5],
+      "Rot":[ 0 , 0 , 90 ]
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "RotLift01",
+     "Tag":512,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-81,-0.49,16.5],
+     "RotSpeed":[0,0,-0.01],
+     "Scale": [ 0.5, 0.5, 0.5],
+     "Rot":[ 0 , 0 , 90 ]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "Player",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Human/HumanBetter.gltf",
+      "Pos":[0,0,10],
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 0 , 73 , 0 ]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":1
+    },
+    {
+     "ClassName": "SceneManage",
+     "Name": "Goal",
+     "Tag":0,
+     "Pos":[ -70,1,-19.2 ],
+     "NextScene":"Data/JsonFile/Scene/Field1.json"
+    }
+  ]
+}

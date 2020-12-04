@@ -137,9 +137,18 @@ void ActionPlayerInputComponent::Update()
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000) { PushButton(Input::Buttons::A); }
 	else { ReleaseButton(Input::Buttons::A); }
 	//ダッシュ処理
-	if ((GetAsyncKeyState(VK_LSHIFT) & 0x8000) || (GetAsyncKeyState(VK_RBUTTON) & 0x8000)) { PushButton(Input::Buttons::L1); }
+	if (GetAsyncKeyState(VK_LSHIFT) & 0x8000) { PushButton(Input::Buttons::L1); }
 	else { ReleaseButton(Input::Buttons::L1); }
 
-	if (GetAsyncKeyState(VK_RETURN)) { PushButton(Input::Buttons::R1); }
+	if (GetAsyncKeyState(VK_RETURN)&0x8000) { PushButton(Input::Buttons::R1); }
 	else { ReleaseButton(Input::Buttons::R1); }
+
+	if (GetAsyncKeyState(VK_MBUTTON) & 0x8000) { PushButton(Input::Buttons::Y); }
+	else { ReleaseButton(Input::Buttons::Y); }
+
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) { PushButton(Input::Buttons::B); }
+	else { ReleaseButton(Input::Buttons::B); }
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) { PushButton(Input::Buttons::X); }
+	else { ReleaseButton(Input::Buttons::X); }
 }

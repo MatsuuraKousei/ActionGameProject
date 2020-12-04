@@ -80,27 +80,6 @@
     },
     {
       "ClassName": "Lift",
-      "Name": "NormalLift01",
-      "Tag":4,
-      "LiftTag":1,
-      "Points":5,
-      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-      "Pos":[0,0,0],
-      "Scale": [ 0.5, 0.5, 0.5],
-      "MoveTo0":[0,0,10],
-      "MoveTo1":[20,0,20],
-      "MoveTo2":[0,30,30],
-      "MoveTo3":[10,0,40],
-      "MoveTo4":[0,50,50],
-      "MoveTo5":[0,50,0],
-      "MoveTo6":[0,20,0],
-      "MoveTo7":[20,50,0],
-      "MoveTo8":[30,50,0],
-      "MoveTo9":[40,50,0],
-      "Speed":0.01
-    },
-    {
-      "ClassName": "Lift",
       "Name": "RotLift00",
       "Tag":512,
       "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
@@ -132,7 +111,7 @@
      "ClassName": "SpawnManage",
      "Name": "RespwanPos",
      "Tag":0,
-     "EnemTag":0
+     "EnemTag":1
     },
     {
      "ClassName": "SceneManage",

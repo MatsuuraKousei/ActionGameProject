@@ -1,6 +1,7 @@
 ﻿#include "Scene.h"
 #include "GameObject.h"
 #include "../Component/CameraComponent.h"
+#include"../../System/Debug/Debug.h"
 #include "./Application/Game/EditorCamera.h"
 #include "Application/ImGuiHelper.h"
 
@@ -99,6 +100,12 @@ void Scene::Init()
 	//ImGui
 	m_Editor_Log = std::make_shared<CustomImGui>();
 
+	// 文字列格納
+	Opning = "Data/JsonFile/Scene/Opning.json";
+	Field = "Data/JsonFile/Scene/Field0.json";
+	Gameclear = "Data/JsonFile/Scene/Clear.json";
+	Gameover = "Data/JsonFile/Scene/Over.json";
+
 	Deserialize();
 }
 
@@ -110,28 +117,22 @@ void Scene::Deserialize()
 	switch (stageProcess)
 	{
 	case OPNING:
-		LoadScene("Data/JsonFile/Scene/Opning.json");
-		break;
-	case TOWN:
-		LoadScene("Data/JsonFile/Scene/Town.json");
+		LoadScene(Opning);
 		break;
 	case FIELD:
-		LoadScene("Data/JsonFile/Scene/Field.json");
-		break;
-	case DUNGEON:
-		LoadScene("Data/JsonFile/Scene/DunGeon.json");
+		LoadScene(Field);
 		break;
 	case CLEAR:
-		LoadScene("Data/JsonFile/Scene/Clear.json");
+		LoadScene(Gameclear);
 		break;
 	case OVER:
-		LoadScene("Data/JsonFile/Scene/Over.json");
+		LoadScene(Gameover);
 		break;
 	case DEBUG:
 		LoadScene("Data/JsonFile/Scene/Debug.json");
 		break;
 	default:
-		LoadScene("Data/JsonFile/Scene/Field.json");
+		LoadScene("Data/JsonFile/Scene/Field0.json");
 		break;
 	}
 }
@@ -146,6 +147,8 @@ void Scene::Release()
 // 更新
 void Scene::Update()
 {
+	Debug::GetInstance().Update();
+
 	// カメラ
 	if (EditorCameraEnable)
 	{
@@ -251,11 +254,7 @@ void Scene::Draw()
 	D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
 	D3D.GetDevContext()->RSSetState(SHADER.m_rs_CullBack);
 
-	// 全てのオブジェクトの2D描画を行う
-	for (auto obj : m_spObjects)
-	{
-		obj->Draw2D();
-	}
+
 
 	// デバッグライン描画
 	SHADER.m_effectShader.SetToDevice();
@@ -273,16 +272,18 @@ void Scene::Draw()
 		// Zバッファ使用OFF・書き込みOFF
 		D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZDisable_ZWriteDisable, 0);
 
-
-		// 点が２つ以上ある時に描画する
-		if (m_debugLines.size() >= 1)
+		if (debug)
 		{
-			SHADER.m_effectShader.SetWorldMatrix(Math::Matrix());
+			// 点が２つ以上ある時に描画する
+			if (Debug::GetInstance().debugLines.size() >= 1)
+			{
+				SHADER.m_effectShader.SetWorldMatrix(Math::Matrix());
 
-			SHADER.m_effectShader.DrawVertices(m_debugLines, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+				SHADER.m_effectShader.DrawVertices(Debug::GetInstance().debugLines, D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
-			// ここでクリアしないと前に書いたものが残る?
-			m_debugLines.clear();
+				// ここでクリアしないと前に書いたものが残る?
+				Debug::GetInstance().debugLines.clear();
+			}
 		}
 
 		// 終わったら元通りにする
@@ -294,7 +295,12 @@ void Scene::Draw()
 		{
 			spObj->DrawEffect();
 		}
+	}
 
+	// 全てのオブジェクトの2D描画を行う
+	for (auto obj : m_spObjects)
+	{
+		obj->Draw2D();
 	}
 }
 
@@ -483,101 +489,31 @@ std::shared_ptr<GameObject> Scene::FindObjectWithName(const std::string& name)
 	//見つからなかったらnullが帰る
 	return nullptr;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//デバック関係
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// デバッグライン描画
-void Scene::AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color)
+Vector3 Scene::ConvertScreenToWorld(int sx, int sy, float fZ, int screen_w, int screen_h, const Matrix& rView, const Matrix& rPrj)
 {
-	// ラインの開始頂点
-	EffectShader::Vertex ver;
-	ver.Color = color;
-	ver.UV = { 0.0f,0.0f };
-	ver.Pos = p1;
-	m_debugLines.push_back(ver);
+	Matrix invView = rView;
+	invView.Inverse();
+	Matrix invPrj = rPrj;
+	invPrj.Inverse();
 
-	// ラインの終端頂点
-	ver.Pos = p2;
-	m_debugLines.push_back(ver);
+	Matrix viewPort;
+
+	viewPort._11 = screen_w / 2.0;
+	viewPort._22 = -screen_h / 2.0;
+	viewPort._41 = screen_w / 2.0;
+	viewPort._42 = screen_h / 2.0;
+
+	Matrix invViewport = viewPort;
+
+	invViewport.Inverse();
+
+
+	//2D→3D座標への変換行列
+	Matrix convertMat = invViewport * invPrj * invView;
+
+
+	Vector3 resultPos((float)sx, (float)sy, (float)fZ);
+
+
+	return resultPos.TransformCoord(convertMat);
 }
-
-// デバッグスフィア描画                           座標          半径                  色
-void Scene::AddDebugSphereLine(const Math::Vector3& pos, float radius, const Math::Color& color)
-{
-	EffectShader::Vertex ver;
-	ver.Color = color;
-	ver.UV = { 0.0f,0.0f };
-
-	static constexpr int kDetail = 32;  // constexprはconstより早くなるけど使いにくい
-	for (UINT i = 0; i < kDetail + 1; ++i)
-	{
-		// XZ平面
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * Radians) * radius;    // 授業で説明
-		ver.Pos.z += sin((float)i * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-
-		// XY平面
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)i * (360 / kDetail) * Radians) * radius;
-		ver.Pos.y += sin((float)i * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.x += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		ver.Pos.y += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-
-		// YZ平面
-		ver.Pos = pos;
-		ver.Pos.y += cos((float)i * (360 / kDetail) * Radians) * radius;
-		ver.Pos.z += sin((float)i * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-
-		ver.Pos = pos;
-		ver.Pos.y += cos((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		ver.Pos.z += sin((float)(i + 1) * (360 / kDetail) * Radians) * radius;
-		m_debugLines.push_back(ver);
-	}
-}
-
-// デバッグ軸描画
-void Scene::AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale)
-{
-	EffectShader::Vertex ver;
-	ver.UV = { 0.0f,0.0f };
-
-	// X軸・赤
-	ver.Color = { 1.0f,0.0f,0.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.x += 1.0f * scale;
-	m_debugLines.push_back(ver);
-
-	// Y軸・緑
-	ver.Color = { 0.0f,1.0f,0.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.y += 1.0f * scale;
-	m_debugLines.push_back(ver);
-
-	// X軸・赤
-	ver.Color = { 0.0f,0.0f,1.0f,1.0f };
-	ver.Pos = pos;
-	m_debugLines.push_back(ver);
-
-	ver.Pos.z += 1.0f * scale;
-	m_debugLines.push_back(ver);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////

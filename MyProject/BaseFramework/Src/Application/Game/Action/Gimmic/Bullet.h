@@ -24,6 +24,6 @@ private:
 	Vector3			m_force;											// ワールド行列上の回転角度
 
 	int				m_lifeSpan = 0;
-	float				m_speed = 0.3f;
+	float			m_speed = 0.3f;
 	float           m_GimmicAngle;
 };

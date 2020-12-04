@@ -20,10 +20,13 @@ private:
 		Tag_None,
 		Tag_Boar,
 		Tag_Alligator,
-		Tag_Eagle
+		Tag_Eagle,
+		Tag_Bat
 	};
 
 	EnemyTag m_enemTag = EnemyTag::Tag_None;
 
 	Vector3	m_pos = {20,1,5};
+
+	std::string			m_sNextStage;
 };

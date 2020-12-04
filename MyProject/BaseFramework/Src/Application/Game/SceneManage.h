@@ -11,7 +11,9 @@ public:
 
 private:
 
-	Vector3 Goal = { -70,1,-19.2 };
-	Vector3	m_pos;
-	Vector3	m_rot;
+	Vector3				m_Goal;
+	Vector3				m_pos;
+	Vector3				m_rot;
+
+	std::string			m_sNextStage;
 };

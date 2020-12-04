@@ -35,7 +35,7 @@ private:
 
 	int						m_iPlayerHP;
 
-	std::shared_ptr<Texture> m_spTitleTex;		// タイトル
+	std::shared_ptr<Texture> m_spTitleTex;			// タイトル
 	std::shared_ptr<Texture> m_spMotherHPTex;		// HPバー
 	std::shared_ptr<Texture> m_spDiamond;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI
@@ -43,6 +43,17 @@ private:
 	std::shared_ptr<Texture> m_spNumbers[10];		// 数字
 	std::shared_ptr<Texture> m_spSlash;				// 「/」
 
+	std::shared_ptr<Texture> m_spBlack;				// 黒
+	std::shared_ptr<Texture> m_spWhite;				// 白
+
+	std::shared_ptr<Texture> m_spCenterOption[2];	// ロックオンRotate
+	std::shared_ptr<Texture> m_spScope;				// スコープ
+
 	int						m_UITimer = 30;
 	bool					m_UIFlg=false;
+
+	float					m_WhiteOut;
+	bool					m_WhiteOutFlg;
+	float					m_BlackOut;
+	bool					m_BlackOutFlg;
 };

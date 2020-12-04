@@ -11,6 +11,8 @@
 #include"Action/Enemy/Boar.h"
 #include"Action/Enemy/Alligator.h"
 #include"Action/Enemy/Eagle.h"
+#include"Action/Enemy/Bat.h"
+#include"Action/Enemy/BatBullet.h"
 #include"Action/Item.h"
 #include"Action/Weapon/Sword.h"
 #include "Action/Gimmic/ShotGimmic.h"
@@ -334,6 +336,16 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Eagle")
 	{
 		return std::make_shared<Eagle>();
+	}
+
+	if (name == "Bat")
+	{
+		return std::make_shared<Bat>();
+	}
+
+	if (name == "BatBullet")
+	{
+		return std::make_shared<BatBullet>();
 	}
 
 	if (name == "Human")

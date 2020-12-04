@@ -1,11 +1,17 @@
 ﻿#include "Human.h"
 #include"Enemy/Boar.h"
+#include"Enemy/Bat.h"
+#include"Enemy/Alligator.h"
 #include"Weapon/Sword.h"
+#include"Weapon/CrossBow.h"
+#include"Weapon/Arrow.h"
 #include "../Scene.h"
+#include"../../../System/Debug/Debug.h"
 #include "../../Component/CameraComponent.h"
 #include "../../Component/InputComponent.h"
 #include "../../Component/ModelComponent.h"
 #include"../AnimationEffect.h"
+#include"ActionGameProcess.h"
 
 const float Human::s_allowToStepHeight = 0.8f;
 const float Human::s_landingHeight = 0.1f;
@@ -23,7 +29,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_CameraTrans.x = 0.0f;
-		m_CameraTrans.y = 1.5f;
+		m_CameraTrans.y = 2.5f;
 		m_CameraTrans.z = -5.0f;
 
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
@@ -41,48 +47,72 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	{
 		//再生するアニメーションデータを保持しとく
 		m_spAnimation = m_spModelComponent->GetAnimation("Stand");
+
+		ArmL = m_spModelComponent->FileNode("Arm.L");
+		Body = m_spModelComponent->FileNode("Body");
 	}
 
 	SwordInit();
+	CrossbowInit();
 
 	MaxRange.x = 250;
 	MaxRange.y = 100;
 	MaxRange.z = 250;
-
+	
 	m_Hp = 4;
+
 }
 
 void Human::Update()
 {
+	if (Scene::GetInstance().debug) { return; }
+
+	if (!m_alive) { return; }
+
 	//Imguiコンポーネントの更新
 	if (m_spInputComponent)
 	{
 		m_spInputComponent->Update();
 	}
-
-	//Editorモード切替
-	if (m_spInputComponent->GetButton(Input::R1) & m_spInputComponent->ENTER)
-	{
-		if (Scene::GetInstance().EditorCameraEnable)
-		{
-			Scene::GetInstance().EditorCameraEnable = false;
-			ShowCursor(false);
-
-		}
-		else
-		{
-			Scene::GetInstance().EditorCameraEnable = true;
-			ShowCursor(true);
-		}
-	}
-
-
-	SwordUpdate();
+	
+	SwordUpdate(); 
+	CrossbowUpdate();
 
 	//移動前の座標を覚える
 	m_prevPos = m_pos;
 
-	UpdateCamera();
+
+	if (m_spInputComponent->GetButton(Input::Buttons::Y) & m_spInputComponent->ENTER)
+	{
+		if (IsLockOn().lockon)
+		{
+			IsLockOn().lockon = false;
+		}
+		else
+		{
+			// 全ゲームオブジェクトのリストからミサイルが当たる対象を探す
+			for (auto object : Scene::GetInstance().GetObjects())
+			{
+				// 自身は無視
+				if (object.get() == this) { continue; }
+
+				// それ以外は無視
+				if (!(object->GetTag() & TAG_Enemy)) { continue; }
+
+				m_wpTarget = object;
+				IsLockOn().lockon = true;
+			}
+		}
+	}
+
+	if (!IsLockOn().lockon)
+	{
+		UpdateCamera();
+	}
+	else
+	{
+		Lockon();
+	}
 
 	//重力をキャラクターのYの移動力に加える
 	if (m_gravityFlg)
@@ -136,10 +166,21 @@ void Human::Update()
 
 
 	//ワールド行列の合成する
-	m_mWorld.CreateRotationX(m_rot.x);
-	m_mWorld.RotateY(m_rot.y);
-	m_mWorld.RotateZ(m_rot.z);
-	m_mWorld.Move(m_pos);
+	if (!IsSnipe())
+	{
+		m_mWorld.CreateRotationX(m_rot.x);
+		m_mWorld.RotateY(m_rot.y);
+		m_mWorld.RotateZ(m_rot.z);
+		m_mWorld.Move(m_pos);
+	}
+	else
+	{
+		Vector3 vec;
+		vec = m_spCameraComponent->GetCameraMatrix().GetAngles();
+
+		m_mWorld.CreateRotationY(vec.y);
+		m_mWorld.Move(m_pos);
+	}
 
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
@@ -220,7 +261,7 @@ void Human::Update()
 void Human::UpdateMove()
 {
 	//カメラ方向に移動方向が依存するので、カメラが無かったら変える
-	if (!m_spCameraComponent)return; {}
+	if (!m_spCameraComponent)return;
 
 	//入力情報の取得
 	const Math::Vector2& inputMove = m_spInputComponent->GetAxiz(Input::Axes::L);
@@ -233,7 +274,7 @@ void Human::UpdateMove()
 	moveForward.y = 0.0f;
 
 	//移動ベクトルの計算
-	Vector3 moveVec = { moveSide + moveForward };
+	moveVec = { moveSide + moveForward };
 
 	//正規化（斜めに進まれないように）
 	moveVec.Normalize();
@@ -283,11 +324,6 @@ void Human::SwordUpdate()
 
 	if (ArmR)
 	{
-		Vector3 vec;
-		vec.x = ArmR->m_localTransform.GetTranslation().x;
-		vec.y = ArmR->m_localTransform.GetTranslation().y;
-		vec.z = ArmR->m_localTransform.GetTranslation().z;
-
 		Vector3 pos;
 		pos.x = ArmR->m_localTransform.GetTranslation().x;
 		pos.y = ArmR->m_localTransform.GetTranslation().y;
@@ -320,6 +356,123 @@ void Human::SwordUpdate()
 
 }
 
+void Human::CrossbowInit()
+{
+	m_spCrossbow = std::make_shared<CrossBow>();
+
+	m_spCrossbow->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Crossbow.Json"));
+
+	Scene::GetInstance().AddObject(m_spCrossbow);
+}
+
+void Human::CrossbowUpdate()
+{
+
+	if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->STAY)
+	{
+		if (!IsSnipe())
+		{
+			//カメラを切り替える
+			m_memory.x = m_CameraTrans.x;
+			m_memory.y = m_CameraTrans.y;
+			m_memory.z = m_CameraTrans.z;
+
+			m_CameraTrans.x = 1.0f;
+			m_CameraTrans.y = 1.3f;
+			m_CameraTrans.z = -2.0f;
+			m_rot.y = m_spCameraComponent->GetCameraMatrix().GetAngles().y;
+			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
+			m_spCameraComponent->OffsetMatrix().RotateX(-10.0f * Radians);
+			m_spCameraComponent->OffsetMatrix().RotateY(m_rot.y);
+		}
+
+		
+		IsSnipe() = true;
+	}
+
+	if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->EXIT)
+	{
+		if (IsSnipe())
+		{
+			POINT center = { 1280 / 2,720 / 2 };
+
+			Matrix mView = m_spCameraComponent->GetViewMatrix();
+			Matrix mProj = m_spCameraComponent->GetProjMatrix();
+
+			Vector3 NearPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 0.0f, 1280, 720, mView, mProj);
+			Vector3 FarPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 1.0f, 1280, 720, mView, mProj);
+
+			Vector3 Angle = FarPos - NearPos;
+
+			Angle.Normalize();
+
+			auto m_spArrow = std::make_shared<Arrow>();
+
+			m_spArrow->m_pos = m_mWorld.GetTranslation() + ArmL->m_localTransform.GetTranslation();
+			m_spArrow->m_rot = m_spCameraComponent->GetCameraMatrix().GetAngles();
+			m_spArrow->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Arrow.Json"));
+
+			m_spArrow->Position(Angle);
+
+			m_spArrow->SetOwner(shared_from_this());
+			Scene::GetInstance().AddObject(m_spArrow);
+
+			//カメラを戻す
+
+			m_CameraTrans = m_memory;
+
+			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
+			m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
+
+			IsSnipe() = false;
+		}
+	}
+
+
+	if (IsSnipe())
+	{
+		if (ArmL)
+		{
+			Vector3 vec;
+			vec.x = ArmL->m_localTransform.GetTranslation().x;
+			vec.y = ArmL->m_localTransform.GetTranslation().y;
+			vec.z = ArmL->m_localTransform.GetTranslation().z;
+
+			Matrix mat;
+
+			mat.RotateY(m_rot.y);
+			vec.x += m_pos.x;
+			vec.y += m_pos.y;
+			vec.z += m_pos.z;
+
+			mat.CreateRotationX(m_spCameraComponent->GetCameraMatrix().GetAngles().x);
+			mat.RotateY(m_spCameraComponent->GetCameraMatrix().GetAngles().y);
+			mat.RotateZ(m_spCameraComponent->GetCameraMatrix().GetAngles().z);
+			mat.SetTranslation(vec);
+
+			m_spCrossbow->SetMatrix(mat);
+		}
+	}
+	else
+	{
+		if (ArmL)
+		{
+
+			Matrix mat;
+			Vector3 vec;
+
+
+			mat.RotateX(2);
+			vec.x += Body->m_localTransform.GetTranslation().x + m_pos.x;
+			vec.y += Body->m_localTransform.GetTranslation().y + m_pos.y;
+			vec.z += Body->m_localTransform.GetTranslation().z + m_pos.z;
+
+			mat.SetTranslation(vec);
+			m_spCrossbow->SetMatrix(mat);
+		}
+	}
+}
+
 void Human::UpdateCamera()
 {
 	if (!m_spCameraComponent) { return; }
@@ -329,7 +482,6 @@ void Human::UpdateCamera()
 	float radX = inputCamera.x * m_camRotSpeed * Radians;
 	float radY = inputCamera.y * m_camRotSpeed * Radians;
 
-
 	if (radY > 1.0f)radY = 1.0f;
 	else if (radY < -1.0f)radY = -1.0f;
 
@@ -338,9 +490,58 @@ void Human::UpdateCamera()
 
 	m_spCameraComponent->OffsetMatrix().RotateY(radX);
 
+
 	Vector3 CameraCompAxisX = m_spCameraComponent->OffsetMatrix().GetAxisX();
 
 	m_spCameraComponent->OffsetMatrix().RotateAxis(CameraCompAxisX, radY);
+
+}
+
+void Human::Lockon()
+{
+	if (m_wpTarget.lock() == nullptr) { return; }
+
+	auto Target = m_wpTarget.lock();
+
+	IsLockOn().vec.x = Target->GetMatrix().GetTranslation().x;
+	IsLockOn().vec.y = Target->GetMatrix().GetTranslation().y;
+
+	Vector3 vec;
+
+	Vector3 vtarget = Target->GetMatrix().GetTranslation() - m_mWorld.GetTranslation();
+	vtarget.Normalize();
+
+	Vector3 nowDir = m_spCameraComponent->OffsetMatrix().GetAxisZ();
+
+	float nowRadianY = atan2(nowDir.x, nowDir.z);
+	float targetRadianY = atan2(vtarget.x, vtarget.z);
+
+	float nowRadianX = atan2(nowDir.y, nowDir.x);
+	float targetRadianX = atan2(vtarget.y, vtarget.x);
+
+	float dirY = targetRadianY - nowRadianY;
+	float dirX = targetRadianX - nowRadianX;
+	if (dirY > M_PI)
+	{
+		dirY -= 2 * float(M_PI);
+	}
+	if (dirY < -M_PI)
+	{
+		dirY += 2 * float(M_PI);
+	}
+	if (dirX > M_PI)
+	{
+		dirX -= 2 * float(M_PI);
+	}
+	if (dirX < -M_PI)
+	{
+		dirX += 2 * float(M_PI);
+	}
+
+	//m_spCameraComponent->OffsetMatrix().RotateZ(0.01f);
+	m_spCameraComponent->OffsetMatrix().RotateY(dirY);
+
+	
 }
 
 //r_moveDir 移動方向
@@ -391,7 +592,7 @@ void Human::UpdateCollision()
 		m_force.y = 0.0f;
 	}
 
-	CheckBump();
+	m_pos += CheckBump(m_pos);
 }
 
 bool Human::CheckGround(float& rDstDistance)
@@ -472,11 +673,13 @@ bool Human::CheckGround(float& rDstDistance)
 	return m_isGround;
 }
 
-void Human::CheckBump()
+Vector3 Human::CheckBump(Vector3 vec)
 {
 	SphereInfo sphereInfo;
 
-	sphereInfo.m_pos = m_pos;
+	Vector3 pos = Vector3(0, 0, 0);
+
+	sphereInfo.m_pos = vec;
 	sphereInfo.m_pos.y += 0.8f;
 	sphereInfo.m_radius = 0.4f;
 
@@ -512,8 +715,8 @@ void Human::CheckBump()
 			m_gravityFlg = true;
 		}
 	}
-	m_pos += push;
-
+	pos += push;
+	return pos;
 }
 
 void Human::Damege()
@@ -521,7 +724,7 @@ void Human::Damege()
 	// 球情報の作成
 	SphereInfo info;
 	info.m_pos = m_pos;
-	info.m_radius = 2;
+	info.m_radius = 1;
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
@@ -534,7 +737,7 @@ void Human::Damege()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
-			Scene::GetInstance().AddDebugSphereLine(
+			Debug::GetInstance().AddDebugSphereLine(
 				m_mWorld.GetTranslation(), info.m_radius, { 1.0f,0.0f,0.0f,1.0f }
 			);
 
@@ -544,6 +747,23 @@ void Human::Damege()
 	}
 }
 
+void Human::LockonPoint(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Attack.png"), 5.0f, 5, 12, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
+}
+
 // 爆発
 void Human::Explosion(const Vector3& hitPos)
 {
@@ -551,9 +771,7 @@ void Human::Explosion(const Vector3& hitPos)
 	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
 
 	// 爆発のテクスチャとアニメーション情報を渡す
-	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Attack.png"), 5.0f, 3, 3, (float)(rand() % 360), 0.4f);
-	// 場所を自分の位置に合わせる
-	effect->SetMatrix(m_mWorld);
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Attack.png"), 5.0f, 3, 3, (float)(rand() % 360), 0.9f);
 
 	// 場所を自分の位置に合わせる
 	Matrix hitMat = m_mWorld;

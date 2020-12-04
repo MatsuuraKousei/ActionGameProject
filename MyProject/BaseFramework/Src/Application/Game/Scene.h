@@ -10,9 +10,7 @@ class CustomImGui;
 enum StageProcess
 {
 	OPNING,
-	TOWN,
 	FIELD,
-	DUNGEON,
 	CLEAR,
 	OVER,
 	DEBUG
@@ -56,18 +54,18 @@ public:
 
 	inline void SetTargetCamera(std::shared_ptr<CameraComponent> spCamera) { m_wpTargetCamera = spCamera; }
 
-	// デバッグライン描画
-	void AddDebugLine(const Math::Vector3& p1, const Math::Vector3& p2, const Math::Color& color = { 1,1,1,1 });
-
-	// デバッグスフィア描画
-	void AddDebugSphereLine(const Math::Vector3& pos, float radius, const Math::Color& color = { 1,1,1,1 });
-
-	// デバッグ軸描画
-	void AddDebugCoordinateAxisLine(const Math::Vector3& pos, float scale = 1.0f);
-
 	bool							EditorCameraEnable = true;			// true:世界 false:プレイヤー
 
-	StageProcess					stageProcess =FIELD;
+	bool							debug = false;
+
+	StageProcess					stageProcess = OPNING;
+
+	std::string						Opning;
+	std::string						Field;
+	std::string						Gameover;
+	std::string						Gameclear;
+
+	Vector3 ConvertScreenToWorld(int sx, int sy, float fZ, int screen_w, int screen_h, const Matrix& rView, const Matrix& rPrj);
 
 private:
 
@@ -97,8 +95,9 @@ private:
 	// ターゲットカメラ
 	std::weak_ptr<CameraComponent> m_wpTargetCamera;
 
-	// デバッグライン描画用の頂点配列
-	std::vector<EffectShader::Vertex> m_debugLines;
+	
+
+
 
 	//ImGui用の課題変数/////////////////////////////////////////////////////////////
 	std::string							m_PathText;	// ImGuiのjsonのパスを入れる

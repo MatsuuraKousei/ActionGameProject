@@ -25,8 +25,6 @@ private:
 
 	void Move();
 
-	void Targetting();
-	
 	float						m_moveAngle;
 
 	float						m_rotateAngle = 4.0f;				//キャラクターの回転角度

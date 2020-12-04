@@ -2,7 +2,9 @@
 #include "../Enemy/Boar.h"
 #include "../Enemy/Alligator.h"
 #include "../Enemy/Eagle.h"
+#include "../Enemy/Bat.h"
 #include "../../Scene.h"
+#include"../../../../System/Debug/Debug.h"
 
 void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 {
@@ -18,16 +20,18 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 		switch (Tag)
 		{
 		case 0:
-			m_enemTag = EnemyTag::Tag_Boar;
+			m_enemTag = Tag_Boar;
 			break;
 		case 1:
-			m_enemTag = EnemyTag::Tag_Eagle;
+			m_enemTag = Tag_Bat;
 			break;
 		case 2:
-			m_enemTag = EnemyTag::Tag_Alligator;
+			m_enemTag = Tag_Alligator;
 			break;
+		case 3:
+			m_enemTag = Tag_Eagle;
 		default:
-			m_enemTag = EnemyTag::Tag_None;
+			m_enemTag = Tag_None;
 			break;
 		}
 	}
@@ -35,7 +39,7 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 
 void SpawnManeger::Update()
 {
-	Scene::GetInstance().AddDebugLine(m_mWorld.GetTranslation(), Math::Vector3(0.0f, 10.0f, 0.0f), Math::Vector4(1, 0, 0, 1));
+	Debug::GetInstance().AddDebugLine(m_mWorld.GetTranslation(), Math::Vector3(0.0f, 10.0f, 0.0f), Math::Vector4(1, 0, 0, 1));
 
 	m_mWorld.SetTranslation(m_pos);
 
@@ -57,9 +61,10 @@ void SpawnManeger::Update()
 		if (obj->HitCheckBySphere(info))
 		{
 			if (GetActive()) { return; }
-			Scene::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
+			Debug::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
 			auto m_spBoar = std::make_shared<Boar>();
 			auto m_spAlligator = std::make_shared<Alligator>();
+			auto m_spBat = std::make_shared<Bat>();
 			
 
 			switch (m_enemTag)
@@ -87,6 +92,17 @@ void SpawnManeger::Update()
 				m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spAlligator);
+				GetActive() = true;
+				break;
+
+			case Tag_Bat:
+				m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
+
+				m_spBat->m_pos.x = m_mWorld.GetTranslation().x;
+				m_spBat->m_pos.y = m_mWorld.GetTranslation().y;
+				m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
+
+				Scene::GetInstance().AddObject(m_spBat);
 				GetActive() = true;
 				break;
 			default:

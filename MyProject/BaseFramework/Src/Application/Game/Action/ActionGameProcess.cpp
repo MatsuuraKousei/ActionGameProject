@@ -1,5 +1,7 @@
 ﻿#include "ActionGameProcess.h"
 #include "../Scene.h"
+#include"../SceneManage.h"
+#include "Human.h"
 #include"Item.h"
 
 
@@ -7,6 +9,9 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 {
 	// タイトルテクスチャ
 	m_spTitleTex = ResFac.GetTexture("Data/Textures/2DTexture/Title/Title.png");
+
+	m_spBlack = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/Black.png");
+	m_spWhite = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/White.png");
 
 	// UI用テクスチャの読み込み
 	m_spMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HPBer.png");
@@ -29,6 +34,15 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 		m_spNumbers[i] = ResFac.GetTexture(s);
 	}
 
+	// バトルUI
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_spCenterOption[i] = ResFac.GetTexture("Data/Textures/2DTexture/Battle/CenterOption.png");
+	}
+
+	m_spScope = ResFac.GetTexture("Data/Textures/2DTexture/Battle/Scope.png");
+
 	UIPos.z = 0;
 	UIPos.y += 40;
 	Dia.y = 300;
@@ -37,16 +51,17 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 void ActionGameProcess::Draw2D()
 {
+	if (Scene::GetInstance().debug) { return; }
 	// 2D描画
 	SHADER.m_spriteShader.SetMatrix(m_mWorld);
 
-	if (Scene::GetInstance().stageProcess == OPNING)
+	switch (Scene::GetInstance().stageProcess)
 	{
+	case OPNING:
 		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
-	}
-
-	if (Scene::GetInstance().stageProcess == FIELD)
-	{
+		SHADER.m_spriteShader.DrawTex(m_spWhite.get(), 0, 0, nullptr, &Math::Color(Math::Vector4(1, 1, 1, 1)));
+		break;
+	case FIELD:
 		SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
 		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
 
@@ -63,21 +78,47 @@ void ActionGameProcess::Draw2D()
 		{
 			SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (37 - (26 * i)), UIPos.y);
 		}
+		if (Human::IsSnipe())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, 0);
+		}
+		break;
+	case CLEAR:
+		break;
+	case OVER:
+		break;
 	}
 }
 
 void ActionGameProcess::Update()
 {
-	for (auto pObject : Scene::GetInstance().GetObjects())
+	switch (Scene::GetInstance().stageProcess)
 	{
-		if (pObject->GetTag() & TAG_Player)
+	case OPNING:
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			m_iPlayerHP = pObject->m_Hp;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
+			Scene::GetInstance().stageProcess = FIELD;
 		}
-	}
-	if (ActionGameProcess::GetInstance().m_getFlg)
-	{
-		ViewDiamond();
+		break;
+	case FIELD:
+		for (auto pObject : Scene::GetInstance().GetObjects())
+		{
+			if (pObject->GetTag() & TAG_Player)
+			{
+				m_iPlayerHP = pObject->m_Hp;
+				if (m_iPlayerHP <= 0)
+				{
+					Scene::GetInstance().stageProcess = OVER;
+					Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Gameover);
+				}
+			}
+		}
+		if (ActionGameProcess::GetInstance().m_getFlg)
+		{
+			ViewDiamond();
+		}
+		break;
 	}
 }
 

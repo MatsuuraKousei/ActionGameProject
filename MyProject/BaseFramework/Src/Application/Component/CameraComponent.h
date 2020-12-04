@@ -21,6 +21,9 @@ public:
 	// ビュー行列取得
 	inline const Matrix& GetViewMatrix() { return m_mView; }
 
+	//射影行列取得
+	inline const Matrix& GetProjMatrix() { return m_mProj; }
+
 	// カメラ行列・ビュー行列設定（行列 m と行列 Offsetが合成され、最終的なカメラ行列になる）
 	void SetCameraMatrix(const Matrix& m);
 

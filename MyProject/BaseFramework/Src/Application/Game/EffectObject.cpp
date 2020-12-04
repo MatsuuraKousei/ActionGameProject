@@ -23,6 +23,7 @@ void EffectObject::Update()
 }
 
 #include "Scene.h"
+#include"../../System/Debug/Debug.h"
 // 描画
 void EffectObject::Draw()
 {
@@ -30,5 +31,5 @@ void EffectObject::Draw()
 	if (m_alive == false) { return; }
 
 	// デバッグ表示で爆発の球を描く
-	Scene::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), m_scale, m_color);
+	Debug::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), m_scale, m_color);
 }

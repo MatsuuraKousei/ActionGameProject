@@ -160,6 +160,8 @@
     <ClInclude Include="Src\Application\Component\ModelComponent.h" />
     <ClInclude Include="Src\Application\Game\Action\ActionGameProcess.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Alligator.h" />
+    <ClInclude Include="Src\Application\Game\Action\Enemy\Bat.h" />
+    <ClInclude Include="Src\Application\Game\Action\Enemy\BatBullet.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Boar.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Boss.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Eagle.h" />
@@ -170,6 +172,8 @@
     <ClInclude Include="Src\Application\Game\Action\Item.h" />
     <ClInclude Include="Src\Application\Game\Action\Lift.h" />
     <ClInclude Include="Src\Application\Game\Action\Manage\SpawnManager.h" />
+    <ClInclude Include="Src\Application\Game\Action\Weapon\Arrow.h" />
+    <ClInclude Include="Src\Application\Game\Action\Weapon\CrossBow.h" />
     <ClInclude Include="Src\Application\Game\Action\Weapon\Sword.h" />
     <ClInclude Include="Src\Application\Game\AnimationCamera.h" />
     <ClInclude Include="Src\Application\Game\AnimationEffect.h" />
@@ -182,6 +186,7 @@
     <ClInclude Include="Src\Application\Game\SceneManage.h" />
     <ClInclude Include="Src\Application\ImGuiHelper.h" />
     <ClInclude Include="Src\Application\main.h" />
+    <ClInclude Include="Src\System\Debug\Debug.h" />
     <ClInclude Include="src\System\Direct3D\Direct3D.h" />
     <ClInclude Include="Src\System\Direct3D\GLTFLoader.h" />
     <ClInclude Include="src\System\Direct3D\Buffer.h" />
@@ -217,6 +222,8 @@
     <ClCompile Include="Src\Application\Component\ModelComponent.cpp" />
     <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Alligator.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Enemy\Bat.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Enemy\BatBullet.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Boar.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Boss.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Eagle.cpp" />
@@ -227,6 +234,8 @@
     <ClCompile Include="Src\Application\Game\Action\Item.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Lift.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Manage\SpawnManager.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Weapon\Arrow.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Weapon\CrossBow.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Weapon\Sword.cpp" />
     <ClCompile Include="Src\Application\Game\AnimationCamera.cpp" />
     <ClCompile Include="Src\Application\Game\AnimationEffect.cpp" />
@@ -237,6 +246,7 @@
     <ClCompile Include="Src\Application\Game\SceneCameraManage.cpp" />
     <ClCompile Include="Src\Application\Game\SceneManage.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
+    <ClCompile Include="Src\System\Debug\Debug.cpp" />
     <ClCompile Include="src\System\Direct3D\Direct3D.cpp" />
     <ClCompile Include="Src\System\Direct3D\GLTFLoader.cpp" />
     <ClCompile Include="src\System\Direct3D\Buffer.cpp" />

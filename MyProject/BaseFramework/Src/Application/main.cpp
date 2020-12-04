@@ -192,8 +192,10 @@ void Application::Execute()
 
 		// ImGui Demo ウィンドウ表示　　※すごく参考になるウィンドウです。　imgui_demo.cpp参照
 		//ImGui::ShowDemoWindow(nullptr);
-
-		Scene::GetInstance().ImGuiUpdate();
+		if (Scene::GetInstance().debug)
+		{
+			Scene::GetInstance().ImGuiUpdate();
+		}
 
 
 		// バックバッファクリア
