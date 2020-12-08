@@ -32,8 +32,12 @@ void Arrow::Update()
 	// 変える前に座標を保存
 	m_prevPos = m_mWorld.GetTranslation();
 
-	
-	m_mWorld.Move(m_Axiz);
+
+	if (!m_stop)
+	{
+		m_Axiz.y -= m_gravity;
+		m_mWorld.Move(m_Axiz);
+	}
 
 	Collision();
 }
@@ -61,8 +65,38 @@ void Arrow::Collision()
 		{
 			if (obj->HitCheckBySphere(info))
 			{
-				obj->Destroy();
+				obj->m_Hp--;
 				Destroy();
+			}
+		}
+	}
+}
+
+void Arrow::CheckBump()
+{
+	SphereInfo sphereInfo;
+
+	Vector3 pos = Vector3(0, 0, 0);
+
+	sphereInfo.m_pos = m_pos;
+	sphereInfo.m_pos.z += 1.0f;
+	sphereInfo.m_pos.y += 0.8f;
+	sphereInfo.m_radius = 0.4f;
+
+	Vector3 push;
+	//全員とレイ判定
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+		if (obj->GetTag() & TAG_StageObject)
+		{
+			SphereResult sphereResult;
+
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
+				m_stop = true;
 			}
 		}
 	}

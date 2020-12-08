@@ -128,6 +128,11 @@ void ActionPlayerInputComponent::Update()
 	if (!Scene::GetInstance().EditorCameraEnable)
 	{
 		SetCursorPos(m_prevMousePos.x, m_prevMousePos.y);
+		ShowCursor(false);
+	}
+	else
+	{
+		ShowCursor(true);
 	}
 
 	

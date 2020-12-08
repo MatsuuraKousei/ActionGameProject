@@ -35,7 +35,13 @@ private:
 
 	int						m_iPlayerHP;
 
+	float					m_OverY = 500;
+
 	std::shared_ptr<Texture> m_spTitleTex;			// タイトル
+	std::shared_ptr<Texture> m_spEnterTex;			// タイトル
+	std::shared_ptr<Texture> m_spSpaceTex;			// タイトル
+	std::shared_ptr<Texture> m_spClearTex;			// クリア
+	std::shared_ptr<Texture> m_spOverTex;			// オーバー
 	std::shared_ptr<Texture> m_spMotherHPTex;		// HPバー
 	std::shared_ptr<Texture> m_spDiamond;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI
@@ -50,10 +56,10 @@ private:
 	std::shared_ptr<Texture> m_spScope;				// スコープ
 
 	int						m_UITimer = 30;
-	bool					m_UIFlg=false;
+	bool					m_UIFlg = false;
 
-	float					m_WhiteOut;
-	bool					m_WhiteOutFlg;
-	float					m_BlackOut;
-	bool					m_BlackOutFlg;
+	float					m_WhiteOut = 0.0f;
+	bool					m_WhiteOutFlg = false;
+	float					m_BlackOut = 0.0f;
+	bool					m_BlackOutFlg = false;;
 };

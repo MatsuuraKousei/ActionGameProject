@@ -8,7 +8,7 @@
 // ・ppSRV			… 作成されたShaderResourceViewを受け取るための変数のアドレス
 // ・ppRTV			… 作成されたRenderTargetViewを受け取るための変数のアドレス
 // ・ppDSV			… 作成されたDepthStencilViewを受け取るための変数のアドレス
-static bool KdCreateViewsFromTexture2D(ID3D11Texture2D* resource, ID3D11ShaderResourceView** ppSRV, ID3D11RenderTargetView** ppRTV, ID3D11DepthStencilView** ppDSV)
+static bool CreateViewsFromTexture2D(ID3D11Texture2D* resource, ID3D11ShaderResourceView** ppSRV, ID3D11RenderTargetView** ppRTV, ID3D11DepthStencilView** ppDSV)
 {
 	// リソースが無い
 	if (resource == nullptr)return false;
@@ -294,7 +294,7 @@ bool Texture::Load(const std::string & filename, bool renderTarget, bool depthSt
 	//------------------------------------
 	// テクスチャリソース(m_resource)から、各ビューを作成する
 	//------------------------------------
-	if (KdCreateViewsFromTexture2D(tex2D, &m_srv, &m_rtv, &m_dsv) == false)
+	if (CreateViewsFromTexture2D(tex2D, &m_srv, &m_rtv, &m_dsv) == false)
 	{
 		tex2D->Release();
 		Release();
@@ -318,7 +318,7 @@ bool Texture::Create(ID3D11Texture2D* pTexture2D)
 	//---------------------------------------------
 	// 画像リソースから、各ビューを作成する
 	//---------------------------------------------
-	if (KdCreateViewsFromTexture2D(pTexture2D, &m_srv, &m_rtv, &m_dsv) == false) {
+	if (CreateViewsFromTexture2D(pTexture2D, &m_srv, &m_rtv, &m_dsv) == false) {
 		Release();
 		return false;
 	}
@@ -350,7 +350,7 @@ bool Texture::Create(const D3D11_TEXTURE2D_DESC & desc, const D3D11_SUBRESOURCE_
 	//--------------------------------------------
 	// m_pTexture2Dから、各ビューを作成する
 	//--------------------------------------------
-	if (KdCreateViewsFromTexture2D(resource, &m_srv, &m_rtv, &m_dsv) == false)
+	if (CreateViewsFromTexture2D(resource, &m_srv, &m_rtv, &m_dsv) == false)
 	{
 		Release();
 		return false;

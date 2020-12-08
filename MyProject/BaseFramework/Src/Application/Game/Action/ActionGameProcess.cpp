@@ -10,7 +10,18 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	// タイトルテクスチャ
 	m_spTitleTex = ResFac.GetTexture("Data/Textures/2DTexture/Title/Title.png");
 
+	m_spEnterTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Fonts/Enter.png");
+	m_spSpaceTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Fonts/Space.png");
+
+	// ゲームクリアロゴ
+	m_spClearTex = ResFac.GetTexture("Data/Textures/2DTexture/GameClear/GameClearLogo.png");
+
+	// ゲームオーバーロゴ
+	m_spOverTex = ResFac.GetTexture("Data/Textures/2DTexture/GameOver/GameOverLogo.png");
+
+	// 黒バック
 	m_spBlack = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/Black.png");
+	// 白バック
 	m_spWhite = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/White.png");
 
 	// UI用テクスチャの読み込み
@@ -47,6 +58,25 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	UIPos.y += 40;
 	Dia.y = 300;
 	Dia.x = 500;
+
+	switch (Scene::GetInstance().stageProcess)
+	{
+	case OPNING:
+		m_WhiteOutFlg = false;
+		m_WhiteOut = 0;
+		break;
+	case FIELD:
+		m_WhiteOutFlg = true;
+		m_WhiteOut = 1;
+		m_BlackOutFlg = false;
+		break;
+	case CLEAR:
+		break;
+	case OVER:
+		m_BlackOutFlg = true;
+		m_BlackOut = 1;
+		break;
+	}
 }
 
 void ActionGameProcess::Draw2D()
@@ -58,13 +88,18 @@ void ActionGameProcess::Draw2D()
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
-		SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
-		SHADER.m_spriteShader.DrawTex(m_spWhite.get(), 0, 0, nullptr, &Math::Color(Math::Vector4(1, 1, 1, 1)));
+		if (!m_WhiteOutFlg)
+		{
+			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
+			SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
+		}
 		break;
 	case FIELD:
+		// ダイヤ
 		SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
-		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
 
+		// 体力
+		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
 		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
 
 		// 分母
@@ -84,10 +119,17 @@ void ActionGameProcess::Draw2D()
 		}
 		break;
 	case CLEAR:
+		SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
+		SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
 		break;
 	case OVER:
+		SHADER.m_spriteShader.DrawTex(m_spOverTex.get(), 0, m_OverY);
+		SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
 		break;
 	}
+
+	SHADER.m_spriteShader.DrawTex(m_spWhite.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_WhiteOut)));
+	SHADER.m_spriteShader.DrawTex(m_spBlack.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_BlackOut)));
 }
 
 void ActionGameProcess::Update()
@@ -97,11 +139,40 @@ void ActionGameProcess::Update()
 	case OPNING:
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
+			m_WhiteOutFlg = true;
+		}
+		if (m_WhiteOutFlg)
+		{
+			m_WhiteOut += 0.01f;
+		}
+		if (m_WhiteOut > 1)
+		{
+			m_WhiteOut = 1;
 			Scene::GetInstance().stageProcess = FIELD;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
 		}
 		break;
 	case FIELD:
+		if (m_WhiteOutFlg)
+		{
+			m_WhiteOut -= 0.01f;
+		}
+		if (m_WhiteOut < 0)
+		{
+			m_WhiteOut = 0;
+			m_WhiteOutFlg = false;
+		}
+		if (m_BlackOutFlg)
+		{
+			m_BlackOut += 0.01f;
+		}
+		if (m_BlackOut > 1)
+		{
+			m_BlackOut = 1;
+			Scene::GetInstance().stageProcess = OVER;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Gameover);
+		}
+
 		for (auto pObject : Scene::GetInstance().GetObjects())
 		{
 			if (pObject->GetTag() & TAG_Player)
@@ -109,14 +180,43 @@ void ActionGameProcess::Update()
 				m_iPlayerHP = pObject->m_Hp;
 				if (m_iPlayerHP <= 0)
 				{
-					Scene::GetInstance().stageProcess = OVER;
-					Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Gameover);
+					m_BlackOutFlg = true;
 				}
 			}
 		}
+
 		if (ActionGameProcess::GetInstance().m_getFlg)
 		{
 			ViewDiamond();
+		}
+		break;
+	case CLEAR:
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		{
+			Scene::GetInstance().stageProcess = OPNING;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Opning);
+		}
+		break;
+	case OVER:
+		if (m_BlackOutFlg)
+		{
+			m_BlackOut -= 0.01f;
+		}
+		if (m_BlackOut < 0)
+		{
+			m_BlackOut = 0;
+			m_BlackOutFlg = false;
+
+		}
+		m_OverY--;
+		if (m_OverY < 0)
+		{
+			m_OverY = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+		{
+			Scene::GetInstance().stageProcess = FIELD;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
 		}
 		break;
 	}

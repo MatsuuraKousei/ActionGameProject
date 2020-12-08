@@ -49,7 +49,15 @@ void SceneManeger::Update()
 		{
 			if (&m_sNextStage != nullptr)
 			{
-				Scene::GetInstance().RequestChangeScene(m_sNextStage);
+				if (m_sNextStage == Scene::GetInstance().Gameclear)
+				{
+					Scene::GetInstance().stageProcess = CLEAR;
+					Scene::GetInstance().RequestChangeScene(m_sNextStage);
+				}
+				else
+				{
+					Scene::GetInstance().RequestChangeScene(m_sNextStage);
+				}
 			}
 		}
 	}

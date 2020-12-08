@@ -5,7 +5,13 @@
 #include"BatBullet.h"
 #include"../Gimmic/Bullet.h"
 #include"../../AnimationEffect.h"
+#include"../../FixedTexture.h"
 #include "../../../Component/ModelComponent.h"
+
+Bat::Bat()
+{
+	m_Hp = 4;
+}
 
 void Bat::Update()
 {
@@ -17,26 +23,26 @@ void Bat::Update()
 	switch (m_faze)
 	{
 	case Default:
-		
+
+		// 羽アニメ
 		Move();
-		if (m_pos.y > 2)
-		{
-			roop--;
-		}
 		if (m_pos.y > 3)
 		{
 			m_pos.y = 3;
+
+			// 召喚アニメーション
 			Appearance();
 
-			if (roop == 0)
-			{
-				m_faze = Action;
-			}
+			m_faze = Action;
 		}
-		m_force.y = 0.2f;
-		m_rot.y += roop;
+		else
+		{
+			m_force.y = 0.2f;
+			m_rot.y += 5;
+		}
 		break;
 	case Action:
+		HP();
 		Shot();
 		break;
 	case Attack:
@@ -137,14 +143,14 @@ void Bat::Appearance()
 	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
 
 	// 爆発のテクスチャとアニメーション情報を渡す
-	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/BatEffect.png"), 5.0f, 5, 3, (float)(rand() % 360), 1.1f);
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/Effect/BatEffect.png"), 5.0f, 5, 3, (float)(rand() % 360), 1.1f);
 	// 場所を自分の位置に合わせる
 
 	Matrix m;
 	Vector3 v;
 	v.x = m_pos.x;
-	v.y = m_pos.y+0.5;
-	v.z = m_pos.z+0.1;
+	v.y = m_pos.y + 0.5;
+	v.z = m_pos.z + 0.1;
 
 	m.CreateTranslation(v);
 
@@ -189,7 +195,7 @@ void Bat::Move()
 
 	}
 
-	if (m_pos.y>3)
+	if (m_pos.y > 3)
 	{
 		Vector3 vec;
 		vec.x = WingR->m_localTransform.GetTranslation().x;
@@ -220,9 +226,111 @@ void Bat::Move()
 
 }
 
-void Bat::Targetting()
+void Bat::HP()
 {
+	if (m_Hp >= 1)
+	{
+		// 1///////////////////////////////////////////////////////////////////////////////////////////
+		// アニメーションエフェクトをインスタンス化
+		std::shared_ptr<FixedTexture> one = std::make_shared<FixedTexture>();
 
+		// 爆発のテクスチャとアニメーション情報を渡す
+		one->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/One.png"), 1.0f, 0);
+		// 場所を自分の位置に合わせる
+
+		Matrix m1;
+		Vector3 v1;
+
+		v1 = m_mWorld.GetAxisX();
+		v1.x += m_pos.x;
+		v1.y += m_pos.y + 0.5;
+		v1.z += m_pos.z;
+
+		m1.CreateTranslation(v1);
+
+		one->SetMatrix(m1);
+
+		// リストに追加
+		Scene::GetInstance().AddObject(one);
+
+		if (m_Hp >= 2)
+		{
+			// 2///////////////////////////////////////////////////////////////////////////////////////////
+			// アニメーションエフェクトをインスタンス化
+			std::shared_ptr<FixedTexture> two = std::make_shared<FixedTexture>();
+
+			// 爆発のテクスチャとアニメーション情報を渡す
+			two->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/two.png"), 1.0f, 0);
+			// 場所を自分の位置に合わせる
+
+			Matrix m2;
+			Vector3 v2;
+
+			v2 = -m_mWorld.GetAxisX();
+			v2.x += m_pos.x;
+			v2.y += m_pos.y + 0.5;
+			v2.z += m_pos.z;
+
+			m2.CreateTranslation(v2);
+
+			two->SetMatrix(m2);
+
+			// リストに追加
+			Scene::GetInstance().AddObject(two);
+
+			if (m_Hp >= 3)
+			{
+				// 3///////////////////////////////////////////////////////////////////////////////////////////
+				// アニメーションエフェクトをインスタンス化
+				std::shared_ptr<FixedTexture> three = std::make_shared<FixedTexture>();
+
+				// 爆発のテクスチャとアニメーション情報を渡す
+				three->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/Three.png"), 1.0f, 0);
+				// 場所を自分の位置に合わせる
+
+				Matrix m3;
+				Vector3 v3;
+
+				v3 = m_mWorld.GetAxisX();
+				v3.x += m_pos.x;
+				v3.y += m_pos.y - 0.5;
+				v3.z += m_pos.z;
+
+				m3.CreateTranslation(v3);
+
+				three->SetMatrix(m3);
+
+				// リストに追加
+				Scene::GetInstance().AddObject(three);
+
+				if (m_Hp >= 4)
+				{
+					// 4///////////////////////////////////////////////////////////////////////////////////////////
+					// アニメーションエフェクトをインスタンス化
+					std::shared_ptr<FixedTexture> Four = std::make_shared<FixedTexture>();
+
+					// 爆発のテクスチャとアニメーション情報を渡す
+					Four->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/Four.png"), 1.0f, 0);
+					// 場所を自分の位置に合わせる
+
+					Matrix m4;
+					Vector3 v4;
+
+					v4 = -m_mWorld.GetAxisX();
+					v4.x += m_pos.x;
+					v4.y += m_pos.y - 0.5;
+					v4.z += m_pos.z;
+
+					m4.CreateTranslation(v4);
+
+					Four->SetMatrix(m4);
+
+					// リストに追加
+					Scene::GetInstance().AddObject(Four);
+				}
+			}
+		}
+	}
 }
 
 void Bat::Shot()

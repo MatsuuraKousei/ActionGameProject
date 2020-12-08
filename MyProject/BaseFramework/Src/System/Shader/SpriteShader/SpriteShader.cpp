@@ -11,9 +11,9 @@ bool SpriteShader::Init()
 	//-------------------------------------
 	{
 		// コンパイル済みのシェーダーヘッダーファイルをインクルード
-		#include "SpriteShader_VS.inc"
+#include "SpriteShader_VS.inc"
 
-		// 頂点シェーダー作成
+// 頂点シェーダー作成
 		if (FAILED(D3D.GetDev()->CreateVertexShader(compiledBuffer, sizeof(compiledBuffer), nullptr, &m_VS))) {
 			assert(0 && "頂点シェーダー作成失敗");
 			Release();
@@ -33,7 +33,7 @@ bool SpriteShader::Init()
 			compiledBuffer,
 			sizeof(compiledBuffer),
 			&m_VLayout))
-		){
+			) {
 			assert(0 && "CreateInputLayout失敗");
 			Release();
 			return false;
@@ -45,7 +45,7 @@ bool SpriteShader::Init()
 	//-------------------------------------
 	{
 		// コンパイル済みのシェーダーヘッダーファイルをインクルード
-		#include "SpriteShader_PS.inc"
+#include "SpriteShader_PS.inc"
 
 		if (FAILED(D3D.GetDev()->CreatePixelShader(compiledBuffer, sizeof(compiledBuffer), nullptr, &m_PS))) {
 			assert(0 && "ピクセルシェーダー作成失敗");
@@ -171,7 +171,7 @@ void SpriteShader::End()
 	SafeRelease(m_saveState.Smp0);
 }
 
-void SpriteShader::DrawTex(const Texture* tex, int x, int y, int w, int h, const Math::Rectangle* srcRect, const Math::Color* color, const Math::Vector2& pivot)
+void SpriteShader::DrawTex(const Texture* tex, int x, int y, int w, int h, float size, const Math::Rectangle* srcRect, const Math::Color* color, const Math::Vector2& pivot)
 {
 	if (tex == nullptr)return;
 
@@ -213,10 +213,10 @@ void SpriteShader::DrawTex(const Texture* tex, int x, int y, int w, int h, const
 	y2 -= pivot.y * h;
 
 	Vertex vertex[] = {
-		{ {x1, y1, 0},	{uvMin.x, uvMax.y} },
-		{ {x1, y2, 0},	{uvMin.x, uvMin.y} },
-		{ {x2, y1, 0},	{uvMax.x, uvMax.y} },
-		{ {x2, y2, 0},	{uvMax.x, uvMin.y} }
+		{ {x1 * (float)size, y1 * (float)size, 0},	{uvMin.x, uvMax.y} },
+		{ {x1 * (float)size, y2 * (float)size, 0},	{uvMin.x, uvMin.y} },
+		{ {x2 * (float)size, y1 * (float)size, 0},	{uvMax.x, uvMax.y} },
+		{ {x2 * (float)size, y2 * (float)size, 0},	{uvMax.x, uvMin.y} }
 
 	};
 
@@ -347,13 +347,13 @@ void SpriteShader::DrawCircle(int x, int y, int radius, const Math::Color* color
 			vertex[idx].Pos.x = (float)x;
 			vertex[idx].Pos.y = (float)y;
 
-			vertex[idx+1].Pos.x = x + cos(DirectX::XMConvertToRadians(i * (360.0f / (faceNum - 1)))) * (float)radius;
-			vertex[idx+1].Pos.y = y + sin(DirectX::XMConvertToRadians(i * (360.0f / (faceNum - 1)))) * (float)radius;
-			vertex[idx+1].Pos.z = 0;
+			vertex[idx + 1].Pos.x = x + cos(DirectX::XMConvertToRadians(i * (360.0f / (faceNum - 1)))) * (float)radius;
+			vertex[idx + 1].Pos.y = y + sin(DirectX::XMConvertToRadians(i * (360.0f / (faceNum - 1)))) * (float)radius;
+			vertex[idx + 1].Pos.z = 0;
 
-			vertex[idx+2].Pos.x = x + cos(DirectX::XMConvertToRadians((i+1) * (360.0f / (faceNum - 1)))) * (float)radius;
-			vertex[idx+2].Pos.y = y + sin(DirectX::XMConvertToRadians((i+1) * (360.0f / (faceNum - 1)))) * (float)radius;
-			vertex[idx+2].Pos.z = 0;
+			vertex[idx + 2].Pos.x = x + cos(DirectX::XMConvertToRadians((i + 1) * (360.0f / (faceNum - 1)))) * (float)radius;
+			vertex[idx + 2].Pos.y = y + sin(DirectX::XMConvertToRadians((i + 1) * (360.0f / (faceNum - 1)))) * (float)radius;
+			vertex[idx + 2].Pos.z = 0;
 		}
 
 		D3D.DrawVertices(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST, (int)vertex.size(), &vertex[0], sizeof(Vertex));

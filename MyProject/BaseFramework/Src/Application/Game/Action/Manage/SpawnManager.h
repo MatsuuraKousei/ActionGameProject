@@ -8,12 +8,8 @@ public:
 	virtual void Deserialize(const json11::Json& jsonObj)override;		// 初期化
 	virtual void Update()override;										// 更新
 
-	static bool& GetActive()
-	{
-		static bool Active;
-		return Active;
-	}
-
+	
+	bool Respawn = false;
 private:
 	enum EnemyTag
 	{
@@ -26,7 +22,7 @@ private:
 
 	EnemyTag m_enemTag = EnemyTag::Tag_None;
 
-	Vector3	m_pos = {20,1,5};
+	Vector3	m_pos;
 
 	std::string			m_sNextStage;
 };

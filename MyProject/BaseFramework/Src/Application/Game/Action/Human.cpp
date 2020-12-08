@@ -11,6 +11,7 @@
 #include "../../Component/InputComponent.h"
 #include "../../Component/ModelComponent.h"
 #include"../AnimationEffect.h"
+#include"../FixedTexture.h"
 #include"ActionGameProcess.h"
 
 const float Human::s_allowToStepHeight = 0.8f;
@@ -58,7 +59,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	MaxRange.x = 250;
 	MaxRange.y = 100;
 	MaxRange.z = 250;
-	
+
 	m_Hp = 4;
 
 }
@@ -74,8 +75,8 @@ void Human::Update()
 	{
 		m_spInputComponent->Update();
 	}
-	
-	SwordUpdate(); 
+
+	SwordUpdate();
 	CrossbowUpdate();
 
 	//移動前の座標を覚える
@@ -196,7 +197,7 @@ void Human::Update()
 		if (m_damegeStayTime < 0)
 		{
 			m_damegeStayFlg = false;
-			m_damegeStayTime = 15;
+			m_damegeStayTime = 20.0f;
 		}
 	}
 
@@ -251,7 +252,7 @@ void Human::Update()
 	}
 
 
-	if (m_pos.y < -4.5)
+	if (m_pos.y < -2.5)
 	{
 		m_Hp--;
 		m_force.y = 0.3f;
@@ -308,7 +309,7 @@ void Human::SwordInit()
 {
 	m_spSword = std::make_shared<Sword>();
 
-	m_spSword->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sword.Json"));
+	//m_spSword->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sword.Json"));
 
 	m_spSword->SetOwner(shared_from_this());
 
@@ -329,7 +330,7 @@ void Human::SwordUpdate()
 		pos.y = ArmR->m_localTransform.GetTranslation().y;
 		pos.z = ArmR->m_localTransform.GetTranslation().z;
 
-		ArmR->m_localTransform.RotateX(0.01f);
+		//ArmR->m_localTransform.RotateX(0.01f);
 
 		ArmR->m_localTransform.SetTranslation(pos);
 
@@ -353,7 +354,10 @@ void Human::SwordUpdate()
 		mat.SetTranslation(vArmRHand);
 		m_spSword->SetMatrix(mat);
 	}
-
+	if (m_Hp < 0)
+	{
+		m_spSword->Destroy();
+	}
 }
 
 void Human::CrossbowInit()
@@ -386,7 +390,7 @@ void Human::CrossbowUpdate()
 			m_spCameraComponent->OffsetMatrix().RotateY(m_rot.y);
 		}
 
-		
+
 		IsSnipe() = true;
 	}
 
@@ -538,10 +542,13 @@ void Human::Lockon()
 		dirX += 2 * float(M_PI);
 	}
 
-	//m_spCameraComponent->OffsetMatrix().RotateZ(0.01f);
 	m_spCameraComponent->OffsetMatrix().RotateY(dirY);
 
-	
+	Vector3 CameraCompAxisX = m_spCameraComponent->OffsetMatrix().GetAxisX();
+
+	m_spCameraComponent->OffsetMatrix().RotateAxis(CameraCompAxisX, 0);
+
+	LockonPoint(Target->GetMatrix().GetTranslation());
 }
 
 //r_moveDir 移動方向
@@ -725,7 +732,9 @@ void Human::Damege()
 	SphereInfo info;
 	info.m_pos = m_pos;
 	info.m_radius = 1;
-
+	Debug::GetInstance().AddDebugSphereLine(
+		m_mWorld.GetTranslation(), info.m_radius, { 1.0f,0.0f,0.0f,1.0f }
+	);
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		//自分自身は無視
@@ -737,11 +746,7 @@ void Human::Damege()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
-			Debug::GetInstance().AddDebugSphereLine(
-				m_mWorld.GetTranslation(), info.m_radius, { 1.0f,0.0f,0.0f,1.0f }
-			);
-
-			Explosion(m_pos);
+			Explosion(Body->m_localTransform.GetTranslation() + m_pos);
 			m_Hp--;
 		}
 	}
@@ -750,10 +755,10 @@ void Human::Damege()
 void Human::LockonPoint(const Vector3& hitPos)
 {
 	// アニメーションエフェクトをインスタンス化
-	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+	std::shared_ptr<FixedTexture> effect = std::make_shared<FixedTexture>();
 
 	// 爆発のテクスチャとアニメーション情報を渡す
-	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Attack.png"), 5.0f, 5, 12, (float)(rand() % 360), 0.9f);
+	effect->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Battle/CenterPoint.png"), 0.3f, (float)(rand() % 360));
 
 	// 場所を自分の位置に合わせる
 	Matrix hitMat = m_mWorld;

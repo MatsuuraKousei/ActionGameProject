@@ -13,6 +13,13 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 
 	GameObject::Deserialize(jsonObj);
 
+	if (jsonObj["Pos"].is_array())
+	{
+		auto& p = jsonObj["Pos"].array_items();
+		m_pos = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+	}
+
+
 	if (jsonObj["EnemTag"].is_number())
 	{
 		int Tag = jsonObj["EnemTag"].number_value();
@@ -35,6 +42,8 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 			break;
 		}
 	}
+
+	
 }
 
 void SpawnManeger::Update()
@@ -43,12 +52,12 @@ void SpawnManeger::Update()
 
 	m_mWorld.SetTranslation(m_pos);
 
-
 	// 球情報の作成
 	SphereInfo info;
 	info.m_pos = m_mWorld.GetTranslation();
 	info.m_radius = 15;
 
+	Debug::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		// 自分自身を無視
@@ -60,8 +69,8 @@ void SpawnManeger::Update()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
-			if (GetActive()) { return; }
-			Debug::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
+			if (Respawn) { return; }
+			
 			auto m_spBoar = std::make_shared<Boar>();
 			auto m_spAlligator = std::make_shared<Alligator>();
 			auto m_spBat = std::make_shared<Bat>();
@@ -80,7 +89,7 @@ void SpawnManeger::Update()
 				m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spBoar);
-				GetActive() = true;
+				Respawn = true;
 				break;
 
 			case Tag_Alligator:
@@ -92,7 +101,7 @@ void SpawnManeger::Update()
 				m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spAlligator);
-				GetActive() = true;
+				Respawn = true;
 				break;
 
 			case Tag_Bat:
@@ -103,17 +112,21 @@ void SpawnManeger::Update()
 				m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
 
 				Scene::GetInstance().AddObject(m_spBat);
-				GetActive() = true;
+				Respawn = true;
 				break;
 			default:
 				break;
 			}
 		}
+		else
+		{
+			
+		}
 	}
 
 	if (m_enemTag == Tag_Eagle)
 	{
-		if (GetActive()) { return; }
+		//if (GetActive()) { return; }
 		auto m_spEagle = std::make_shared<Eagle>();
 		m_spEagle->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Eagle.json"));
 		m_spEagle->m_pos.x = m_mWorld.GetTranslation().x;
@@ -125,6 +138,6 @@ void SpawnManeger::Update()
 		m_spEagle->m_target.z = m_mWorld.GetTranslation().z;
 
 		Scene::GetInstance().AddObject(m_spEagle);
-		GetActive() = true;
+		//GetActive() = true;
 	}
 }

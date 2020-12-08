@@ -225,7 +225,6 @@ void Scene::Draw()
 	SHADER.m_effectShader.SetToDevice();
 
 
-
 	// 不透明物描画
 	SHADER.m_standardShader.SetToDevice();
 
@@ -286,22 +285,24 @@ void Scene::Draw()
 			}
 		}
 
-		// 終わったら元通りにする
-		// Zバッファ使用ON・書き込みON
-		D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
+		//D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
 
 
 		for (auto spObj : m_spObjects)
 		{
 			spObj->DrawEffect();
 		}
-	}
 
+		// 終わったら元通りにする
+		// Zバッファ使用ON・書き込みON
+		D3D.GetDevContext()->OMSetDepthStencilState(SHADER.m_ds_ZEnable_ZWriteEnable, 0);
+	}
 	// 全てのオブジェクトの2D描画を行う
 	for (auto obj : m_spObjects)
 	{
 		obj->Draw2D();
 	}
+
 }
 
 // シーンのロード

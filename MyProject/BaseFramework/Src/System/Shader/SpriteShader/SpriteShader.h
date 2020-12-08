@@ -57,23 +57,27 @@ public:
 	// ・y				… y座標(ピクセル)
 	// ・w				… w座標(ピクセル)
 	// ・h				… h座標(ピクセル)
+	// ・size			… 画像サイズ
 	// ・srcRect		… 元画像のRECT nullptrで全体
 	// ・color			… 色(RGBA) nullptrで色はセットしない(前回の描画時の色が使用される)
 	// ・pivot			… 基準点 0.0～1.0の範囲で指定する
-	void DrawTex(const Texture* tex, int x, int y, int w, int h, const Math::Rectangle* srcRect = nullptr, const Math::Color* color = &kWhiteColor, const Math::Vector2& pivot = { 0.5, 0.5f });
+	void DrawTex(const Texture* tex, int x, int y, int w, int h, float size, const Math::Rectangle* srcRect = nullptr, const Math::Color* color = &kWhiteColor, const Math::Vector2& pivot = { 0.5, 0.5f });
+
+	//void DrawTex(const Texture* tex, int x, int y, int w, int h, const Math::Rectangle* srcRect = nullptr, const Math::Color* color = &kWhiteColor, const Math::Vector2& pivot = { 0.5, 0.5f });
 
 	// 2D画像描画(Begin～End間で実行すると、処理効率が上がる)
 	// 幅と高さはtexの情報が使用される
 	// ・tex			… 描画するテクスチャ(Texture)
 	// ・x				… x座標(ピクセル)
 	// ・y				… y座標(ピクセル)
+	// ・size			… 画像サイズ
 	// ・srcRect		… 元画像のRECT
 	// ・color			… 色(RGBA)
 	// ・pivot			… 基準点 0.0～1.0の範囲で指定する
-	void DrawTex(const Texture* tex, int x, int y, const Math::Rectangle* srcRect = nullptr, const Math::Color* color = &kWhiteColor, const Math::Vector2& pivot = { 0.5, 0.5f })
+	void DrawTex(const Texture* tex, int x, int y, float size = 1, const Math::Rectangle* srcRect = nullptr, const Math::Color* color = &kWhiteColor, const Math::Vector2& pivot = { 0.5, 0.5f })
 	{
 		if (tex == nullptr)return;
-		DrawTex(tex, x, y, tex->GetInfo().Width, tex->GetInfo().Height, srcRect, color, pivot);
+		DrawTex(tex, x, y, tex->GetInfo().Width, tex->GetInfo().Height, size, srcRect, color, pivot);
 	}
 
 	// 点を描画
@@ -123,10 +127,10 @@ public:
 
 private:
 
-	ID3D11VertexShader*		m_VS = nullptr;				// 頂点シェーダー
-	ID3D11InputLayout*		m_VLayout = nullptr;		// 頂点レイアウト
+	ID3D11VertexShader* m_VS = nullptr;				// 頂点シェーダー
+	ID3D11InputLayout* m_VLayout = nullptr;		// 頂点レイアウト
 
-	ID3D11PixelShader*		m_PS = nullptr;				// ピクセルシェーダー
+	ID3D11PixelShader* m_PS = nullptr;				// ピクセルシェーダー
 
 	// 定数バッファ
 	struct cbSprite {
@@ -148,17 +152,17 @@ private:
 	Math::Matrix			m_mProj2D;
 
 	// 使用するステート
-	ID3D11DepthStencilState*	m_ds = nullptr;
-	ID3D11RasterizerState*		m_rs = nullptr;
-	ID3D11SamplerState*			m_smp0_Point = nullptr;
-	ID3D11SamplerState*			m_smp0_Linear = nullptr;
+	ID3D11DepthStencilState* m_ds = nullptr;
+	ID3D11RasterizerState* m_rs = nullptr;
+	ID3D11SamplerState* m_smp0_Point = nullptr;
+	ID3D11SamplerState* m_smp0_Linear = nullptr;
 
 	// ステート記憶/復元用
 	struct SaveState {
-		ID3D11DepthStencilState*	DS = nullptr;
-		ID3D11RasterizerState*		RS = nullptr;
+		ID3D11DepthStencilState* DS = nullptr;
+		ID3D11RasterizerState* RS = nullptr;
 		UINT						StencilRef = 0;
-		ID3D11SamplerState*			Smp0 = nullptr;
+		ID3D11SamplerState* Smp0 = nullptr;
 	};
 	SaveState					m_saveState;
 };

@@ -7,6 +7,8 @@ class Bat :public GameObject
 {
 public:
 
+	Bat();
+
 	virtual void Update()override;
 
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
@@ -27,7 +29,7 @@ private:
 
 	void Move();
 
-	void Targetting();
+	void HP();
 
 	void Shot();
 	

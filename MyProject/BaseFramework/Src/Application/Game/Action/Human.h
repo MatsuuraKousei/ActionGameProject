@@ -70,7 +70,7 @@ private:
 
 	void UpdateCollision();										// 当たり判定全般
 	bool CheckGround(float& rDstDistance);						// 地面との判定
-	Vector3 CheckBump(Vector3);											// 三角ポリゴンとの当たり判定
+	Vector3 CheckBump(Vector3);									// 三角ポリゴンとの当たり判定
 
 	void Damege();
 
@@ -89,7 +89,7 @@ private:
 	bool b = false;
 
 	bool m_damegeStayFlg = false;								// ダメージ受付
-	int m_damegeStayTime = 15.0f;								// ダメージ無敵時間
+	int m_damegeStayTime = 20.0f;								// ダメージ無敵時間
 
 	std::shared_ptr<CrossBow>	m_spCrossbow = nullptr;
 	std::shared_ptr<Sword>		m_spSword = nullptr;
