@@ -43,6 +43,8 @@ private:
 	std::shared_ptr<Texture> m_spClearTex;			// クリア
 	std::shared_ptr<Texture> m_spOverTex;			// オーバー
 	std::shared_ptr<Texture> m_spMotherHPTex;		// HPバー
+	std::shared_ptr<Texture> m_spWolfHPTex;			// WolfHPバー
+	std::shared_ptr<Texture> m_spBMotherHPTex;		// BossMotherHPバー
 	std::shared_ptr<Texture> m_spDiamond;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spHPTex[4];			// HPゲージ

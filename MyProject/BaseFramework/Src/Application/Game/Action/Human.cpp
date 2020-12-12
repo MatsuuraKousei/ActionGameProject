@@ -309,7 +309,7 @@ void Human::SwordInit()
 {
 	m_spSword = std::make_shared<Sword>();
 
-	//m_spSword->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sword.Json"));
+	m_spSword->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sword.Json"));
 
 	m_spSword->SetOwner(shared_from_this());
 

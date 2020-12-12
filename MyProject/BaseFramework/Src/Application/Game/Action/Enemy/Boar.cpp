@@ -101,7 +101,6 @@ void Boar::Move()
 				if (m_pos.y < -2)
 				{
 					m_alive = false;
-					
 				}
 			}
 		}

@@ -9,7 +9,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 {
 	// タイトルテクスチャ
 	m_spTitleTex = ResFac.GetTexture("Data/Textures/2DTexture/Title/Title.png");
-
+	m_spWolfHPTex = ResFac.GetTexture("Data/Textures/2DTexture/Enemy/BossHP/WolfLife.png");
+	m_spBMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/Enemy/BossHP/HPMother.png");
 	m_spEnterTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Fonts/Enter.png");
 	m_spSpaceTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Fonts/Space.png");
 
@@ -26,6 +27,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 	// UI用テクスチャの読み込み
 	m_spMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HPBer.png");
+
+	
 
 	m_spDiamond = ResFac.GetTexture("Data/Textures/2DTexture/UI/Jewelry/Diamond.png");
 	m_spDiaBack = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/Diamond.png");
@@ -84,7 +87,7 @@ void ActionGameProcess::Draw2D()
 	if (Scene::GetInstance().debug) { return; }
 	// 2D描画
 	SHADER.m_spriteShader.SetMatrix(m_mWorld);
-
+	
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
@@ -92,6 +95,8 @@ void ActionGameProcess::Draw2D()
 		{
 			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
 			SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
+			SHADER.m_spriteShader.DrawTex(m_spBMotherHPTex.get(), 0, 0);
+			SHADER.m_spriteShader.DrawTex(m_spWolfHPTex.get(), 0, 0);
 		}
 		break;
 	case FIELD:
@@ -103,11 +108,11 @@ void ActionGameProcess::Draw2D()
 		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
 
 		// 分母
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().MAXDia].get(), Dia.x + 500, Dia.y);
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().MAXDia].get(), Dia.x + 500, Dia.y);
 		//「/」
 		SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
 		// 分子
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[ActionGameProcess::GetInstance().getDia].get(), Dia.x + 400, Dia.y);
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400, Dia.y);
 
 		for (int i = 0; i < m_iPlayerHP; i++)
 		{
@@ -185,7 +190,7 @@ void ActionGameProcess::Update()
 			}
 		}
 
-		if (ActionGameProcess::GetInstance().m_getFlg)
+		if (GetInstance().m_getFlg)
 		{
 			ViewDiamond();
 		}
@@ -250,7 +255,7 @@ void ActionGameProcess::ViewDiamond()
 				Dia.x = 500;
 				m_UITimer = 30;
 				m_UIFlg = false;
-				ActionGameProcess::GetInstance().m_getFlg = false;
+				GetInstance().m_getFlg = false;
 			}
 		}
 	}

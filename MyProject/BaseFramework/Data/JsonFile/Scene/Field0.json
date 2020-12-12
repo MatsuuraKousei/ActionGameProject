@@ -78,14 +78,13 @@
     },
      {
       "ClassName": "Lift",
-      "Name": "NormalLift00",
-      "Tag":4,
-      "LiftTag":0,
+      "Name": "RotLift00",
+      "Tag":512,
       "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-      "Pos":[0,0,5],
+      "Pos":[0,0,0],
       "Scale": [ 0.5, 0.5, 0.5],
-      "ToGoal":[0,0,-2],
-      "Speed":0.01
+      "Rot":[0,90,0],
+      "RotSpeed":[0,0.01,0]
     },
     {
       "ClassName": "Lift",
