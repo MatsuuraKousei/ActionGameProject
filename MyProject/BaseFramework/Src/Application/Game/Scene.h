@@ -58,7 +58,7 @@ public:
 
 	bool							debug = false;
 
-	StageProcess					stageProcess = FIELD;
+	StageProcess					stageProcess = OPNING;
 
 	std::string						Opning;
 	std::string						Field;
@@ -95,7 +95,7 @@ private:
 	// ターゲットカメラ
 	std::weak_ptr<CameraComponent> m_wpTargetCamera;
 
-	
+
 
 
 

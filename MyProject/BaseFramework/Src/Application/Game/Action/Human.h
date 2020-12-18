@@ -20,6 +20,8 @@ public:
 
 	virtual void Update()override;								  // 更新
 
+	void DrawEffect() override;		// 透明物描画
+
 	void Explosion(const Vector3&);
 
 	//着地しているかどうか
@@ -62,7 +64,7 @@ private:
 	float m_rotateAngle = 10.0f;								// キャラクターの回転角度
 	Vector3 m_rot;												// ワールド行列上の回転角度
 
-	float m_gravity = 0.02f;									//重力の強さ
+	float m_gravity = 0.03f;									//重力の強さ
 	Vector3 m_force;											//キャラクターにかかる移動させる力(落下、跳躍、移動)
 
 	static const float s_allowToStepHeight;						// 歩いて乗り越えられる段差の高さ
@@ -79,6 +81,8 @@ private:
 	bool m_isObject;											// 着地しているかどうか
 	bool m_isWall;												// 壁に当たっているかどうか
 
+	bool m_bSword;
+
 	bool m_gravityFlg = true;
 
 	Vector3 moveVec;
@@ -92,15 +96,26 @@ private:
 	int m_damegeStayTime = 20.0f;								// ダメージ無敵時間
 
 	std::shared_ptr<CrossBow>	m_spCrossbow = nullptr;
+	std::shared_ptr<GameObject> m_spCBCamera = nullptr;
 	std::shared_ptr<Sword>		m_spSword = nullptr;
 
 	Model::Node* ArmL;
 	Model::Node* Body;
+	Model::Node* Head;
+
+	float						m_fswordInitAngle = 1.5f;
+	bool						m_bswordAttck = false;
 
 	std::shared_ptr<AnimationData>	m_spAnimation = nullptr;	//再生するアニメーションデータ
 	float	m_animationTime = 0.0f;								//再生中のアニメーション位置
 
+	std::vector<TrailPolygon>	m_swordTrail;	// 軌跡
+
+	float  m_fEffectTime = 10;
+
 	Vector3 MaxRange;
+
+	float m_fBodyInit;
 
 	Vector3 m_CameraTrans;
 

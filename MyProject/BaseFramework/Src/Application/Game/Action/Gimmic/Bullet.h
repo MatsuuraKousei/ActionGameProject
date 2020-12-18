@@ -9,7 +9,7 @@ public:
 	virtual void Deserialize(const json11::Json& jsonObj)override;		// 初期化
 	virtual void Update()override;										// 更新
 
-	void GetGimmicAngle(float);
+	void GetGimmicAngle(Vector3);
 
 	// 撃ったキャラクターを登録する
 	inline void SetOwner(const std::shared_ptr<GameObject>& spOwner) { m_wpOwner = spOwner; }
@@ -25,5 +25,5 @@ private:
 
 	int				m_lifeSpan = 0;
 	float			m_speed = 0.3f;
-	float           m_GimmicAngle;
+	Vector3         m_GimmicAngle;
 };

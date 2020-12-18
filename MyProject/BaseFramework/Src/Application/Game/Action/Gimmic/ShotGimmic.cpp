@@ -8,6 +8,12 @@ void ShotGimmic::Deserialize(const json11::Json& jsonObj)
 	if (jsonObj.is_null()) { return; }
 
 	GameObject::Deserialize(jsonObj);
+
+	if (jsonObj["Pos"].is_array())
+	{
+		auto& p = jsonObj["Pos"].array_items();
+		m_pos = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+	}
 }
 
 void ShotGimmic::Update()
@@ -18,7 +24,7 @@ void ShotGimmic::Update()
 	time--;
 	if (time < 0)
 	{
-		BulletBorn();
+		//BulletBorn();
 		time = 1;
 	}
 
@@ -40,7 +46,7 @@ void ShotGimmic::BulletBorn()
 
 	m_spBullet->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bullet.json"));
 
-	m_spBullet->GetGimmicAngle(m_rot.y);
+	m_spBullet->GetGimmicAngle(m_mWorld.GetAxisZ());
 
 	m_spBullet->SetMatrix(m_mWorld);
 

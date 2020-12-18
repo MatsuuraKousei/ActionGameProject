@@ -72,7 +72,7 @@
       <AdditionalOptions>/nodefaultlib:"LIBCMT"
 
  %(AdditionalOptions)</AdditionalOptions>
-      <OutputFile>$(OutDir)Hunter's Adventure$(TargetExt)</OutputFile>
+      <OutputFile>Debug/Hunter's Adventure.exe</OutputFile>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -116,7 +116,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)Hunter's Adventure$(TargetExt)</OutputFile>
+      <OutputFile>Debug/Hunter's Adventure.exe</OutputFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -167,7 +167,9 @@
     <ClInclude Include="Src\Application\Game\Action\Enemy\Eagle.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Wolf.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Bullet.h" />
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Door.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\ShotGimmic.h" />
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Target.h" />
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
     <ClInclude Include="Src\Application\Game\Action\Item.h" />
     <ClInclude Include="Src\Application\Game\Action\Lift.h" />
@@ -230,7 +232,9 @@
     <ClCompile Include="Src\Application\Game\Action\Enemy\Eagle.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Wolf.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Bullet.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Door.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\ShotGimmic.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Target.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Item.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Lift.cpp" />

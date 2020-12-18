@@ -23,6 +23,7 @@ private:
 	EnemyTag m_enemTag = EnemyTag::Tag_None;
 
 	Vector3	m_pos;
+	Vector3	m_rot;
 
 	std::string			m_sNextStage;
 };

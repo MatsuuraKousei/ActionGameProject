@@ -31,7 +31,7 @@
       "ClassName": "GameObject",
       "Name": "Player",
       "Tag":4,
-      "ModelFileName": "Data/Textures/3DTexture/Human/HumanLaser.gltf",
+      "ModelFileName": "Data/Textures/3DTexture/Player/Lobo.gltf",
       "Pos":[0,-8.6,-3],
       "Scale": [ 1, 1, 1 ],
       "Rot":[ 0 , 180 , 0 ]

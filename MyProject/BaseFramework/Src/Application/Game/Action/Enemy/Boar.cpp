@@ -1,7 +1,13 @@
 ﻿#include "Boar.h"
 #include"../Human.h"
 #include "../../Scene.h"
+#include"../../FixedTexture.h"
 #include"../Manage/SpawnManager.h"
+
+Boar::Boar()
+{
+	m_Hp = 3;
+}
 
 void Boar::Update()
 {
@@ -14,17 +20,19 @@ void Boar::Update()
 	{
 	case Default:
 		m_force.y = 0.1f;
-		if (m_pos.y > 1)
+		if (m_pos.y > 4)
 		{
-			m_pos.y = 1;
+			m_pos.y = 4;
 			m_faze = Action;
 		}
 		break;
 	case Action:
 		Snipe();
+		Hp();
 		break;
 	case Attack:
 		Move();
+		Hp();
 		break;
 	}
 
@@ -217,4 +225,85 @@ void Boar::VectorMove(Matrix mat)
 	rotateRadian = std::clamp(rotateRadian, -m_rotateAngle * Radians, m_rotateAngle * Radians);
 
 	m_rot.y += rotateRadian;
+}
+
+void Boar::Hp()
+{
+	if (m_Hp >= 1)
+	{
+		// 1///////////////////////////////////////////////////////////////////////////////////////////
+		// アニメーションエフェクトをインスタンス化
+		std::shared_ptr<FixedTexture> one = std::make_shared<FixedTexture>();
+
+		// 爆発のテクスチャとアニメーション情報を渡す
+		one->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/HP.png"), 0.5f, 0);
+		// 場所を自分の位置に合わせる
+
+		Matrix m1;
+		Vector3 v1;
+
+		//v1 = m_mWorld.GetAxisX();
+		v1.x += m_pos.x;
+		v1.y += m_pos.y - 0.5;
+		v1.z += m_pos.z;
+
+		m1.CreateTranslation(v1);
+
+		one->SetMatrix(m1);
+
+		// リストに追加
+		Scene::GetInstance().AddObject(one);
+
+		if (m_Hp >= 2)
+		{
+			// 2///////////////////////////////////////////////////////////////////////////////////////////
+			// アニメーションエフェクトをインスタンス化
+			std::shared_ptr<FixedTexture> two = std::make_shared<FixedTexture>();
+
+			// 爆発のテクスチャとアニメーション情報を渡す
+			two->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/HP.png"), 0.5f, 0);
+			// 場所を自分の位置に合わせる
+
+			Matrix m2;
+			Vector3 v2;
+
+			//v2 = -m_mWorld.GetAxisX();
+			v2.x += m_pos.x + 0.7;
+			v2.y += m_pos.y - 0.5;
+			v2.z += m_pos.z;
+
+			m2.CreateTranslation(v2);
+
+			two->SetMatrix(m2);
+
+			// リストに追加
+			Scene::GetInstance().AddObject(two);
+
+			if (m_Hp >= 3)
+			{
+				// 3///////////////////////////////////////////////////////////////////////////////////////////
+				// アニメーションエフェクトをインスタンス化
+				std::shared_ptr<FixedTexture> three = std::make_shared<FixedTexture>();
+
+				// 爆発のテクスチャとアニメーション情報を渡す
+				three->SetInfo(ResFac.GetTexture("Data/Textures/2DTexture/Enemy/NormalHP/HP.png"), 0.5f, 0);
+				// 場所を自分の位置に合わせる
+
+				Matrix m3;
+				Vector3 v3;
+
+				//v3 = m_mWorld.GetAxisX();
+				v3.x += m_pos.x - 0.7;
+				v3.y += m_pos.y - 0.5;
+				v3.z += m_pos.z;
+
+				m3.CreateTranslation(v3);
+
+				three->SetMatrix(m3);
+
+				// リストに追加
+				Scene::GetInstance().AddObject(three);
+			}
+		}
+	}
 }

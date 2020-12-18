@@ -12,11 +12,9 @@
 #include"Action/Enemy/Alligator.h"
 #include"Action/Enemy/Eagle.h"
 #include"Action/Enemy/Bat.h"
-#include"Action/Enemy/BatBullet.h"
+#include"Action/Gimmic/Target.h"
 #include"Action/Item.h"
-#include"Action/Weapon/Sword.h"
 #include "Action/Gimmic/ShotGimmic.h"
-#include "Action/Gimmic/Bullet.h"
 
 // コンストラクタ
 GameObject::GameObject()
@@ -303,19 +301,14 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 		return std::make_shared<ShotGimmic>();
 	}
 
-	if (name == "Bullet")
-	{
-		return std::make_shared<Bullet>();
-	}
-
-	if (name == "Sword")
-	{
-		return std::make_shared<Sword>();
-	}
-
 	if (name == "Lift")
 	{
 		return std::make_shared<Lift>();
+	}
+
+	if (name == "Target")
+	{
+		return std::make_shared<Target>();
 	}
 
 	if (name == "Item")
@@ -341,11 +334,6 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Bat")
 	{
 		return std::make_shared<Bat>();
-	}
-
-	if (name == "BatBullet")
-	{
-		return std::make_shared<BatBullet>();
 	}
 
 	if (name == "Human")

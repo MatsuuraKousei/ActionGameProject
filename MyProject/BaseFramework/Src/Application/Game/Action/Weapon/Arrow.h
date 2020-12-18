@@ -16,14 +16,14 @@ public:
 private:
 	void CheckBump();
 	void Collision();
-
+	void Explosion(const Vector3& hitPos);
 
 	std::weak_ptr<GameObject>	m_wpOwner;				// 発射したオーナーオブジェクト
 	Vector3						m_force;				//キャラクターにかかる移動させる力(落下、跳躍、移動)
 	Vector3						m_prevPos;				// 1フレーム前の座標
 	int							m_lifeSpan = 90;
-	float						m_speed = 0.3f;
+	float						m_speed = 0.2f;
 	Vector3						m_Axiz;
-	float						m_gravity = 0.01f;		//重力の強さ
+	float						m_gravity = 0.00f;		//重力の強さ
 	bool						m_stop = false;;
 };

@@ -5,6 +5,7 @@
 class Boar :public GameObject
 {
 public:
+	Boar();
 
 	virtual void Update()override;
 
@@ -28,6 +29,8 @@ private:
 	void UpdateCollision();
 
 	void VectorMove(Matrix);
+
+	void Hp();
 
 	float						m_rotateAngle = 4.0f;				//キャラクターの回転角度
 	

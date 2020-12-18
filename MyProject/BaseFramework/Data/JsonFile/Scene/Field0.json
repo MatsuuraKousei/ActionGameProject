@@ -15,18 +15,45 @@
     },
     {
       "ClassName": "GameObject",
-      "Name": "Water",
+      "Name": "Black",
       "Tag":256,
       "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
-      "Pos":[0,-2,0],
+      "Pos":[0,0,0],
       "Rot":[0,0,0],
       "Scale": [ 1000, 1000, 1000 ]
     },
     {
       "ClassName": "GameObject",
+      "Name": "ManualMove",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Manual/Move.gltf",
+      "Pos":[8,5,35.5],
+      "Rot":[0,90,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "ManualShot",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Manual/Shot.gltf",
+      "Pos":[-8,5,35.5],
+      "Rot":[0,90,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "ManualSword",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Manual/Sword.gltf",
+      "Pos":[0,5,35.5],
+      "Rot":[0,90,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
       "Name": "Map",
       "Tag":4,
-      "ModelFileName":"Data/Textures/3DTexture/Map/Map1/Map1.gltf",
+      "ModelFileName":"Data/Textures/3DTexture/Map/DungenMap/Dungen.gltf",
       "Pos":[0,0,0],
       "Rot":[0,0,0],
       "Scale": [ 0.8, 0.8, 0.8]
@@ -54,29 +81,43 @@
      "Name": "Jewelry",
      "Tag":1,
      "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
-     "Pos":[-80,1,-30],
+     "Pos":[17,4,10.2],
      "Rot":[ 0 , 0 , 0 ],
      "Scale": [ 1, 1, 1]
     },
     {
-     "ClassName": "Item",
-     "Name": "Jewelry",
+     "ClassName": "ShotGimmic",
+     "Name": "Shot",
      "Tag":1,
-     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
-     "Pos":[93,0,95],
+     "ModelFileName":"Data/Textures/3DTexture/Gimmic/Dia.gltf",
+     "Pos":[16,4,-2],
      "Rot":[ 0 , 0 , 0 ],
      "Scale": [ 1, 1, 1]
     },
     {
-     "ClassName": "Item",
-     "Name": "Jewelry",
-     "Tag":1,
-     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
-     "Pos":[39,0,-15],
+     "ClassName": "Target",
+     "Name": "Target",
+     "Tag":16,
+     "ModelFileName":"Data/Textures/3DTexture/Gimmic/Target/Target.gltf",
+     "Pos":[-35.5,4,33.14],
      "Rot":[ 0 , 0 , 0 ],
-     "Scale": [ 1, 1, 1]
+     "Scale": [ 1, 1, 1],
+     "DoorNum":1,
+     "Door0":[-25,3.5,28.3]
     },
      {
+     "ClassName": "Target",
+     "Name": "Target2",
+     "Tag":16,
+     "ModelFileName":"Data/Textures/3DTexture/Gimmic/Target/Target.gltf",
+     "Pos":[-24.8,4,-14.4],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1],
+     "DoorNum":1,
+     "Door0":[-26,3.5,-14.5],
+     "DoorAngle0":[0,1.55,0]
+    },
+    {
       "ClassName": "Lift",
       "Name": "RotLift00",
       "Tag":512,
@@ -92,39 +133,138 @@
       "Tag":4,
       "LiftTag":0,
       "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-      "Pos":[24.6,-0.38,-14.45],
-      "Scale": [ 0.5, 0.5, 0.5],
-      "ToGoal":[29.9,-0.38,-14.45],
+      "Pos":[10,3.5,10],
+      "Scale": [ 0.6, 0.6, 0.6],
+      "ToGoal":[10,0,10],
       "Speed":0.01
     },
     {
       "ClassName": "Lift",
-      "Name": "NormalLift00",
+      "Name": "NormalLift01",
       "Tag":4,
       "LiftTag":0,
       "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-      "Pos":[-84,-0.49,14],
-      "Scale": [ 0.5, 0.5, 0.5],
-      "ToGoal":[-76,-0.49,14],
+      "Pos":[13.5,3.5,10],
+      "Scale": [ 0.6, 0.6, 0.6],
+      "ToGoal":[13.5,0,10],
       "Speed":0.01
     },
     {
      "ClassName": "Lift",
-     "Name": "NormalLift01",
+     "Name": "NormalLift02",
      "Tag":4,
      "LiftTag":0,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-     "Pos":[-79,-0.49,16.5],
-     "Scale": [ 0.5, 0.5, 0.5],
-     "ToGoal":[-83,-0.49,16.5],
+     "Pos":[6,3.2,-1.9],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-0,3.2,-1.9],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift03",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-8.5,3.2,-21],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-8.5,0,-21],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift04",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-20,3.2,-21],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-20,0,-21],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift05",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-20,3.2,-9],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-20,0,-9],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift06",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-8.5,3.2,-9],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-8.5,0,-9],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift07",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-14.3,3.2,-15],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-14.3,0,-15],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift08",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-8.5,0,-15],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-8.5,3.2,-15],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift09",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-14.3,0,-21],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-14.3,3.2,-21],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift10",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-20,0,-15],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-20,3.2,-15],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift11",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[-14.3,0,-9],
+     "Scale": [ 1, 1, 1],
+     "ToGoal":[-14.3,3.2,-9],
      "Speed":0.01
     },
     {
       "ClassName": "Human",
       "Name": "Player",
       "Tag":2,
-      "ModelFileName": "Data/Textures/3DTexture/Human/HumanLaser.gltf",
-      "Pos":[103,0,52],
+      "ModelFileName": "Data/Textures/3DTexture/Player/Lobo.gltf",
+      "Pos":[8,5,26],
       "Scale": [ 1, 1, 1 ],
       "Rot":[ 0 , 90 , 0 ]
     },
@@ -132,15 +272,15 @@
      "ClassName": "SpawnManage",
      "Name": "RespwanPos",
      "Tag":0,
-     "EnemTag":1,
-     "Pos":[20,1,5]
+     "EnemTag":0,
+     "Pos":[-9,5.7,10]
     },
     {
      "ClassName": "SpawnManage",
      "Name": "RespwanPos",
      "Tag":0,
      "EnemTag":1,
-     "Pos":[100,1,-20]
+     "Pos":[5.5,3.7,-7]
     },
     {
      "ClassName": "SpawnManage",
@@ -153,14 +293,51 @@
      "ClassName": "SpawnManage",
      "Name": "RespwanPos",
      "Tag":0,
+     "EnemTag":0,
+     "Pos":[-22.3,3.7,-25.4]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":0,
+     "Pos":[-4.2,3.7,-3.5]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
      "EnemTag":1,
-     "Pos":[20,1,-30]
+     "Pos":[-14.3,3.2,-15]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":1,
+     "Pos":[-14.3,3.2,-9]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":1,
+     "Pos":[-14.3,3.2,-21]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Map",
+      "Tag":4,
+      "ModelFileName":"Data/Textures/3DTexture/Map/GameClear/GameClear.gltf",
+      "Pos":[-45,13,-14],
+      "Rot":[0,-90,0],
+      "Scale": [ 1.0, 1.0, 1.0]
     },
     {
      "ClassName": "SceneManage",
      "Name": "Goal",
      "Tag":0,
-     "Pos":[ -70,1,-19.2 ],
+     "Pos":[ -34,3,-14 ],
      "NextScene":"Data/JsonFile/Scene/Clear.json"
     }
   ]

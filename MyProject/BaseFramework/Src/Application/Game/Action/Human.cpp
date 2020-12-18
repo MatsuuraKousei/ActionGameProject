@@ -30,7 +30,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	if (m_spCameraComponent)
 	{
 		m_CameraTrans.x = 0.0f;
-		m_CameraTrans.y = 2.5f;
+		m_CameraTrans.y = 2.5;
 		m_CameraTrans.z = -5.0f;
 
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
@@ -46,15 +46,16 @@ void Human::Deserialize(const json11::Json& jsonObj)
 
 	if (m_spModelComponent)
 	{
-		//再生するアニメーションデータを保持しとく
-		m_spAnimation = m_spModelComponent->GetAnimation("Stand");
-
 		ArmL = m_spModelComponent->FileNode("Arm.L");
 		Body = m_spModelComponent->FileNode("Body");
+		Head = m_spModelComponent->FileNode("Head");
 	}
+
 
 	SwordInit();
 	CrossbowInit();
+
+	IsSnipe() = false;
 
 	MaxRange.x = 250;
 	MaxRange.y = 100;
@@ -167,21 +168,13 @@ void Human::Update()
 
 
 	//ワールド行列の合成する
-	if (!IsSnipe())
-	{
-		m_mWorld.CreateRotationX(m_rot.x);
-		m_mWorld.RotateY(m_rot.y);
-		m_mWorld.RotateZ(m_rot.z);
-		m_mWorld.Move(m_pos);
-	}
-	else
-	{
-		Vector3 vec;
-		vec = m_spCameraComponent->GetCameraMatrix().GetAngles();
 
-		m_mWorld.CreateRotationY(vec.y);
-		m_mWorld.Move(m_pos);
-	}
+	m_mWorld.CreateRotationX(m_rot.x);
+	m_mWorld.RotateY(m_rot.y);
+	m_mWorld.RotateZ(m_rot.z);
+	m_mWorld.Move(m_pos);
+
+
 
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
@@ -211,52 +204,32 @@ void Human::Update()
 
 	if (m_alive)
 	{
-		//アニメーションの更新
-		if (m_spAnimation && m_spModelComponent)
-		{
-			auto& rModelNode = m_spModelComponent->GetChangebleNodes();
 
-			//全てのアニメーションノード（モデルの行列を補完する情報）の行列補間を実行する
-			for (auto& rAnimNode : m_spAnimation->m_nodes)
-			{
-				//対応するモデルノードのインデックス
-				UINT idx = rAnimNode.m_nodeOffset;
-
-				//対応するモデルノードの行列補完を実行
-
-				//クォーターニオンによる回転補間
-				Matrix rotate;
-				Quaternion resultQuat;
-				if (rAnimNode.InterpolateRotations(resultQuat, m_animationTime))
-				{
-					rotate.CreateFromQuaternion(resultQuat);
-				}
-
-				//ベクターによる座標補間
-				Matrix trans;
-				Vector3 resultVec;
-				if (rAnimNode.InterpolateTranslations(resultVec, m_animationTime))
-				{
-					trans.CreateTranslation(resultVec);
-				}
-
-				rModelNode[idx].m_localTransform = rotate * trans;
-			}
-
-			//アニメーションのフレームを１フレーム進める
-			m_animationTime += 1.0f;
-
-			//アニメーションデータの最後のフレームを超えたらアニメーションの最初に戻る（ループさせる
-			if (m_animationTime >= m_spAnimation->m_maxLength) { m_animationTime = 0.0f; }
-		}
 	}
 
 
 	if (m_pos.y < -2.5)
 	{
-		m_Hp--;
-		m_force.y = 0.3f;
+		m_Hp = 0;
+
 	}
+}
+
+void Human::DrawEffect()
+{
+	D3D.GetDevContext()->OMSetBlendState(SHADER.m_bs_Add, Math::Color(0, 0, 0, 0), 0xFFFFFFFF);
+	SHADER.m_effectShader.SetWorldMatrix(Matrix());
+	SHADER.m_effectShader.WriteToCB();
+
+	//m_propTrail.DrawStrip();
+
+	// プロペラの軌跡の描画
+	for (UINT i = 0; i < m_swordTrail.size(); i++)
+	{
+		m_swordTrail[i].DrawStrip();
+	}
+
+	D3D.GetDevContext()->OMSetBlendState(SHADER.m_bs_Alpha, Math::Color(0, 0, 0, 0), 0xFFFFFFFF);
 }
 
 void Human::UpdateMove()
@@ -283,16 +256,6 @@ void Human::UpdateMove()
 	//キャラクターの回転処理
 	UpdateRotate(moveVec);
 
-	//ダッシュ
-	if (m_spInputComponent->GetButton(Input::L1) & m_spInputComponent->STAY && m_isGround)
-	{
-		m_moveSpeed = 0.35f;
-	}
-	else
-	{
-		m_moveSpeed = 0.2f;
-	}
-
 	moveVec *= m_moveSpeed;
 
 	m_force.x = moveVec.x;
@@ -313,51 +276,107 @@ void Human::SwordInit()
 
 	m_spSword->SetOwner(shared_from_this());
 
+	m_spSword->SetMatrix(m_mWorld);
+
+	m_fBodyInit = Body->m_localTransform.GetAngles().y;
+
 	Scene::GetInstance().AddObject(m_spSword);
 }
 
 void Human::SwordUpdate()
 {
-	Vector3 vArmRHand;
-
-	Model::Node* ArmR = m_spModelComponent->FileNode("Arm.R");
-	Model::Node* HandR = m_spModelComponent->FileNode("Hand.R");
-
-	if (ArmR)
+	if (!m_bSword)
 	{
-		Vector3 pos;
-		pos.x = ArmR->m_localTransform.GetTranslation().x;
-		pos.y = ArmR->m_localTransform.GetTranslation().y;
-		pos.z = ArmR->m_localTransform.GetTranslation().z;
-
-		//ArmR->m_localTransform.RotateX(0.01f);
-
-		ArmR->m_localTransform.SetTranslation(pos);
-
-		Matrix armmat;
-		armmat.CreateRotationX(ArmR->m_localTransform.GetAxisZ().x);
-
-		HandR->m_localTransform.SetTranslation(armmat.GetTranslation());
-
-		Vector3 pos2;
-		pos2.x = HandR->m_localTransform.GetTranslation().x;
-		pos2.y = HandR->m_localTransform.GetTranslation().y;
-		pos2.z = HandR->m_localTransform.GetTranslation().z;
-
-
 		Matrix mat;
-		vArmRHand.x += m_pos.x;
-		vArmRHand.y += m_pos.y;
-		vArmRHand.z += m_pos.z;
 
-		vArmRHand += pos2;
-		mat.SetTranslation(vArmRHand);
+		Vector3 vec;
+
+		vec.x = m_mWorld.GetTranslation().x + Body->m_localTransform.GetTranslation().x;
+		vec.y = m_mWorld.GetTranslation().y + Body->m_localTransform.GetTranslation().y;
+		vec.z = m_mWorld.GetTranslation().z + Body->m_localTransform.GetTranslation().z;
+
+
+		mat.RotateX(4.72);
+		mat.RotateY(m_rot.y);
+		mat.SetTranslation(vec);
+
 		m_spSword->SetMatrix(mat);
 	}
-	if (m_Hp < 0)
+
+	if (IsSnipe()) { return; }
+
+	if (m_spInputComponent->GetButton(Input::Buttons::L1) & m_spInputComponent->ENTER)
 	{
-		m_spSword->Destroy();
+		if (!m_bSword)
+		{
+			m_bSword = true;
+		}
+		else
+		{
+			m_bSword = false;
+		}
 	}
+
+	if (m_bSword)
+	{
+		// 配列数のセット
+		m_swordTrail.resize(1);
+		// 画像のセット
+		for (UINT i = 0; i < m_swordTrail.size(); i++)
+		{
+			m_swordTrail[i].SetTexture(ResFac.GetTexture("Data/Textures/2DTexture/Effect/sabelline.png"));
+		}
+
+		if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->STAY)
+		{
+			if (m_fswordInitAngle > 1.7)
+			{
+				m_fswordInitAngle -= 0.3f;
+				Body->m_localTransform.RotateY(m_fswordInitAngle);
+				
+			}
+		}
+		if (m_spInputComponent->GetButton(Input::Buttons::X) & m_spInputComponent->STAY)
+		{
+			if (m_fswordInitAngle < 4.7)
+			{
+				m_fswordInitAngle += 0.3f;
+				Body->m_localTransform.RotateY(m_fswordInitAngle);
+			
+			}
+		}
+
+		Matrix mat;
+		mat.RotateX(4.72);
+		mat.RotateY(m_rot.y + m_fswordInitAngle);
+		mat.SetTranslation(Body->m_localTransform.GetTranslation() + m_mWorld.GetTranslation());
+
+		m_spSword->SetMatrix(mat);
+
+		// エフェクト
+		for (UINT i = 0; i < m_swordTrail.size(); i++)
+		{
+			Matrix swordOuterMat;
+			// そこからY軸へ少しずらした位置(モデルのスケールが変わると適用しない)
+			swordOuterMat.CreateTranslation(0.0f, 1.8f, 0.0f);
+			swordOuterMat *= m_spSword->GetMatrix();
+
+			// Strip描画するため２つで１ペア追加
+			m_swordTrail[i].AddPoint(m_spSword->GetMatrix());
+			m_swordTrail[i].AddPoint(swordOuterMat);
+
+		}
+
+		m_fEffectTime--;
+
+		if (m_fEffectTime < 0)
+		{
+			m_swordTrail.clear();
+			m_fEffectTime = 5;
+		}
+
+	}
+
 }
 
 void Human::CrossbowInit()
@@ -371,82 +390,17 @@ void Human::CrossbowInit()
 
 void Human::CrossbowUpdate()
 {
-
-	if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->STAY)
-	{
-		if (!IsSnipe())
-		{
-			//カメラを切り替える
-			m_memory.x = m_CameraTrans.x;
-			m_memory.y = m_CameraTrans.y;
-			m_memory.z = m_CameraTrans.z;
-
-			m_CameraTrans.x = 1.0f;
-			m_CameraTrans.y = 1.3f;
-			m_CameraTrans.z = -2.0f;
-			m_rot.y = m_spCameraComponent->GetCameraMatrix().GetAngles().y;
-			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
-			m_spCameraComponent->OffsetMatrix().RotateX(-10.0f * Radians);
-			m_spCameraComponent->OffsetMatrix().RotateY(m_rot.y);
-		}
-
-
-		IsSnipe() = true;
-	}
-
-	if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->EXIT)
-	{
-		if (IsSnipe())
-		{
-			POINT center = { 1280 / 2,720 / 2 };
-
-			Matrix mView = m_spCameraComponent->GetViewMatrix();
-			Matrix mProj = m_spCameraComponent->GetProjMatrix();
-
-			Vector3 NearPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 0.0f, 1280, 720, mView, mProj);
-			Vector3 FarPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 1.0f, 1280, 720, mView, mProj);
-
-			Vector3 Angle = FarPos - NearPos;
-
-			Angle.Normalize();
-
-			auto m_spArrow = std::make_shared<Arrow>();
-
-			m_spArrow->m_pos = m_mWorld.GetTranslation() + ArmL->m_localTransform.GetTranslation();
-			m_spArrow->m_rot = m_spCameraComponent->GetCameraMatrix().GetAngles();
-			m_spArrow->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Arrow.Json"));
-
-			m_spArrow->Position(Angle);
-
-			m_spArrow->SetOwner(shared_from_this());
-			Scene::GetInstance().AddObject(m_spArrow);
-
-			//カメラを戻す
-
-			m_CameraTrans = m_memory;
-
-			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
-			m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
-
-			IsSnipe() = false;
-		}
-	}
-
-
+	// クロスボウアニメ
 	if (IsSnipe())
 	{
 		if (ArmL)
 		{
 			Vector3 vec;
-			vec.x = ArmL->m_localTransform.GetTranslation().x;
-			vec.y = ArmL->m_localTransform.GetTranslation().y;
-			vec.z = ArmL->m_localTransform.GetTranslation().z;
-
 			Matrix mat;
 
 			mat.RotateY(m_rot.y);
 			vec.x += m_pos.x;
-			vec.y += m_pos.y;
+			vec.y += m_pos.y + 1.5;
 			vec.z += m_pos.z;
 
 			mat.CreateRotationX(m_spCameraComponent->GetCameraMatrix().GetAngles().x);
@@ -465,16 +419,85 @@ void Human::CrossbowUpdate()
 			Matrix mat;
 			Vector3 vec;
 
-
-			mat.RotateX(2);
-			vec.x += Body->m_localTransform.GetTranslation().x + m_pos.x;
-			vec.y += Body->m_localTransform.GetTranslation().y + m_pos.y;
-			vec.z += Body->m_localTransform.GetTranslation().z + m_pos.z;
-
+			vec.x += m_pos.x;
+			vec.y += m_pos.y + 1.5;
+			vec.z += m_pos.z;
+			mat.RotateY(m_rot.y);
 			mat.SetTranslation(vec);
 			m_spCrossbow->SetMatrix(mat);
 		}
 	}
+
+	if (m_bSword) { return; }
+	// カメラ
+	if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->ENTER)
+	{
+		if (!IsSnipe())
+		{
+			//カメラを切り替える
+			m_memory.x = m_CameraTrans.x;
+			m_memory.y = m_CameraTrans.y;
+			m_memory.z = m_CameraTrans.z;
+
+			m_CameraTrans.x = 0.0f;
+			m_CameraTrans.y = 2.5f;
+			m_CameraTrans.z = -2.0f;
+			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
+			m_spCameraComponent->OffsetMatrix().RotateX(-10.0f * Radians);
+			m_spCameraComponent->OffsetMatrix().RotateY(m_rot.y);
+			IsSnipe() = true;
+		}
+		else
+		{
+			//カメラを戻す
+
+			m_CameraTrans = m_memory;
+
+			m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
+			m_spCameraComponent->OffsetMatrix().RotateY(m_rot.y);
+			//m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
+
+			IsSnipe() = false;
+		}
+	}
+
+	if (IsSnipe())
+	{
+		if (m_spInputComponent->GetButton(Input::Buttons::X) & m_spInputComponent->ENTER)
+		{
+			POINT center = { 1280 / 2,720 / 2 };
+
+			Matrix mView = m_spCameraComponent->GetViewMatrix();
+			Matrix mProj = m_spCameraComponent->GetProjMatrix();
+
+			Vector3 NearPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 0.0f, 1280, 720, mView, mProj);
+			Vector3 FarPos = Scene::GetInstance().ConvertScreenToWorld(center.x, center.y, 1.0f, 1280, 720, mView, mProj);
+
+			Vector3 Angle = FarPos - NearPos;
+
+			Angle.Normalize();
+
+			auto m_spArrow = std::make_shared<Arrow>();
+
+			Vector3 Option;
+
+			Option.x = 0 + Head->m_localTransform.GetTranslation().x;
+			Option.y = 0.2 + Head->m_localTransform.GetTranslation().y;
+			Option.z = 0 + Head->m_localTransform.GetTranslation().z;
+
+			m_spArrow->m_pos = m_mWorld.GetTranslation() + Option;
+			m_spArrow->m_rot = m_spCameraComponent->GetCameraMatrix().GetAngles();
+			m_spArrow->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Arrow.Json"));
+
+			m_spArrow->Position(Angle);
+
+			m_spArrow->SetOwner(shared_from_this());
+			Scene::GetInstance().AddObject(m_spArrow);
+
+		}
+	}
+
+
 }
 
 void Human::UpdateCamera()

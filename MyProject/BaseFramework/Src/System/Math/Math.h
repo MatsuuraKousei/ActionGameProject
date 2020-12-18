@@ -209,6 +209,11 @@ public:
 		*this = DirectX::XMMatrixTranslation(trans.x, trans.y, trans.z);
 	}
 
+	void CreateTranslation(float x, float y, float z)
+	{
+		*this = DirectX::XMMatrixTranslation(x, y, z);
+	}
+
 	// 座標を直接格納(回転行列の情報が消えない 自作)
 	void SetTranslation(float x, float y, float z)
 	{

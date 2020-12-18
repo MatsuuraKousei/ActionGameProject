@@ -28,7 +28,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	// UI用テクスチャの読み込み
 	m_spMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HPBer.png");
 
-	
+
 
 	m_spDiamond = ResFac.GetTexture("Data/Textures/2DTexture/UI/Jewelry/Diamond.png");
 	m_spDiaBack = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/Diamond.png");
@@ -57,8 +57,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 	m_spScope = ResFac.GetTexture("Data/Textures/2DTexture/Battle/Scope.png");
 
-	UIPos.z = 0;
-	UIPos.y += 40;
+	UIPos.x = -500;
+	UIPos.y = 300;
 	Dia.y = 300;
 	Dia.x = 500;
 
@@ -84,19 +84,20 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 void ActionGameProcess::Draw2D()
 {
+	
 	if (Scene::GetInstance().debug) { return; }
 	// 2D描画
 	SHADER.m_spriteShader.SetMatrix(m_mWorld);
-	
+
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
 		if (!m_WhiteOutFlg)
 		{
-			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200);
+			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200,1.1);
 			SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
-			SHADER.m_spriteShader.DrawTex(m_spBMotherHPTex.get(), 0, 0);
-			SHADER.m_spriteShader.DrawTex(m_spWolfHPTex.get(), 0, 0);
+			//SHADER.m_spriteShader.DrawTex(m_spBMotherHPTex.get(), -45, -300);
+			//SHADER.m_spriteShader.DrawTex(m_spWolfHPTex.get(), 0, -300);
 		}
 		break;
 	case FIELD:
@@ -105,6 +106,12 @@ void ActionGameProcess::Draw2D()
 
 		// 体力
 		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
+		for (int i = 0; i < m_iPlayerHP; i++)
+		{
+			SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (80 - (45 * i)), UIPos.y);
+		}
+
+
 		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
 
 		// 分母
@@ -114,14 +121,15 @@ void ActionGameProcess::Draw2D()
 		// 分子
 		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400, Dia.y);
 
-		for (int i = 0; i < m_iPlayerHP; i++)
-		{
-			SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (37 - (26 * i)), UIPos.y);
-		}
+		
 		if (Human::IsSnipe())
 		{
-			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, 0);
+			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -20);
 		}
+
+		
+
+		
 		break;
 	case CLEAR:
 		SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
