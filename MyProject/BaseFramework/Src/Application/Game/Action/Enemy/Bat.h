@@ -9,12 +9,21 @@ public:
 
 	Bat();
 
+	virtual void Deserialize(const json11::Json& jsonObj)override;// 初期化
+
 	virtual void Update()override;
 
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
 
 	Vector3						m_pos;
 	Vector3						m_target;
+
+	bool						EndlessMode = false;
+	static bool& IsEndless()
+	{
+		static bool endless;
+		return endless;
+	}
 
 private:
 

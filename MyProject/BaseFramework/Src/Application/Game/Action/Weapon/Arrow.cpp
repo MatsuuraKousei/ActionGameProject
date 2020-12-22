@@ -72,6 +72,18 @@ void Arrow::Collision()
 			}
 		}
 
+		if ((obj->GetTag() & TAG_StageObject))
+		{
+			SphereResult sphereResult;
+
+			if (obj->HitCheckBySphereToMesh(info, sphereResult))
+			{
+				m_stop = true;
+				Explosion(m_mWorld.GetTranslation());
+				Destroy();
+			}
+		}
+
 		if ((obj->GetTag() & TAG_AttackHit))
 		{
 			if (obj->HitCheckBySphere(info))

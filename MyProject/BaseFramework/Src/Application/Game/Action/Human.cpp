@@ -210,7 +210,7 @@ void Human::Update()
 
 	if (m_pos.y < -2.5)
 	{
-		m_Hp = 0;
+		//m_Hp = 0;
 
 	}
 }

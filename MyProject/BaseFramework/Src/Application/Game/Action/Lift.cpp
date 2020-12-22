@@ -18,6 +18,8 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 		case 1:
 			lifttag = Point;
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -121,9 +123,6 @@ void Lift::SToG()
 
 void Lift::PointStage()
 {
-	static int i = 0;
-	static int j = 0;
-
 	if (i > m_PointStrike-1)
 	{
 		i = m_PointStrike-1;
@@ -159,6 +158,7 @@ void Lift::PointStage()
 		m_pointprogress[i] += m_speed;
 		if (m_pointprogress[i] >= 1.0f)
 		{
+
 			m_goTo2[i] = false;
 			m_pointprogress[i] = 1.0f;
 			i++;

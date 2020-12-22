@@ -13,6 +13,21 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 
 	GameObject::Deserialize(jsonObj);
 
+	if (jsonObj["About"].is_number())
+	{
+		int number = jsonObj["About"].number_value();
+		switch (number)
+		{
+		case 0:
+			m_about = Tag_OneSytem;
+			break;
+		case 1:
+			m_about = Tag_EndlessSystem;
+			break;
+		default:
+			m_about = Tag_OneSytem;
+		}
+	}
 
 	if (jsonObj["EnemTag"].is_number())
 	{
@@ -37,26 +52,34 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 		}
 	}
 
-	
+	if (jsonObj["Radius"].is_number())
+	{
+		m_radius = jsonObj["Radius"].number_value();
+	}
+	else
+	{
+		m_radius = 5;
+	}
+
+	if (m_about == Tag_EndlessSystem)
+	{
+		auto m_spBoar = std::make_shared<Boar>();
+		m_spBoar->IsEndless() = false;
+
+		auto m_spBat = std::make_shared<Bat>();
+		m_spBat->IsEndless() = false;
+	}
+
 }
 
 void SpawnManeger::Update()
 {
 	Debug::GetInstance().AddDebugLine(m_mWorld.GetTranslation(), Math::Vector3(0.0f, 10.0f, 0.0f), Math::Vector4(1, 0, 0, 1));
 
-	auto m_spBoar = std::make_shared<Boar>();
-	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
-
-	auto m_spAlligator = std::make_shared<Alligator>();
-	m_spAlligator->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Alligator.json"));
-
-	auto m_spBat = std::make_shared<Bat>();
-	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
-
 	// 球情報の作成
 	SphereInfo info;
 	info.m_pos = m_mWorld.GetTranslation();
-	info.m_radius = 5;
+	info.m_radius = m_radius;
 
 	Debug::GetInstance().AddDebugSphereLine(m_mWorld.GetTranslation(), info.m_radius, { 0.0f,0.0f,1.0f,1.0f });
 	for (auto& obj : Scene::GetInstance().GetObjects())
@@ -70,56 +93,19 @@ void SpawnManeger::Update()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
-			if (Respawn) { return; }
-			
-			
-			
-
-			switch (m_enemTag)
+			switch (m_about)
 			{
-			case Tag_None:
+			case Tag_OneSytem:
+				OneSystem();
 				break;
-			case Tag_Boar:
-
-				
-
-				m_spBoar->m_pos.x = m_mWorld.GetTranslation().x;
-				m_spBoar->m_pos.y = m_mWorld.GetTranslation().y - 2.0f;
-				m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
-
-				Scene::GetInstance().AddObject(m_spBoar);
-				Respawn = true;
-				break;
-
-			case Tag_Alligator:
-
-				
-
-				m_spAlligator->m_pos.x = m_mWorld.GetTranslation().x;
-				m_spAlligator->m_pos.y = m_mWorld.GetTranslation().y;
-				m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
-
-				Scene::GetInstance().AddObject(m_spAlligator);
-				Respawn = true;
-				break;
-
-			case Tag_Bat:
-				
-
-				m_spBat->m_pos.x = m_mWorld.GetTranslation().x;
-				m_spBat->m_pos.y = m_mWorld.GetTranslation().y;
-				m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
-
-				Scene::GetInstance().AddObject(m_spBat);
-				Respawn = true;
-				break;
-			default:
+			case Tag_EndlessSystem:
+				EndlessSystem();
 				break;
 			}
 		}
 		else
 		{
-			
+
 		}
 	}
 
@@ -138,5 +124,101 @@ void SpawnManeger::Update()
 
 		Scene::GetInstance().AddObject(m_spEagle);
 		//GetActive() = true;
+	}
+}
+
+void SpawnManeger::OneSystem()
+{
+	if (Respawn) { return; }
+
+	auto m_spBoar = std::make_shared<Boar>();
+	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
+
+	auto m_spAlligator = std::make_shared<Alligator>();
+	m_spAlligator->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Alligator.json"));
+
+	auto m_spBat = std::make_shared<Bat>();
+	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
+
+
+	switch (m_enemTag)
+	{
+	case Tag_None:
+		break;
+	case Tag_Boar:
+		m_spBoar->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spBoar->m_pos.y = m_mWorld.GetTranslation().y - 2.0f;
+		m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
+		Scene::GetInstance().AddObject(m_spBoar);
+		Respawn = true;
+		break;
+
+	case Tag_Alligator:
+		m_spAlligator->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spAlligator->m_pos.y = m_mWorld.GetTranslation().y;
+		m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
+		Scene::GetInstance().AddObject(m_spAlligator);
+		Respawn = true;
+		break;
+
+	case Tag_Bat:
+		m_spBat->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spBat->m_pos.y = m_mWorld.GetTranslation().y;
+		m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
+		Scene::GetInstance().AddObject(m_spBat);
+		Respawn = true;
+		break;
+	default:
+		break;
+	}
+}
+
+void SpawnManeger::EndlessSystem()
+{
+	auto m_spBoar = std::make_shared<Boar>();
+	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
+
+	auto m_spAlligator = std::make_shared<Alligator>();
+	m_spAlligator->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Alligator.json"));
+
+	auto m_spBat = std::make_shared<Bat>();
+	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
+
+
+	switch (m_enemTag)
+	{
+	case Tag_None:
+		break;
+	case Tag_Boar:
+		if (m_spBoar->IsEndless()) { return; }
+		m_spBoar->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spBoar->m_pos.y = m_mWorld.GetTranslation().y - 2.0f;
+		m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spBoar->EndlessMode = true;
+		m_spBoar->IsEndless() = true;
+		Scene::GetInstance().AddObject(m_spBoar);
+
+		break;
+
+	case Tag_Alligator:
+		m_spAlligator->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spAlligator->m_pos.y = m_mWorld.GetTranslation().y;
+		m_spAlligator->m_pos.z = m_mWorld.GetTranslation().z;
+		Scene::GetInstance().AddObject(m_spAlligator);
+
+		break;
+
+	case Tag_Bat:
+		if (m_spBat->IsEndless()) { return; }
+		m_spBat->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spBat->m_pos.y = m_mWorld.GetTranslation().y;
+		m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spBat->EndlessMode = true;
+		m_spBat->IsEndless() = true;
+		Scene::GetInstance().AddObject(m_spBat);
+
+		break;
+	default:
+		break;
 	}
 }

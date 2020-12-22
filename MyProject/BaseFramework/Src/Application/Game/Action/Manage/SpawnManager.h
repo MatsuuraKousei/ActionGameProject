@@ -18,12 +18,23 @@ private:
 		Tag_Alligator,
 		Tag_Eagle,
 		Tag_Bat
-	};
+	}m_enemTag = Tag_None;
 
-	EnemyTag m_enemTag = EnemyTag::Tag_None;
+	enum About
+	{
+		Tag_OneSytem,
+		Tag_EndlessSystem
+	}m_about = Tag_OneSytem;
 
-	Vector3	m_pos;
-	Vector3	m_rot;
+	void OneSystem();
+	void EndlessSystem();
+
+	Vector3				m_pos;
+	Vector3				m_rot;
+
+	float				m_radius;
+
+	int					m_respawnTimer = 30;
 
 	std::string			m_sNextStage;
 };

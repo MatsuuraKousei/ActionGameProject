@@ -5,6 +5,14 @@
       "Name": "GameProcess"
     },
     {
+      "ClassName":"StageEdit",
+      "Name":"StageEdit",
+      "MapName0":"Data/JsonFile/Object/Map0/Part0.Json",
+      "MapName1":"Data/JsonFile/Object/Map0/Part1.Json",
+      "MapName2":"Data/JsonFile/Object/Map0/Part2.Json",
+      "MapName3":"Data/JsonFile/Object/Map0/Part3.Json"
+    },
+    {
       "ClassName": "GameObject",
       "Name": "Sky",
       "Tag":4,
@@ -50,33 +58,6 @@
       "Scale": [ 1, 1, 1 ]
     },
     {
-      "ClassName": "GameObject",
-      "Name": "Map",
-      "Tag":4,
-      "ModelFileName":"Data/Textures/3DTexture/Map/DungenMap/Dungen.gltf",
-      "Pos":[0,0,0],
-      "Rot":[0,0,0],
-      "Scale": [ 0.8, 0.8, 0.8]
-    },
-    {
-      "ClassName": "GameObject",
-      "Name": "Bridge1",
-      "Tag":4,
-      "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge1.gltf",
-      "Pos":[75,1,11],
-      "Rot":[90,0,0],
-      "Scale": [ 1, 0.7, 0.7]
-    },
-    {
-     "ClassName": "GameObject",
-     "Name": "Bridge2",
-     "Tag":4,
-     "ModelFileName":"Data/Textures/3DTexture/Map/Bridge/Bridge2.gltf",
-     "Pos":[73.8,1.1,81],
-     "Rot":[0,0,0.4],
-     "Scale": [ 1, 0.7, 0.7]
-    },
-    {
      "ClassName": "Item",
      "Name": "Jewelry",
      "Tag":1,
@@ -103,6 +84,7 @@
      "Rot":[ 0 , 0 , 0 ],
      "Scale": [ 1, 1, 1],
      "DoorNum":1,
+     "DoorType":0,
      "Door0":[-25,3.5,28.3]
     },
      {
@@ -116,16 +98,6 @@
      "DoorNum":1,
      "Door0":[-26,3.5,-14.5],
      "DoorAngle0":[0,1.55,0]
-    },
-    {
-      "ClassName": "Lift",
-      "Name": "RotLift00",
-      "Tag":512,
-      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-      "Pos":[0,0,0],
-      "Scale": [ 0.5, 0.5, 0.5],
-      "Rot":[0,90,0],
-      "RotSpeed":[0,0.01,0]
     },
     {
       "ClassName": "Lift",
@@ -338,7 +310,7 @@
      "Name": "Goal",
      "Tag":0,
      "Pos":[ -34,3,-14 ],
-     "NextScene":"Data/JsonFile/Scene/Clear.json"
+     "NextScene":"Data/JsonFile/Scene/Field1.json"
     }
   ]
 }

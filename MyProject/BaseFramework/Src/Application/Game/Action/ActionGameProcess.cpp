@@ -124,7 +124,7 @@ void ActionGameProcess::Draw2D()
 		
 		if (Human::IsSnipe())
 		{
-			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -20);
+			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -30);
 		}
 
 		

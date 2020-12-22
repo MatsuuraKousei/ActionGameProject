@@ -6,6 +6,7 @@
 #include"SceneCameraManage.h"
 #include"Action/Manage/SpawnManager.h"
 #include "Action/ActionGameProcess.h"
+#include "StageEdit.h"
 #include "Action/Human.h"
 #include"Action/Lift.h"
 #include"Action/Enemy/Boar.h"
@@ -279,6 +280,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "ActionGameProcess")
 	{
 		return std::make_shared<ActionGameProcess>();
+	}
+
+	if (name == "StageEdit")
+	{
+		return std::make_shared<StageEdit>();
 	}
 
 	if (name == "SceneManage")

@@ -7,6 +7,18 @@
 Boar::Boar()
 {
 	m_Hp = 3;
+	
+}
+
+void Boar::Deserialize(const json11::Json& jsonObj)
+{
+	// 無かったら早期リターン
+	if (jsonObj.is_null()) { return; }
+
+	GameObject::Deserialize(jsonObj);
+	m_Hp = 3;
+
+
 }
 
 void Boar::Update()
@@ -34,6 +46,14 @@ void Boar::Update()
 		Move();
 		Hp();
 		break;
+	}
+
+	if (EndlessMode)
+	{
+		if (m_Hp < 0)
+		{
+			IsEndless() = false;
+		}
 	}
 
 	m_pos = m_pos + m_force;

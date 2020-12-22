@@ -11,11 +11,32 @@
 Bat::Bat()
 {
 	m_Hp = 3;
+	
+}
+
+void Bat::Deserialize(const json11::Json& jsonObj)
+{
+	// 無かったら早期リターン
+	if (jsonObj.is_null()) { return; }
+
+	GameObject::Deserialize(jsonObj);
+
+	m_Hp = 3;
+
+	
 }
 
 void Bat::Update()
 {
 	if (Scene::GetInstance().debug) { return; }
+
+	if (EndlessMode)
+	{
+		if (!m_alive)
+		{
+			IsEndless() = false;
+		}
+	}
 
 	if (!m_alive) { return; }
 
@@ -125,6 +146,8 @@ void Bat::Update()
 			m_wpTarget.reset();
 		}
 	}
+
+	
 
 
 	m_pos = m_pos + m_force;

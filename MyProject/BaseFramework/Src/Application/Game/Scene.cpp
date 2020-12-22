@@ -102,7 +102,7 @@ void Scene::Init()
 
 	// 文字列格納
 	Opning = "Data/JsonFile/Scene/Opning.json";
-	Field = "Data/JsonFile/Scene/Field0.json";
+	Field = "Data/JsonFile/Scene/Field1.json";
 	Gameclear = "Data/JsonFile/Scene/Clear.json";
 	Gameover = "Data/JsonFile/Scene/Over.json";
 

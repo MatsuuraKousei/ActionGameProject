@@ -64,7 +64,7 @@ private:
 	float m_rotateAngle = 10.0f;								// キャラクターの回転角度
 	Vector3 m_rot;												// ワールド行列上の回転角度
 
-	float m_gravity = 0.03f;									//重力の強さ
+	float m_gravity = 0.00f;									//重力の強さ
 	Vector3 m_force;											//キャラクターにかかる移動させる力(落下、跳躍、移動)
 
 	static const float s_allowToStepHeight;						// 歩いて乗り越えられる段差の高さ

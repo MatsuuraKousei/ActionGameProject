@@ -20,6 +20,11 @@ void Target::Deserialize(const json11::Json& jsonObj)
 		m_DoorNum = jsonObj["DoorNum"].number_value();
 	}
 
+	if (jsonObj["DoorType"].is_number())
+	{
+		m_Doortype = jsonObj["DoorType"].number_value();
+	}
+
 	for (int i = 0; i < m_DoorNum; i++)
 	{
 		std::string string = "Door";
@@ -74,22 +79,68 @@ void Target::Update()
 
 void Target::BornDoor()
 {
-	for (int i = 0; i < m_DoorNum; i++)
+	switch (m_Doortype)
 	{
-		m_spDoor = std::make_shared<Door>();
+	case 0:
+		for (int i = 0; i < m_DoorNum; i++)
+		{
+			m_spDoor = std::make_shared<Door>();
 
-		m_spDoor->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Door.Json"));
+			m_spDoor->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Door.Json"));
 
-		Matrix mat;
+			Matrix mat;
 
-		mat.SetTranslation(m_DoorPos[i]);
+			mat.SetTranslation(m_DoorPos[i]);
 
-		m_spDoor->m_pos = m_DoorPos[i];
+			m_spDoor->m_pos = m_DoorPos[i];
 
-		m_spDoor->m_rot = m_DoorAngle[i];
+			m_spDoor->m_rot = m_DoorAngle[i];
 
-		m_spDoor->SetTag(TAG_StageObject);
+			m_spDoor->SetTag(TAG_StageObject);
 
-		Scene::GetInstance().AddObject(m_spDoor);
+			Scene::GetInstance().AddObject(m_spDoor);
+		}
+		break;
+	case 1:
+		for (int i = 0; i < m_DoorNum; i++)
+		{
+			m_spDoor = std::make_shared<Door>();
+
+			m_spDoor->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/IronGrill.Json"));
+
+			Matrix mat;
+
+			mat.SetTranslation(m_DoorPos[i]);
+
+			m_spDoor->m_pos = m_DoorPos[i];
+
+			m_spDoor->m_rot = m_DoorAngle[i];
+
+			m_spDoor->SetTag(TAG_StageObject);
+
+			Scene::GetInstance().AddObject(m_spDoor);
+		}
+		break;
+	default:
+		for (int i = 0; i < m_DoorNum; i++)
+		{
+			m_spDoor = std::make_shared<Door>();
+
+			m_spDoor->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Door.Json"));
+
+			Matrix mat;
+
+			mat.SetTranslation(m_DoorPos[i]);
+
+			m_spDoor->m_pos = m_DoorPos[i];
+
+			m_spDoor->m_rot = m_DoorAngle[i];
+
+			m_spDoor->SetTag(TAG_StageObject);
+
+			Scene::GetInstance().AddObject(m_spDoor);
+		}
+		break;
 	}
+	
 }
