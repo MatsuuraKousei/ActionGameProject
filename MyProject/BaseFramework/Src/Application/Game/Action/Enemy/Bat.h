@@ -16,6 +16,7 @@ public:
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
 
 	Vector3						m_pos;
+	Vector3						m_rot;
 	Vector3						m_target;
 
 	bool						EndlessMode = false;
@@ -54,7 +55,7 @@ private:
 
 	bool						m_WingFlg[2] = { false,false };
 
-	int							m_AttackState = 30;
+	int							m_AttackState = 50;
 
 	float roop = 9;
 
@@ -68,7 +69,7 @@ private:
 
 
 	Vector3						m_force;	// キャラの移動量
-	Vector3						m_rot = { 0,180,0 };
+
 	Vector3						m_Player;
 	Vector3						m_Move;
 	Vector3						m_prevPos = {};

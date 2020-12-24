@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include"../../Scene.h"
+#include "../../AnimationEffect.h"
 #include "../../../main.h"
 
 void Bullet::Deserialize(const json11::Json& jsonObj)
@@ -10,7 +11,7 @@ void Bullet::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 
 	// 生きる時間(最大Fpsに依存?)
-	m_lifeSpan = APP.m_maxFps * 10;
+	m_lifeSpan = APP.m_maxFps*2;
 }
 
 void Bullet::Update()
@@ -50,6 +51,7 @@ void Bullet::Update()
 		if (obj->HitCheckBySphere(info))
 		{
 			obj->m_Hp--;
+			Explosion();
 			Destroy();
 		}
 	}
@@ -83,4 +85,19 @@ void Bullet::Update()
 void Bullet::GetGimmicAngle(Vector3 vec)
 {
 	m_GimmicAngle = vec;
+}
+
+void Bullet::Explosion()
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion01.png"), 5.0f, 5, 3, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	effect->SetMatrix(m_mWorld);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
 }

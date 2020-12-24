@@ -14,6 +14,7 @@ public:
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
 
 	Vector3						m_pos;
+	Vector3						m_rot;
 
 	bool						EndlessMode = false;
 	static bool& IsEndless()
@@ -53,7 +54,7 @@ private:
 
 	std::weak_ptr<GameObject>	m_wpTarget;
 
-	Vector3						m_rot;
+	
 	Vector3						m_force;	// キャラの移動量
 	Vector3						m_Player;
 	Vector3						m_Move;

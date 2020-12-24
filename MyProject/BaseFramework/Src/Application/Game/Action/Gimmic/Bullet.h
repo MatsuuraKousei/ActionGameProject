@@ -15,6 +15,8 @@ public:
 	inline void SetOwner(const std::shared_ptr<GameObject>& spOwner) { m_wpOwner = spOwner; }
 private:
 
+	void Explosion();
+
 	Vector3						m_prevPos;	// １フレーム前の座標
 
 	std::weak_ptr<GameObject>	m_wpOwner;	// 発射したオーナーオブジェクト

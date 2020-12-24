@@ -14,6 +14,9 @@
 #include"Action/Enemy/Eagle.h"
 #include"Action/Enemy/Bat.h"
 #include"Action/Gimmic/Target.h"
+#include"Action/Gimmic/Wall.h"
+#include"Action/Gimmic/Cutter.h"
+#include"Action/Gimmic/Needle.h"
 #include"Action/Item.h"
 #include "Action/Gimmic/ShotGimmic.h"
 
@@ -117,6 +120,8 @@ void GameObject::ImGuiUpdate()
 		ImGui::CheckboxFlags("AttackHit", &m_tag, TAG_AttackHit);
 		ImGui::CheckboxFlags("Enemy", &m_tag, TAG_Enemy);
 		ImGui::CheckboxFlags("DamegeObject", &m_tag, TAG_DamegeObject);
+		ImGui::CheckboxFlags("ActiveObject", &m_tag, TAG_ActiveObject);
+		ImGui::CheckboxFlags("BrokenObject", &m_tag, TAG_BrokenObject);
 
 		// テキストへの保存
 		if (ImGui::Button(u8"JSONテキストコピー"))
@@ -305,6 +310,21 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "ShotGimmic")
 	{
 		return std::make_shared<ShotGimmic>();
+	}
+
+	if (name == "Wall")
+	{
+		return std::make_shared<AppWall>();
+	}
+
+	if (name == "Cutter")
+	{
+		return std::make_shared<Cutter>();
+	}
+
+	if (name == "Needle")
+	{
+		return std::make_shared<Needle>();
 	}
 
 	if (name == "Lift")

@@ -140,33 +140,6 @@ void Human::Update()
 		}
 	}
 
-	// 簡易移動制限
-	if (m_pos.x >= MaxRange.x + 10)
-	{
-		m_pos.x = MaxRange.x + 10;
-	}
-	if (m_pos.x <= -MaxRange.x)
-	{
-		m_pos.x = -MaxRange.x;
-	}
-	if (m_pos.y >= MaxRange.y)
-	{
-		m_pos.y = MaxRange.y;
-	}
-	if (m_pos.y <= -MaxRange.y)
-	{
-		m_pos.x = -MaxRange.y;
-	}
-	if (m_pos.z >= MaxRange.z)
-	{
-		m_pos.z = MaxRange.z;
-	}
-	if (m_pos.z <= -MaxRange.z + 160)
-	{
-		m_pos.z = -MaxRange.z + 160;
-	}
-
-
 	//ワールド行列の合成する
 
 	m_mWorld.CreateRotationX(m_rot.x);
@@ -208,10 +181,9 @@ void Human::Update()
 	}
 
 
-	if (m_pos.y < -2.5)
+	if (m_pos.y < 1)
 	{
-		//m_Hp = 0;
-
+		m_Hp = 0;
 	}
 }
 
@@ -297,7 +269,7 @@ void Human::SwordUpdate()
 
 
 		mat.RotateX(4.72);
-		mat.RotateY(m_rot.y);
+		mat.RotateY(m_rot.y + m_fswordInitAngle);
 		mat.SetTranslation(vec);
 
 		m_spSword->SetMatrix(mat);
@@ -310,6 +282,7 @@ void Human::SwordUpdate()
 		if (!m_bSword)
 		{
 			m_bSword = true;
+
 		}
 		else
 		{
@@ -329,20 +302,100 @@ void Human::SwordUpdate()
 
 		if (m_spInputComponent->GetButton(Input::Buttons::B) & m_spInputComponent->STAY)
 		{
-			if (m_fswordInitAngle > 1.7)
+			m_fswordInitAngle -= 0.3f;
+			Body->m_localTransform.RotateY(m_fswordInitAngle);
+
+			SphereInfo sphereInfo;
+
+			Vector3 vec;
+
+			vec = m_spSword->GetMatrix().GetAxisY();
+
+			vec.Normalize();
+
+			sphereInfo.m_pos = vec + m_spSword->GetMatrix().GetTranslation();
+			sphereInfo.m_radius = 0.4f;
+
+			Vector3 push;
+			//全員とレイ判定
+			for (auto& obj : Scene::GetInstance().GetObjects())
 			{
-				m_fswordInitAngle -= 0.3f;
-				Body->m_localTransform.RotateY(m_fswordInitAngle);
-				
+				//自分自身は無視
+				if (obj.get() == this) { continue; }
+				//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+				if (obj->GetTag() & TAG_Enemy)
+				{
+					SphereResult sphereResult;
+
+					if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+					{
+						obj->m_Hp--;
+					}
+				}
+			}
+
+
+			// エフェクト
+			for (UINT i = 0; i < m_swordTrail.size(); i++)
+			{
+				Matrix swordOuterMat;
+				// そこからY軸へ少しずらした位置(モデルのスケールが変わると適用しない)
+				swordOuterMat.CreateTranslation(0.0f, 1.8f, 0.0f);
+				swordOuterMat *= m_spSword->GetMatrix();
+
+				// Strip描画するため２つで１ペア追加
+				m_swordTrail[i].AddPoint(m_spSword->GetMatrix());
+				m_swordTrail[i].AddPoint(swordOuterMat);
+
 			}
 		}
 		if (m_spInputComponent->GetButton(Input::Buttons::X) & m_spInputComponent->STAY)
 		{
-			if (m_fswordInitAngle < 4.7)
+			m_fswordInitAngle += 0.3f;
+			Body->m_localTransform.RotateY(m_fswordInitAngle);
+
+
+			SphereInfo sphereInfo;
+
+			Vector3 vec;
+
+			vec = m_spSword->GetMatrix().GetAxisY();
+
+			vec.Normalize();
+
+			sphereInfo.m_pos = vec + m_spSword->GetMatrix().GetTranslation();
+			sphereInfo.m_radius = 0.4f;
+
+			Vector3 push;
+			//全員とレイ判定
+			for (auto& obj : Scene::GetInstance().GetObjects())
 			{
-				m_fswordInitAngle += 0.3f;
-				Body->m_localTransform.RotateY(m_fswordInitAngle);
-			
+				//自分自身は無視
+				if (obj.get() == this) { continue; }
+				//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+				if (obj->GetTag() & TAG_Enemy)
+				{
+					SphereResult sphereResult;
+
+					if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+					{
+						obj->m_Hp--;
+					}
+				}
+			}
+
+			// エフェクト
+			for (UINT i = 0; i < m_swordTrail.size(); i++)
+			{
+				Matrix swordOuterMat;
+				// そこからY軸へ少しずらした位置(モデルのスケールが変わると適用しない)
+				swordOuterMat.CreateTranslation(0.0f, 1.8f, 0.0f);
+				swordOuterMat *= m_spSword->GetMatrix();
+
+				// Strip描画するため２つで１ペア追加
+				m_swordTrail[i].AddPoint(m_spSword->GetMatrix());
+				m_swordTrail[i].AddPoint(swordOuterMat);
+
 			}
 		}
 
@@ -353,26 +406,12 @@ void Human::SwordUpdate()
 
 		m_spSword->SetMatrix(mat);
 
-		// エフェクト
-		for (UINT i = 0; i < m_swordTrail.size(); i++)
-		{
-			Matrix swordOuterMat;
-			// そこからY軸へ少しずらした位置(モデルのスケールが変わると適用しない)
-			swordOuterMat.CreateTranslation(0.0f, 1.8f, 0.0f);
-			swordOuterMat *= m_spSword->GetMatrix();
-
-			// Strip描画するため２つで１ペア追加
-			m_swordTrail[i].AddPoint(m_spSword->GetMatrix());
-			m_swordTrail[i].AddPoint(swordOuterMat);
-
-		}
-
 		m_fEffectTime--;
 
 		if (m_fEffectTime < 0)
 		{
 			m_swordTrail.clear();
-			m_fEffectTime = 5;
+			m_fEffectTime = 20;
 		}
 
 	}
@@ -729,21 +768,6 @@ Vector3 Human::CheckBump(Vector3 vec)
 				push += sphereResult.m_push;
 			}
 		}
-		if (obj->GetTag() & TAG_ActiveObject)
-		{
-			SphereResult sphereResult;
-
-			m_gravityFlg = false;
-
-			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
-			{
-				push += sphereResult.m_push;
-			}
-		}
-		else
-		{
-			m_gravityFlg = true;
-		}
 	}
 	pos += push;
 	return pos;
@@ -764,15 +788,32 @@ void Human::Damege()
 		if (obj.get() == this) { continue; }
 
 		// キャラクターと当たり判定をするのでそれ以外は無視
-		if (!(obj->GetTag() & TAG_Enemy)) { continue; }
-
-		// 当たり判定
-		if (obj->HitCheckBySphere(info))
+		if (obj->GetTag() & TAG_Enemy)
 		{
-			Explosion(Body->m_localTransform.GetTranslation() + m_pos);
-			m_Hp--;
+			// 当たり判定
+			if (obj->HitCheckBySphere(info))
+			{
+				Explosion(Body->m_localTransform.GetTranslation() + m_pos);
+				//m_Hp--;
+			}
+		}
+
+
+		if (obj->GetTag() & TAG_DamegeObject)
+		{
+			SphereResult sphereResult;
+			if (obj->HitCheckBySphereToMesh(info, sphereResult))
+			{
+				Explosion(Body->m_localTransform.GetTranslation() + m_pos);
+				Vector3 KnockBack = -m_mWorld.GetAxisZ();
+				KnockBack.Normalize();
+				m_force = KnockBack;
+				m_force.y += 0.5;
+				m_Hp--;
+			}
 		}
 	}
+
 }
 
 void Human::LockonPoint(const Vector3& hitPos)

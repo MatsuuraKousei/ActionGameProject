@@ -110,6 +110,31 @@ void BatBullet::Update()
 			}
 		}
 
+		for (auto& obj : Scene::GetInstance().GetObjects())
+		{
+			//自分自身は無視
+			if (obj.get() == this) { continue; }
+			//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+			if (obj->GetTag() & TAG_StageObject)
+			{
+				SphereResult sphereResult;
+
+				if (obj->HitCheckBySphereToMesh(info, sphereResult))
+				{
+					Destroy();
+				}
+			}
+			if (obj->GetTag() & TAG_ActiveObject)
+			{
+				SphereResult sphereResult;
+
+				if (obj->HitCheckBySphereToMesh(info, sphereResult))
+				{
+					Destroy();
+				}
+			}
+		}
+
 		m_time--;
 		if (m_time < 0)
 		{

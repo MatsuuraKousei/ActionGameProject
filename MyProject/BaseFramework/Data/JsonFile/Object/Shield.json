@@ -1,0 +1,6 @@
+{
+  "ClassName": "GameObject",
+  "Name": "Shield",
+  "Tag":16,
+  "ModelFileName": "Data/Textures/3DTexture/Weapon/Shield/Sheld.gltf"
+}

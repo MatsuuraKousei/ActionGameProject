@@ -47,9 +47,9 @@ void Bat::Update()
 
 		// 羽アニメ
 		Move();
-		if (m_pos.y > 7)
+		if (m_pos.y > 9)
 		{
-			m_pos.y = 7;
+			m_pos.y = 9;
 
 			// 召喚アニメーション
 			Appearance();
@@ -349,6 +349,6 @@ void Bat::Shot()
 			spBBullet->SetTarget(target);
 			Scene::GetInstance().AddObject(spBBullet);
 		}
-		m_AttackState = 30;
+		m_AttackState = 50;
 	}
 }

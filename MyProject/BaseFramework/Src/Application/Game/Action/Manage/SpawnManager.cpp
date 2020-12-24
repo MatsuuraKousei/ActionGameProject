@@ -3,6 +3,8 @@
 #include "../Enemy/Alligator.h"
 #include "../Enemy/Eagle.h"
 #include "../Enemy/Bat.h"
+#include "../Enemy/Sentry.h"
+#include "../Enemy/Monkey.h"
 #include "../../Scene.h"
 #include"../../../../System/Debug/Debug.h"
 
@@ -12,22 +14,6 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 	if (jsonObj.is_null()) { return; }
 
 	GameObject::Deserialize(jsonObj);
-
-	if (jsonObj["About"].is_number())
-	{
-		int number = jsonObj["About"].number_value();
-		switch (number)
-		{
-		case 0:
-			m_about = Tag_OneSytem;
-			break;
-		case 1:
-			m_about = Tag_EndlessSystem;
-			break;
-		default:
-			m_about = Tag_OneSytem;
-		}
-	}
 
 	if (jsonObj["EnemTag"].is_number())
 	{
@@ -46,11 +32,41 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 			break;
 		case 3:
 			m_enemTag = Tag_Eagle;
+		case 4:
+			m_enemTag = Tag_Sentry;
+			break;
+		case 5:
+			m_enemTag = Tag_Monkey;
+			break;
 		default:
 			m_enemTag = Tag_None;
 			break;
 		}
 	}
+
+	if (jsonObj["About"].is_number())
+	{
+		int number = jsonObj["About"].number_value();
+		switch (number)
+		{
+		case 0:
+			m_about = Tag_OneSytem;
+			break;
+		case 1:
+			m_about = Tag_EndlessSystem;
+			break;
+		default:
+			m_about = Tag_OneSytem;
+			break;
+		}
+	}
+
+	if (jsonObj["Rot"].is_array())
+	{
+		auto& p = jsonObj["Rot"].array_items();
+		m_rot = Vector3(p[0].number_value(), p[1].number_value(), p[2].number_value());
+	}
+
 
 	if (jsonObj["Radius"].is_number())
 	{
@@ -140,6 +156,12 @@ void SpawnManeger::OneSystem()
 	auto m_spBat = std::make_shared<Bat>();
 	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
 
+	auto m_spSentry = std::make_shared<Sentry>();
+	m_spSentry->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sentry.json"));
+
+	auto m_spMonkey = std::make_shared<Monkey>();
+	m_spMonkey->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Monkey.json"));
+
 
 	switch (m_enemTag)
 	{
@@ -149,6 +171,7 @@ void SpawnManeger::OneSystem()
 		m_spBoar->m_pos.x = m_mWorld.GetTranslation().x;
 		m_spBoar->m_pos.y = m_mWorld.GetTranslation().y - 2.0f;
 		m_spBoar->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spBoar->m_rot = m_rot;
 		Scene::GetInstance().AddObject(m_spBoar);
 		Respawn = true;
 		break;
@@ -165,7 +188,26 @@ void SpawnManeger::OneSystem()
 		m_spBat->m_pos.x = m_mWorld.GetTranslation().x;
 		m_spBat->m_pos.y = m_mWorld.GetTranslation().y;
 		m_spBat->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spBat->m_rot = m_rot;
 		Scene::GetInstance().AddObject(m_spBat);
+		Respawn = true;
+		break;
+
+	case Tag_Sentry:
+		m_spSentry->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spSentry->m_pos.y = m_mWorld.GetTranslation().y-4;
+		m_spSentry->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spSentry->m_rot = m_rot;
+		Scene::GetInstance().AddObject(m_spSentry);
+		Respawn = true;
+		break;
+
+	case Tag_Monkey:
+		m_spMonkey->m_pos.x = m_mWorld.GetTranslation().x;
+		m_spMonkey->m_pos.y = m_mWorld.GetTranslation().y-4;
+		m_spMonkey->m_pos.z = m_mWorld.GetTranslation().z;
+		m_spMonkey->m_rot = m_rot;
+		Scene::GetInstance().AddObject(m_spMonkey);
 		Respawn = true;
 		break;
 	default:
@@ -175,6 +217,7 @@ void SpawnManeger::OneSystem()
 
 void SpawnManeger::EndlessSystem()
 {
+
 	auto m_spBoar = std::make_shared<Boar>();
 	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
 

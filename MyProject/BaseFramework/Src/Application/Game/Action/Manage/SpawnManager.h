@@ -17,7 +17,9 @@ private:
 		Tag_Boar,
 		Tag_Alligator,
 		Tag_Eagle,
-		Tag_Bat
+		Tag_Bat,
+		Tag_Sentry,
+		Tag_Monkey
 	}m_enemTag = Tag_None;
 
 	enum About

@@ -20,7 +20,8 @@ enum OBJECT_TAG
 	TAG_AttackHit = 0x00000010,	// 攻撃をくらう属性(16) 
 	TAG_Enemy = 0x00000020,	// 敵
 	TAG_DamegeObject = 0x00000100,	// ダメージオブジェクト
-	TAG_ActiveObject=0x000000200	// 動くオブジェクト
+	TAG_ActiveObject=0x000000200,	// 動くオブジェクト
+	TAG_BrokenObject=0x000000400
 };
 
 struct Rot
@@ -89,6 +90,7 @@ public:
 	}
 
 	int				m_Hp = 1;						// ヒットポイント
+	float			m_colRadius = 2.0f;			// このキャラクターの半径
 
 	bool			m_alive = true;			// 生きているか死んでいるか
 protected:
@@ -113,7 +115,6 @@ protected:
 	UINT			m_tag = OBJECT_TAG::TAG_None;
 	std::string		m_name = "GameObject";		// 名前
 
-	float			m_colRadius = 2.0f;			// このキャラクターの半径
 
 };
 

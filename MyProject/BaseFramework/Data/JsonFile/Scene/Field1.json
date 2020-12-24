@@ -16,7 +16,7 @@
     {
       "ClassName": "GameObject",
       "Name": "Black",
-      "Tag":256,
+      "Tag":4,
       "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
       "Pos":[0,0,0],
       "Rot":[0,0,0],
@@ -47,16 +47,38 @@
      "Speed":0.01
     },
     {
+     "ClassName": "Lift",
+     "Name": "PointLift1",
+     "Tag":4,
+     "LiftTag":1,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Points":2,
+     "Pos":[-16.2,4.7,11.4],
+     "MoveTo0":[-33,4.7,11.4],
+     "MoveTo1":[-33,4.7,31.8],
+     "Speed":0.01
+    },
+    {
+     "ClassName": "Lift",
+     "Name": "NormalLift1",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[27.8,4,-26.3],
+     "ToGoal":[27.8,10,-26.3],
+     "Speed":0.01
+    },
+    {
      "ClassName": "Target",
      "Name": "Target",
      "Tag":16,
      "ModelFileName":"Data/Textures/3DTexture/Gimmic/Target/Target.gltf",
-     "Pos":[0,0,0],
-     "Rot":[ 0 , 0 , 0 ],
+     "Pos":[-46.8,8,-26.1],
+     "Rot":[ 0 , 2.1 , 0 ],
      "Scale": [ 1, 1, 1],
      "DoorNum":1,
      "DoorType":1,
-     "Door0":[0,0,0],
+     "Door0":[5.9,4.7,-26.4],
      "DoorAngle0":[0,1.55,0]
     },
     {
@@ -69,13 +91,247 @@
       "Rot":[ 0 , 90 , 0 ]
     },
     {
+     "ClassName": "Wall",
+     "Name": "Wall",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Wall/Wall.gltf",
+     "Pos":[0,0,0]
+    },
+    {
+     "ClassName": "GameObject",
+     "Name": "Magic",
+     "Tag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Magic/Magic.gltf",
+     "Pos":[19.4,4.8,-25.9],
+     "Scale": [ 10, 1, 10]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-5,2,0],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-5,2,5],
+     "Rot":[0,0,0]
+    },
+     {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-5,2,20],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-5,2,25],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[15,2,0],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[15,2,5],
+     "Rot":[0,0,0]
+    },
+     {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[15,2,20],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[15,2,25],
+     "Rot":[0,0,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-24.2,2,45],
+     "Rot":[0,90,0]
+    },
+    {
+     "ClassName": "Needle",
+     "Name": "Needel",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Needle/Needle.gltf",
+     "Pos":[-42.2,2,45],
+     "Rot":[0,90,0]
+    },
+    {
+     "ClassName": "Cutter",
+     "Name": "Cutter",
+     "Tag":256,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Cutter/Cutter.gltf",
+     "Pos":[21,5.5,43.9]
+    },
+    {
+     "ClassName": "Item",
+     "Name": "Jewelry",
+     "Tag":1,
+     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
+     "Pos":[-47.6,4.7,55],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1]
+    },
+    {
+     "ClassName": "Item",
+     "Name": "Jewelry2",
+     "Tag":1,
+     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
+     "Pos":[-25.3,4.7,-33],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1]
+    },
+    {
+     "ClassName": "Item",
+     "Name": "Jewelry3",
+     "Tag":1,
+     "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
+     "Pos":[24.0,10.51,-26],
+     "Rot":[ 0 , 0 , 0 ],
+     "Scale": [ 1, 1, 1]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":5,
+     "About":0,
+     "Radius":10,
+     "Pos":[6,4.7,12]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":0,
+     "About":0,
+     "Radius":10,
+     "Pos":[15,4.7,12]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":0,
+     "About":0,
+     "Radius":10,
+     "Pos":[-5,4.7,12]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":4,
+     "About":0,
+     "Radius":30,
+     "Pos":[3.7,4.7,-5]
+    },
+    {
      "ClassName": "SpawnManage",
      "Name": "RespwanPos",
      "Tag":0,
      "EnemTag":1,
      "About":1,
-     "Radius":5,
-     "Pos":[5.1,4.7,33.5]
+     "Radius":10,
+     "Pos":[19.4,4.7,-25.9]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":4,
+     "About":0,
+     "Radius":7,
+     "Pos":[-25.3,4.7,-18.8],
+     "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":5,
+     "About":0,
+     "Radius":7,
+     "Pos":[-5.9,4.7,-18.8]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":5,
+     "About":0,
+     "Radius":7,
+     "Pos":[-5.9,4.7,-33],
+     "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":5,
+     "About":0,
+     "Radius":10,
+     "Pos":[-24.2,4.7,39.1],
+     "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":5,
+     "About":0,
+     "Radius":10,
+     "Pos":[-42.2,4.7,39.1],
+     "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":4,
+     "About":0,
+     "Radius":15,
+     "Pos":[-24.2,4.7,51],
+     "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "SpawnManage",
+     "Name": "RespwanPos",
+     "Tag":0,
+     "EnemTag":4,
+     "About":0,
+     "Radius":15,
+     "Pos":[-42.2,4.7,51],
+     "Rot":[0,3.3,0]
     }
   ]
 }

@@ -18,11 +18,18 @@ void Boar::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 	m_Hp = 3;
 
-
 }
 
 void Boar::Update()
 {
+	if (EndlessMode)
+	{
+		if (m_Hp < 0)
+		{
+			IsEndless() = false;
+		}
+	}
+
 	if (!m_alive) { return; }
 
 	m_prevPos = m_mWorld.GetTranslation();
@@ -48,12 +55,10 @@ void Boar::Update()
 		break;
 	}
 
-	if (EndlessMode)
+	
+	if (!m_faze == Default)
 	{
-		if (m_Hp < 0)
-		{
-			IsEndless() = false;
-		}
+		UpdateCollision();
 	}
 
 	m_pos = m_pos + m_force;
@@ -65,8 +70,6 @@ void Boar::Update()
 	m_mWorld.SetTranslation(m_pos);
 
 
-
-	UpdateCollision();
 }
 
 void Boar::Move()
@@ -101,7 +104,7 @@ void Boar::Move()
 			// 球情報の作成
 			SphereInfo info;
 			info.m_pos = m_mWorld.GetTranslation();
-			info.m_radius = m_uniqueCol-5;
+			info.m_radius = m_uniqueCol;
 			for (auto& obj : Scene::GetInstance().GetObjects())
 			{
 				// 自分自身を無視
@@ -117,18 +120,6 @@ void Boar::Move()
 					{
 						m_faze = Action;
 					}
-				}
-				else
-				{
-					m_falseFlg = true;
-				}
-			}
-			if (m_falseFlg)
-			{
-				m_force.y = -0.1f;
-				if (m_pos.y < -2)
-				{
-					m_alive = false;
 				}
 			}
 		}
@@ -206,7 +197,51 @@ void Boar::Snipe()
 
 void Boar::UpdateCollision()
 {
-	
+	SphereInfo sphereInfo;
+
+	Vector3 pos = Vector3(0, 0, 0);
+
+	sphereInfo.m_pos = m_pos;
+	sphereInfo.m_pos.y += 0.8f;
+	sphereInfo.m_radius = 0.4f;
+
+	Vector3 push;
+	//全員とレイ判定
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+		if (obj->GetTag() & TAG_StageObject)
+		{
+			SphereResult sphereResult;
+
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
+				push += sphereResult.m_push;
+			}
+		}
+		if (obj->GetTag() & TAG_ActiveObject)
+		{
+			SphereResult sphereResult;
+
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
+				push += sphereResult.m_push;
+			}
+		}
+		else
+		{
+			
+		}
+	}
+	pos += push;
+
+	m_pos += pos;
+
+
+
+
 }
 
 void Boar::VectorMove(Matrix mat)
