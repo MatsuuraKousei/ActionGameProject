@@ -1,4 +1,5 @@
 ﻿#include "ActionGameProcess.h"
+#include"../../Component/SoundComponent.h"
 #include "../Scene.h"
 #include"../SceneManage.h"
 #include "Human.h"
@@ -80,6 +81,9 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 		m_BlackOut = 1;
 		break;
 	}
+
+	m_spSoundComponent = std::make_shared<TitleSoundComponent>(*this);
+	m_spSoundComponent->Desirealise();
 }
 
 void ActionGameProcess::Draw2D()
@@ -115,11 +119,11 @@ void ActionGameProcess::Draw2D()
 		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
 
 		// 分母
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().MAXDia].get(), Dia.x + 500, Dia.y);
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().MAXDia].get(), Dia.x + 500.0f, Dia.y);
 		//「/」
 		SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
 		// 分子
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400, Dia.y);
+		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400.0f, Dia.y);
 
 		
 		if (Human::IsSnipe())

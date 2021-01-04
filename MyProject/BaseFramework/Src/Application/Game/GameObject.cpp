@@ -3,6 +3,7 @@
 #include "../Component/CameraComponent.h"
 #include "../Component/InputComponent.h"
 #include "../Component/ModelComponent.h"
+#include "../Component/SoundComponent.h"
 #include"SceneCameraManage.h"
 #include"Action/Manage/SpawnManager.h"
 #include "Action/ActionGameProcess.h"

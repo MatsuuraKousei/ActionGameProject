@@ -3,6 +3,7 @@
 #include "EffectShader/EffectShader.h"
 #include "StandardShader/StandardShader.h"
 #include "SpriteShader/SpriteShader.h"
+#include "ModelShader/ModelShader.h"
 
 //==========================================================
 //
@@ -31,8 +32,9 @@ public:
 	//
 	//==========================
 	StandardShader		m_standardShader;		// 3Dモデル描画シェーダ
-	EffectShader			m_effectShader;			// エフェクト描画シェーダ
-	SpriteShader			m_spriteShader;			// 2Dテクスチャ描画シェーダ
+	EffectShader		m_effectShader;			// エフェクト描画シェーダ
+	SpriteShader		m_spriteShader;			// 2Dテクスチャ描画シェーダ
+	ModelShader			m_modelShader;			// モデルシェーダー
 
 
 	//==========================
@@ -76,7 +78,44 @@ public:
 		Math::Vector3		DL_Color = {1,1,1};  // 光の色
 		float					tmp3;
 
+	//-----------------
+	// 点光
+	//-----------------
+	// 使用数
+		int                PL_Cnt = 0;
+		float            tmp4[3];
+
+		// データ
+		struct PointLight
+		{
+			Vector3    Color;            // 色
+			float    Radius;            // 半径
+			Vector3    Pos;            // 座標
+			float    tmp;
+		};
+		std::array<PointLight, 100>        PL;
+
 	};
+
+	// 点光を追加
+	void AddPointLight(const Vector3& pos, float radius, const Vector3& color)
+	{
+		int idx = m_cb8_Light.GetWork().PL_Cnt;
+		if (idx < (int)m_cb8_Light.GetWork().PL.size())
+		{
+			m_cb8_Light.Work().PL[idx].Pos = pos;
+			m_cb8_Light.Work().PL[idx].Radius = radius;
+			m_cb8_Light.Work().PL[idx].Color = color;
+
+			m_cb8_Light.Work().PL_Cnt++;
+		}
+	}
+	// 点光をリセット
+	void ResetPointLight()
+	{
+		m_cb8_Light.Work().PL_Cnt = 0;
+	}
+
 
 	// ライト定数バッファ
 	ConstantBuffer<cbLight>		m_cb8_Light;

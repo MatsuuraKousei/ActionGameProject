@@ -20,11 +20,20 @@ private:
 
 	void Move();
 
+	void Collision();
+
+	bool Ground(float);
+
 	std::shared_ptr<GameObject> m_spShield;
 
 	float						m_uniqueCol = 20;
+	float						m_grabity = 0.3;
 	float						m_rotateAngle = 2;
 	float						m_speed = 0.05;
+
+	bool						m_isGround;
+
+	bool						m_bShield = true;
 
 	Vector3						m_force;							// キャラの移動量
 	Vector3						m_prevPos = {};

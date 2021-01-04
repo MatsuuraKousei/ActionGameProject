@@ -70,6 +70,9 @@
     <Filter Include="Src\System\Debug">
       <UniqueIdentifier>{d216f94c-031a-4481-82e7-c3ea3f17eb59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\System\Shader\ModelShader">
+      <UniqueIdentifier>{9c412cb9-2d0a-43dd-a6de-c31ca70ebf37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -303,6 +306,12 @@
     <ClInclude Include="Src\Application\Game\Action\Enemy\Monkey.h">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Component\SoundComponent.h">
+      <Filter>Src\Application\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Shader\ModelShader\ModelShader.h">
+      <Filter>Src\System\Shader\ModelShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -500,6 +509,12 @@
     <ClCompile Include="Src\Application\Game\Action\Enemy\Monkey.cpp">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Application\Component\SoundComponent.cpp">
+      <Filter>Src\Application\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Shader\ModelShader\ModelShader.cpp">
+      <Filter>Src\System\Shader\ModelShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\System\Shader\EffectShader\inc_EffectShader.hlsli">
@@ -513,6 +528,9 @@
     </None>
     <None Include="Src\System\Shader\inc_Common.hlsli">
       <Filter>Src\System\Shader</Filter>
+    </None>
+    <None Include="Src\System\Shader\ModelShader\Inc_ModelShader.hlsli">
+      <Filter>Src\System\Shader\ModelShader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -533,6 +551,12 @@
     </FxCompile>
     <FxCompile Include="Src\System\Shader\StandardShader\StandardShader_VS.hlsl">
       <Filter>Src\System\Shader\StandardShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_PS.hlsl">
+      <Filter>Src\System\Shader\ModelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_VS.hlsl">
+      <Filter>Src\System\Shader\ModelShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

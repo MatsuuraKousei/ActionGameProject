@@ -46,6 +46,14 @@ public:
 		// z = v.m128_f32[2];
 	}
 
+	// XMFLOAT3から代入してきた時
+	Vector3(const DirectX::XMFLOAT3& V)
+	{
+		x = V.x;
+		y = V.y;
+		z = V.z;
+	}
+
 	// XMVECTORへ変換
 	operator DirectX::XMVECTOR() const { return DirectX::XMLoadFloat3(this); }
 

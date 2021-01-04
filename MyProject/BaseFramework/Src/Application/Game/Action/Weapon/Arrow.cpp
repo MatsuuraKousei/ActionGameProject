@@ -11,7 +11,7 @@ void Arrow::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 
 	// 生きる時間(最大Fpsに依存?)
-	m_lifeSpan = APP.m_maxFps * 1;
+	m_lifeSpan = APP.m_maxFps * 2;
 
 	m_mWorld.CreateRotationX(m_rot.x);
 	m_mWorld.RotateY(m_rot.y);
@@ -48,7 +48,7 @@ void Arrow::Collision()
 	// 球情報の作成
 	SphereInfo info;
 	info.m_pos = m_mWorld.GetTranslation();
-	info.m_radius = 0.1;
+	info.m_radius = 0.05;
 
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
@@ -96,7 +96,7 @@ void Arrow::Collision()
 				{
 					obj->m_Hp--;
 				}
-				Explosion(m_mWorld.GetTranslation());
+				Explosion2(m_mWorld.GetTranslation());
 				Destroy();
 			}
 		}
@@ -145,6 +145,23 @@ void Arrow::Explosion(const Vector3& hitPos)
 
 	// 爆発のテクスチャとアニメーション情報を渡す
 	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Effect/Arrow.png"), 5.0f, 5, 2, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
+}
+
+void Arrow::Explosion2(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion03.png"), 5.0f, 5, 3, (float)(rand() % 360), 0.9f);
 
 	// 場所を自分の位置に合わせる
 	Matrix hitMat = m_mWorld;

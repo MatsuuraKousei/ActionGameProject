@@ -71,7 +71,7 @@ void Human::Update()
 
 	if (!m_alive) { return; }
 
-	//Imguiコンポーネントの更新
+	//Imputコンポーネントの更新
 	if (m_spInputComponent)
 	{
 		m_spInputComponent->Update();
@@ -250,6 +250,8 @@ void Human::SwordInit()
 
 	m_spSword->SetMatrix(m_mWorld);
 
+	m_spSword->SetTag(TAG_KnockBack);
+
 	m_fBodyInit = Body->m_localTransform.GetAngles().y;
 
 	Scene::GetInstance().AddObject(m_spSword);
@@ -305,36 +307,6 @@ void Human::SwordUpdate()
 			m_fswordInitAngle -= 0.3f;
 			Body->m_localTransform.RotateY(m_fswordInitAngle);
 
-			SphereInfo sphereInfo;
-
-			Vector3 vec;
-
-			vec = m_spSword->GetMatrix().GetAxisY();
-
-			vec.Normalize();
-
-			sphereInfo.m_pos = vec + m_spSword->GetMatrix().GetTranslation();
-			sphereInfo.m_radius = 0.4f;
-
-			Vector3 push;
-			//全員とレイ判定
-			for (auto& obj : Scene::GetInstance().GetObjects())
-			{
-				//自分自身は無視
-				if (obj.get() == this) { continue; }
-				//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
-				if (obj->GetTag() & TAG_Enemy)
-				{
-					SphereResult sphereResult;
-
-					if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
-					{
-						obj->m_Hp--;
-					}
-				}
-			}
-
-
 			// エフェクト
 			for (UINT i = 0; i < m_swordTrail.size(); i++)
 			{
@@ -353,36 +325,6 @@ void Human::SwordUpdate()
 		{
 			m_fswordInitAngle += 0.3f;
 			Body->m_localTransform.RotateY(m_fswordInitAngle);
-
-
-			SphereInfo sphereInfo;
-
-			Vector3 vec;
-
-			vec = m_spSword->GetMatrix().GetAxisY();
-
-			vec.Normalize();
-
-			sphereInfo.m_pos = vec + m_spSword->GetMatrix().GetTranslation();
-			sphereInfo.m_radius = 0.4f;
-
-			Vector3 push;
-			//全員とレイ判定
-			for (auto& obj : Scene::GetInstance().GetObjects())
-			{
-				//自分自身は無視
-				if (obj.get() == this) { continue; }
-				//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
-				if (obj->GetTag() & TAG_Enemy)
-				{
-					SphereResult sphereResult;
-
-					if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
-					{
-						obj->m_Hp--;
-					}
-				}
-			}
 
 			// エフェクト
 			for (UINT i = 0; i < m_swordTrail.size(); i++)
@@ -812,6 +754,7 @@ void Human::Damege()
 				m_Hp--;
 			}
 		}
+
 	}
 
 }

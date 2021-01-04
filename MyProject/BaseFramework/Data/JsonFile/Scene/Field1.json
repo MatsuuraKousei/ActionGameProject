@@ -15,6 +15,24 @@
     },
     {
       "ClassName": "GameObject",
+      "Name": "Mat",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Dungen2/Mat.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Tree",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Dungen2/tree.gltf",
+      "Pos":[23,4.7,-26.3],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
       "Name": "Black",
       "Tag":4,
       "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
@@ -36,26 +54,21 @@
      "Tag":4,
      "LiftTag":1,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-     "Points":6,
+     "Points":3,
      "Pos":[34,4.7,43.9],
-     "MoveTo0":[26.3,4.7,43.9],
-     "MoveTo1":[26.3,4.7,49.3],
-     "MoveTo2":[14.3,4.7,49.3],
-     "MoveTo3":[14.3,4.7,40.5],
-     "MoveTo4":[5.1,4.7,39.8],
-     "MoveTo5":[5.1,4.7,33.5],
+     "MoveTo0":[26.3,4.7,49.3],
+     "MoveTo1":[14.3,4.7,49.3],
+     "MoveTo2":[5.1,4.7,33.5],
      "Speed":0.01
     },
     {
      "ClassName": "Lift",
      "Name": "PointLift1",
      "Tag":4,
-     "LiftTag":1,
+     "LiftTag":0,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-     "Points":2,
      "Pos":[-16.2,4.7,11.4],
-     "MoveTo0":[-33,4.7,11.4],
-     "MoveTo1":[-33,4.7,31.8],
+     "ToGoal":[-33,4.7,31.8],
      "Speed":0.01
     },
     {
@@ -73,13 +86,13 @@
      "Name": "Target",
      "Tag":16,
      "ModelFileName":"Data/Textures/3DTexture/Gimmic/Target/Target.gltf",
-     "Pos":[-46.8,8,-26.1],
+     "Pos":[-47.8,8,-26.1],
      "Rot":[ 0 , 2.1 , 0 ],
      "Scale": [ 1, 1, 1],
      "DoorNum":1,
      "DoorType":1,
-     "Door0":[5.9,4.7,-26.4],
-     "DoorAngle0":[0,1.55,0]
+     "Door0":[5.9,4.7,-26.2],
+     "DoorAngle0":[0,4.73,0]
     },
     {
       "ClassName": "Human",
@@ -93,9 +106,9 @@
     {
      "ClassName": "Wall",
      "Name": "Wall",
-     "Tag":4,
+     "Tag":16,
      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Wall/Wall.gltf",
-     "Pos":[0,0,0]
+     "Pos":[40.9,5.7,49.0]
     },
     {
      "ClassName": "GameObject",
@@ -215,7 +228,7 @@
      "Name": "Jewelry3",
      "Tag":1,
      "ModelFileName":"Data/Textures/3DTexture/Item/Jewelry/diamonds.gltf",
-     "Pos":[24.0,10.51,-26],
+     "Pos":[23.0,10.51,-26],
      "Rot":[ 0 , 0 , 0 ],
      "Scale": [ 1, 1, 1]
     },

@@ -594,6 +594,15 @@ std::shared_ptr<GLTFModel> LoadGLTFModel(const std::string& path)
 			}
 		}
 
+		// メッシュの全頂点の接線を計算する
+		for (auto&& v : destNode->Mesh.Vertices)
+		{
+			v.Tangent = Vector3::Cross({ 0,1,0 }, v.Normal);
+			if (v.Tangent.x == 0 && v.Tangent.y == 0 && v.Tangent.z == 0)
+			{
+				v.Tangent = Vector3::Cross({ 0,0,-1 }, v.Normal);
+			}
+		}
 
 	}
 

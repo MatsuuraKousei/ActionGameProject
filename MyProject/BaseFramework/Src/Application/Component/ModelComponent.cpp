@@ -29,8 +29,12 @@ void ModelComponent::Draw()
 	{
 		auto& rNode = m_coppiedNodes[i];
 		if (rNode.m_spMesh == nullptr) { continue; }
-		SHADER.m_standardShader.SetWorldMatrix(rNode.m_localTransform * m_owner.GetMatrix());
-		SHADER.m_standardShader.DrawMesh(rNode.m_spMesh.get(), m_spModel->GetMaterials());
+		// 行列セット
+		SHADER.m_modelShader.SetWorldMatrix(rNode.m_localTransform * m_owner.GetMatrix());
+
+		// 描画
+		SHADER.m_modelShader.DrawMesh(rNode.m_spMesh.get(), m_spModel->GetMaterials());
+
 	}
 
 }

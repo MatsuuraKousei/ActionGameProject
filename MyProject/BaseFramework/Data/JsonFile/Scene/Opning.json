@@ -22,16 +22,16 @@
       "ClassName": "GameObject",
       "Name": "Water",
       "Tag":256,
-      "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
+      "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Sea.gltf",
       "Pos":[0,0,0],
       "Rot":[0,0,0],
-      "Scale": [ 1000, 1000, 1000 ]
+      "Scale": [ 1, 1, 1 ]
     },
     {
       "ClassName": "GameObject",
       "Name": "Map",
       "Tag":4,
-      "ModelFileName":"Data/Textures/3DTexture/Map/OPMap/OPMap.gltf",
+      "ModelFileName":"Data/Textures/3DTexture/Map/OPMap/OPMap2.gltf",
       "Pos":[0,0,0],
       "Rot":[0,0,0],
       "Scale": [ 1, 1, 1]

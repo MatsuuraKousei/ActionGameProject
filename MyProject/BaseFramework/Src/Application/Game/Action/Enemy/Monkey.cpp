@@ -8,21 +8,21 @@ void Monkey::Deserialize(const json11::Json& jsonObj)
 
 	GameObject::Deserialize(jsonObj);
 
-	
+
 
 	m_Hp = 3;
 
 	m_spShield = std::make_shared<GameObject>();
 	m_spShield->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Shield.json"));
 	m_spShield->m_Hp = 50;
-	m_spShield->m_colRadius = 0.5f;
+	m_spShield->m_colRadius = 1.5f;
 	Scene::GetInstance().AddObject(m_spShield);
 
 }
 
 void Monkey::Update()
 {
-	
+
 	if (!m_alive)
 	{
 		m_spShield->Destroy();
@@ -30,27 +30,38 @@ void Monkey::Update()
 
 	if (!m_alive) { return; }
 
-	Matrix mat;
-	mat.RotateY(m_rot.y+4.7);
-	mat.SetTranslation(m_mWorld.GetAxisZ() + m_mWorld.GetTranslation()+Vector3(0,1,0));
-	m_spShield->SetMatrix(mat);
+	if (m_bShield)
+	{
+		Matrix mat;
+		mat.RotateY(m_rot.y + 4.7);
+		mat.SetTranslation(m_mWorld.GetAxisZ() + m_mWorld.GetTranslation() + Vector3(0, 1.5, 0));
+		m_spShield->SetMatrix(mat);
+	}
+
+	
 
 	switch (m_faze)
 	{
 	case Default:
 		m_force.y = 0.1f;
-		if (m_pos.y > 4.5f)
+		if (m_pos.y > 4.7)
 		{
-			m_pos.y = 4.5f;
+			m_pos.y = 4.7;
 			m_faze = Action;
 		}
 		break;
 	case Action:
+		
+		//Collision();
 		Move();
 		break;
 	case Attack:
+		
+		//Collision();
 		break;
 	}
+
+	
 
 	m_pos += m_force;
 	m_force = { 0,0,0 };
@@ -129,4 +140,115 @@ void Monkey::Move()
 		}
 
 	}
+}
+
+void Monkey::Collision()
+{
+	float distanceFromGround = FLT_MAX;
+
+
+
+	SphereInfo sphereInfo;
+
+	sphereInfo.m_pos = m_pos;
+	sphereInfo.m_radius = 1.0f;
+
+	Vector3 push;
+	//全員とレイ判定
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+		if (obj->GetTag() & TAG_KnockBack)
+		{
+			SphereResult sphereResult;
+
+			if (obj->HitCheckBySphereToMesh(sphereInfo, sphereResult))
+			{
+				m_bShield = false;
+			}
+
+			
+		}
+	}
+
+}
+
+bool Monkey::Ground(float rDstDistance)
+{
+	//レイ判定情報
+	RayInfo rayInfo;
+	rayInfo.m_pos = m_pos;//キャラクターの位置を発射地点に
+
+	//キャラの足元から例を発射すると地面と当たらないので少し持ち上げる（乗り越えられる高さ分だけ）
+	rayInfo.m_pos.y += 0.8;
+	//落下中かもしれないので、1フレーム前の座標分も持ち上げる
+	rayInfo.m_pos.y += m_prevPos.y - m_pos.y;
+	//地面方向へのレイ
+	rayInfo.m_dir = { 0.0f,-1.0f,0.0f };
+
+	//レイの結果格納用
+	rayInfo.m_maxRange = FLT_MAX;
+	RayResult finalRayResult;
+
+	std::shared_ptr<GameObject> hitObj = nullptr;
+
+	//全員とレイ判定
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		//自分自身は無視
+		if (obj.get() == this) { continue; }
+		//ステージと当たり判定（背景オブジェクト以外に乗るときは変更の可能性あり）
+		if (obj->GetTag() & TAG_StageObject)
+		{
+			RayResult rayResult;
+
+			if (obj->HitCheckByRay(rayInfo, rayResult))
+			{
+				//もっとも当たったところまでの距離が短いものを保持する
+				if (rayResult.m_distance < finalRayResult.m_distance)
+				{
+					finalRayResult = rayResult;
+
+					hitObj = obj;
+				}
+			}
+		}
+	}
+	//補正分の長さを結果に反映＆着地判定
+	float distanceFromGround = FLT_MAX;
+	//足元にステージオブジェクトがあった
+	if (finalRayResult.m_hit)
+	{
+		//地面との距離を算出
+		distanceFromGround = finalRayResult.m_distance - (m_prevPos.y - m_pos.y);
+	}
+	//上方向に力がかかっていた場合
+	if (m_force.y > 0.0f)
+	{
+		//着地禁止
+		m_isGround = false;
+	}
+	else
+	{
+		//地面からの距離が（歩いて乗り越えれる高さ＋地面から足が離れていても着地判定する高さ）未満であれば着地とみなす
+		m_isGround = (distanceFromGround < (0.8 + 0.1));
+	}
+	//地面との距離を格納
+	rDstDistance = distanceFromGround;
+
+	//動くものの上に着地した時の判定（地面判定がないと連れていかれる）
+	if (hitObj && m_isGround)
+	{
+		//相手の一回動いた分を取得
+		auto mOneMove = hitObj->GetOneMove();
+		auto vOneMove = mOneMove.GetTranslation();
+
+		//相手の動いた分を自分の移動に含める
+		m_pos = m_pos + vOneMove;
+	}
+
+	//着地したかを返す
+	return m_isGround;
 }

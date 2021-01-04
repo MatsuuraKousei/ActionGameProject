@@ -4,6 +4,7 @@
 class CameraComponent;
 class InputComponent;
 class ModelComponent;
+class SoundComponent;
 
 struct SphereInfo;
 struct RayInfo;
@@ -21,7 +22,8 @@ enum OBJECT_TAG
 	TAG_Enemy = 0x00000020,	// 敵
 	TAG_DamegeObject = 0x00000100,	// ダメージオブジェクト
 	TAG_ActiveObject=0x000000200,	// 動くオブジェクト
-	TAG_BrokenObject=0x000000400
+	TAG_BrokenObject=0x000000400,
+	TAG_KnockBack=0x0000001000
 };
 
 struct Rot
@@ -78,6 +80,8 @@ public:
 	std::shared_ptr<InputComponent> GetInputComponent() { return m_spInputComponent; }
 	// モデルコンポーネント取得
 	std::shared_ptr<ModelComponent> GetModelComponent() { return m_spModelComponent; }
+	// サウンドコンポーネント取得
+	std::shared_ptr<SoundComponent> GetSoundComponent() { return m_spSoundComponent; }
 
 	const Matrix& GetPrevMatrix() { return m_mPrev; }
 
@@ -106,6 +110,8 @@ protected:
 	std::shared_ptr<InputComponent> m_spInputComponent = std::make_shared<InputComponent>(*this);
 	// モデルコンポーネント
 	std::shared_ptr<ModelComponent> m_spModelComponent = std::make_shared<ModelComponent>(*this);
+
+	std::shared_ptr<SoundComponent> m_spSoundComponent = std::make_shared<SoundComponent>(*this);
 
 	Matrix		m_mWorld;					// ゲーム内の絶対座標(座標と回転と拡大)
 

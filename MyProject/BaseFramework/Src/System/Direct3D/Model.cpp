@@ -80,6 +80,25 @@ bool Model::Load(const std::string& filename)
 		{
 			rDstMaterial.BaseColorTex = D3D.GetWhiteTex();	// 真っ白のものを読み込む
 		}
+
+		// 金属性・粗さ
+		rDstMaterial.Metallic = rSrcMaterial.Metallic;
+		rDstMaterial.Roughness = rSrcMaterial.Roughness;
+		rDstMaterial.MetallicRoughnessTex = std::make_shared<Texture>();
+		if (rDstMaterial.MetallicRoughnessTex->Load(fileDir + rSrcMaterial.MetallicRoughnessTexture) == false)
+		{
+			// 読み込めなかった場合は、代わりに白画像を使用
+			rDstMaterial.MetallicRoughnessTex = D3D.GetWhiteTex();
+		}
+
+		// 法線マップ
+		rDstMaterial.NormalTex = std::make_shared<Texture>();
+		if (rDstMaterial.NormalTex->Load(fileDir + rSrcMaterial.NormalTexture) == false)
+		{
+			// 読み込めなかった場合は、代わりにZ向き法線マップを使用
+			rDstMaterial.NormalTex = D3D.GetNormalTex();
+		}
+
 	}
 
 	//アニメーションデータ

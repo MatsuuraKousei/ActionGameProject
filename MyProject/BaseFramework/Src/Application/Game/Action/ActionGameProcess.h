@@ -35,7 +35,7 @@ private:
 
 	int						m_iPlayerHP;
 
-	float					m_OverY = 500;
+	int						m_OverY = 500;
 	DirectX::SimpleMath::Rectangle rc;
 	std::shared_ptr<Texture> m_spTitleTex;			// タイトル
 	std::shared_ptr<Texture> m_spEnterTex;			// タイトル

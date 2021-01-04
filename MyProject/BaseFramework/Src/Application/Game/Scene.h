@@ -58,7 +58,7 @@ public:
 
 	bool							debug = false;
 
-	StageProcess					stageProcess = FIELD;
+	StageProcess					stageProcess = OPNING;
 
 	std::string						Opning;
 	std::string						Field;
@@ -95,8 +95,11 @@ private:
 	// ターゲットカメラ
 	std::weak_ptr<CameraComponent> m_wpTargetCamera;
 
-
-
+	//-------------------------
+	// 平行光
+	//-------------------------
+	Vector3 m_lightDir = { 0,-1,0 };		//方向
+	Vector3 m_lightColor = { 1,1,1 };		//光の色
 
 
 	//ImGui用の課題変数/////////////////////////////////////////////////////////////
