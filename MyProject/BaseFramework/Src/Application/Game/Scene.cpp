@@ -156,16 +156,7 @@ void Scene::Update()
 	}
 
 	{
-		//疑似的な太陽の表示
-		const Vector3 sunPos = { 0.f,5.f,0.f };
-		Vector3 sunDir = m_lightDir;
-		sunDir.Normalize();
-		Vector3 color = m_lightColor;
-		color.Normalize();
-		Math::Color sunColor = color;
-		sunColor.w = 1.0f;
-		Debug::GetInstance().AddDebugLine(sunPos, sunPos + sunDir * 2, sunColor);
-		Debug::GetInstance().AddDebugSphereLine(sunPos, 0.5f, sunColor);
+		
 	}
 
 	auto selectObject = m_wpImguiSelectObj.lock();

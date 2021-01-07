@@ -18,6 +18,7 @@
 #include"Action/Gimmic/Wall.h"
 #include"Action/Gimmic/Cutter.h"
 #include"Action/Gimmic/Needle.h"
+#include"Action/Gimmic/Torch.h"
 #include"Action/Item.h"
 #include "Action/Gimmic/ShotGimmic.h"
 
@@ -326,6 +327,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Needle")
 	{
 		return std::make_shared<Needle>();
+	}
+
+	if (name == "Torch")
+	{
+		return std::make_shared<Torch>();
 	}
 
 	if (name == "Lift")

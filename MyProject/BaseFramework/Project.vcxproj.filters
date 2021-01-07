@@ -312,6 +312,9 @@
     <ClInclude Include="Src\System\Shader\ModelShader\ModelShader.h">
       <Filter>Src\System\Shader\ModelShader</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Torch.h">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -514,6 +517,9 @@
     </ClCompile>
     <ClCompile Include="Src\System\Shader\ModelShader\ModelShader.cpp">
       <Filter>Src\System\Shader\ModelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Torch.cpp">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

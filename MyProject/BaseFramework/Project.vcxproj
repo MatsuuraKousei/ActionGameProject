@@ -175,6 +175,7 @@
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Needle.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\ShotGimmic.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Target.h" />
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Torch.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Wall.h" />
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
     <ClInclude Include="Src\Application\Game\Action\Item.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Needle.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\ShotGimmic.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Target.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Torch.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Wall.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Item.cpp" />

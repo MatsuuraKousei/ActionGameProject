@@ -62,11 +62,11 @@ std::wstring SoundComponent::Conv(Track::Music music)
 {
 	if (music == Track::TitleBGM)
 	{
-		return sjis_to_wide("Data/Sounds/BGM/Castle.wav");
+		//return sjis_to_wide("Data/Sounds/BGM/Castle.wav");
 	}
 	if (music == Track::GameBGM)
 	{
-		return sjis_to_wide("Data/Sounds/BGM/Castle.wav");
+		//return sjis_to_wide("Data/Sounds/BGM/Castle.wav");
 	}
 	if (music == Track::BossBGM)
 	{
