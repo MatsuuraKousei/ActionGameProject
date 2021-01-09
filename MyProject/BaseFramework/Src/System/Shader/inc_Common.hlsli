@@ -31,6 +31,7 @@ cbuffer cbLight : register(b8)
     // 平行光
     float3  g_DL_Dir;    // 光の方向
     float3  g_DL_Color;  // 光の色
+	row_major float4x4 g_DL_mLightVP; // ライトカメラのビュー行列*射影行列
 
 	//--------------
 	// 点光

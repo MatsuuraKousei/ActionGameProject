@@ -12,7 +12,7 @@ void Torch::Update()
 {
 	if (!m_alive) { return; }
 
-	Vector3 pos = { 0,2,0 };
+	Vector3 pos = { 0,1,0 };
 	pos += m_mWorld.GetTranslation();
-	SHADER.AddPointLight(pos, 100, { 0.3f,0.3f,0.3f });
+	SHADER.AddPointLight(pos, 50, { 0.1f,0.1f,0.1f });
 }

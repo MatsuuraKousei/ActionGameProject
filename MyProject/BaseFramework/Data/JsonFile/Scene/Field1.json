@@ -119,13 +119,6 @@
      "Scale": [ 10, 1, 10]
     },
     {
-     "ClassName": "Torch",
-     "Name": "Torch",
-     "Tag":4,
-     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
-     "Pos":[40.9,4.7,45.0]
-    },
-    {
      "ClassName": "Needle",
      "Name": "Needel",
      "Tag":256,

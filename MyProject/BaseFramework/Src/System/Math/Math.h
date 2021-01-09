@@ -100,10 +100,12 @@ public:
 	//////////////////////////////////////////////////
 
 	// 自分を正規化
-	void Normalize()
+	Vector3& Normalize()
 	{
 		*this = DirectX::XMVector3Normalize(*this);
+		return *this;
 	}
+
 
 	// 長さ
 	float Length() const
@@ -279,6 +281,14 @@ public:
 		return *this;
 	}
 
+	// 正射影行列作成
+	Matrix& CreateProjection_Orthographic(float viewWidth, float viewHeight, float nearZ, float farZ)
+	{
+		*this = DirectX::XMMatrixOrthographicLH(viewWidth, viewHeight, nearZ, farZ);
+		return *this;
+	}
+
+
 	// 操作＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
 	// X軸回転
@@ -386,7 +396,29 @@ public:
 		return angles;
 	}
 
-	
+	// Z軸を指定方向に向ける
+	Matrix& LookTo(const Vector3& dir, const Vector3& up)
+	{
+		Vector3 vZ = dir;
+		vZ.Normalize();
+		Vector3 vX = Vector3::Cross(up, vZ).Normalize();
+		if (vX.LengthSquared() == 0)
+		{
+			vX = { 1,0,0 };
+		}
+		Vector3 vY = Vector3::Cross(vZ, vX).Normalize();
+
+		float scaleX = GetAxisX().Length();
+		float scaleY = GetAxisY().Length();
+		float scaleZ = GetAxisZ().Length();
+
+		SetAxisX(vX * scaleX);
+		SetAxisY(vY * scaleY);
+		SetAxisZ(vZ * scaleZ);
+
+		return *this;
+	}
+
 
 	// 自分で作ってもいい
 	// 例えば２点の間を求めるとか

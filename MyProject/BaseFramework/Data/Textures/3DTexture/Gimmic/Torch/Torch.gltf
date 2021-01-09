@@ -26,7 +26,7 @@
             ],
             "translation" : [
                 4.076245307922363,
-                5.903861999511719,
+                5.683345794677734,
                 -1.0054539442062378
             ]
         },
@@ -51,14 +51,25 @@
                 0.10000003129243851,
                 1,
                 0.10000000149011612
+            ],
+            "translation" : [
+                0,
+                -0.22051644325256348,
+                0
             ]
         },
         {
             "mesh" : 1,
             "name" : "Plane",
+            "rotation" : [
+                -0.43297311663627625,
+                0,
+                0,
+                0.9014068245887756
+            ],
             "translation" : [
                 0,
-                2.026510238647461,
+                1.8059937953948975,
                 0
             ]
         }
@@ -162,35 +173,35 @@
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 184,
+            "count" : 188,
             "max" : [
                 0.201867938041687,
-                -0.731177031993866,
-                0.3696161210536957
+                -0.25015348196029663,
+                -0.38670510053634644
             ],
             "min" : [
                 -0.201867938041687,
-                -1.2750771045684814,
-                -0.1680566966533661
+                -0.7940535545349121,
+                -0.9243779182434082
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 184,
+            "count" : 188,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 184,
+            "count" : 188,
             "type" : "VEC2"
         },
         {
             "bufferView" : 7,
             "componentType" : 5123,
-            "count" : 264,
+            "count" : 276,
             "type" : "SCALAR"
         }
     ],
@@ -217,28 +228,28 @@
         },
         {
             "buffer" : 0,
-            "byteLength" : 2208,
+            "byteLength" : 2256,
             "byteOffset" : 6888
         },
         {
             "buffer" : 0,
-            "byteLength" : 2208,
-            "byteOffset" : 9096
+            "byteLength" : 2256,
+            "byteOffset" : 9144
         },
         {
             "buffer" : 0,
-            "byteLength" : 1472,
-            "byteOffset" : 11304
+            "byteLength" : 1504,
+            "byteOffset" : 11400
         },
         {
             "buffer" : 0,
-            "byteLength" : 528,
-            "byteOffset" : 12776
+            "byteLength" : 552,
+            "byteOffset" : 12904
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 13304,
+            "byteLength" : 13456,
             "uri" : "Torch.bin"
         }
     ]

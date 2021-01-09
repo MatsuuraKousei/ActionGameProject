@@ -83,6 +83,8 @@ void Human::Update()
 	//移動前の座標を覚える
 	m_prevPos = m_pos;
 
+	
+
 
 	if (m_spInputComponent->GetButton(Input::Buttons::Y) & m_spInputComponent->ENTER)
 	{
@@ -175,15 +177,9 @@ void Human::Update()
 		m_spCameraComponent->SetCameraMatrix(trans);
 	}
 
-	if (m_alive)
-	{
-
-	}
-
-
 	if (m_pos.y < 1)
 	{
-		m_Hp = 0;
+		m_Hp = -1;
 	}
 }
 

@@ -10,6 +10,7 @@
 #include "StageEdit.h"
 #include "Action/Human.h"
 #include"Action/Lift.h"
+#include"Action/Enemy/Boss.h"
 #include"Action/Enemy/Boar.h"
 #include"Action/Enemy/Alligator.h"
 #include"Action/Enemy/Eagle.h"
@@ -107,6 +108,14 @@ void GameObject::Draw()
 
 	m_spModelComponent->Draw();
 }
+
+
+void GameObject::DrawShadowMap()
+{
+	if (m_spModelComponent == nullptr)return;
+	m_spModelComponent->DrawShadowMap();
+}
+
 
 // ImGuiの更新
 void GameObject::ImGuiUpdate()
@@ -347,6 +356,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Item")
 	{
 		return std::make_shared<Item>();
+	}
+
+	if (name == "Boss")
+	{
+		return std::make_shared<Boss>();
 	}
 
 	if (name == "Boar")

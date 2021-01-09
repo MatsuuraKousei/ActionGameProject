@@ -11,6 +11,11 @@ cbuffer cbObject : register(b0)
 {
     // オブジェクト情報
     row_major float4x4 g_mW; // ワールド変換行列(DirectXは行優先、OpenGlなどは列優先)
+
+    // ディゾルブの閾値
+    float g_dissolveThreshold;
+    float3 tmp;
+
 };
 
 // 頂点シェーダから出力するデータ

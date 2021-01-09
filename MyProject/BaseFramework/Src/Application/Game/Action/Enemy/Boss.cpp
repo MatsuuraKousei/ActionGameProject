@@ -6,7 +6,7 @@ void Boss::Update()
 {
 	if (!m_alive) { return; }
 
-	m_prevPos = m_mWorld.GetTranslation();
+	/*m_prevPos = m_mWorld.GetTranslation();
 
 	m_pos = m_pos + m_force;
 	m_force = { 0,0,0 };
@@ -14,8 +14,10 @@ void Boss::Update()
 	m_mWorld.CreateRotationX(m_rot.x);
 	m_mWorld.RotateY(m_rot.y);
 	m_mWorld.RotateZ(m_rot.z);
-	m_mWorld.SetTranslation(m_pos);
-
+	m_mWorld.SetTranslation(m_pos);*/
+	Vector3 pos = { 0,10,0 };
+	pos += m_mWorld.GetTranslation();
+	SHADER.AddPointLight(pos, 100, { 1.0f,0.5f,0.5f });
 
 
 	UpdateCollision();

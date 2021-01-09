@@ -4,6 +4,8 @@
 #include "StandardShader/StandardShader.h"
 #include "SpriteShader/SpriteShader.h"
 #include "ModelShader/ModelShader.h"
+#include "GenerateShadowMapShader/GenerateShadowMapShader.h"
+
 
 //==========================================================
 //
@@ -35,6 +37,7 @@ public:
 	EffectShader		m_effectShader;			// エフェクト描画シェーダ
 	SpriteShader		m_spriteShader;			// 2Dテクスチャ描画シェーダ
 	ModelShader			m_modelShader;			// モデルシェーダー
+	GenerateShadowMapShader	m_genShadowMapShader;	//シャドウマップシェーダー
 
 
 	//==========================
@@ -77,6 +80,8 @@ public:
 		float					tmp2;
 		Math::Vector3		DL_Color = {1,1,1};  // 光の色
 		float					tmp3;
+
+		Matrix            DL_mLightVP;        // ライトカメラのビュー行列*射影行列
 
 	//-----------------
 	// 点光
@@ -134,7 +139,9 @@ public:
 
 	// ラスタライズステート
 	// 裏側を描かないようにすること(カリング)
-	ID3D11RasterizerState* m_rs_CullBack = nullptr;					// 裏側を描画しない
+	ID3D11RasterizerState* m_rs_CullBack = nullptr;
+	ID3D11RasterizerState* m_rs_CullFront = nullptr;
+	// 裏側を描画しない
 	ID3D11RasterizerState* m_rs_CullNone = nullptr;					// 裏側を描画する
 
 	// ブレンドステート

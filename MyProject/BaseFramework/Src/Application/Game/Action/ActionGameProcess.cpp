@@ -88,7 +88,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 void ActionGameProcess::Draw2D()
 {
-	
+
 	if (Scene::GetInstance().debug) { return; }
 	// 2D描画
 	SHADER.m_spriteShader.SetMatrix(m_mWorld);
@@ -98,7 +98,7 @@ void ActionGameProcess::Draw2D()
 	case OPNING:
 		if (!m_WhiteOutFlg)
 		{
-			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200,1.1);
+			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200, 1.1);
 			SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
 			//SHADER.m_spriteShader.DrawTex(m_spBMotherHPTex.get(), -45, -300);
 			//SHADER.m_spriteShader.DrawTex(m_spWolfHPTex.get(), 0, -300);
@@ -125,15 +125,15 @@ void ActionGameProcess::Draw2D()
 		// 分子
 		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400.0f, Dia.y);
 
-		
+
 		if (Human::IsSnipe())
 		{
 			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -30);
 		}
 
-		
 
-		
+
+
 		break;
 	case CLEAR:
 		SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
@@ -151,9 +151,11 @@ void ActionGameProcess::Draw2D()
 
 void ActionGameProcess::Update()
 {
+	Vector3 pos = { 0,10,0 };
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
+		SHADER.AddPointLight(pos, 10000, { 0.1f,0.1f,0.1f });
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
 			m_WhiteOutFlg = true;
@@ -167,6 +169,7 @@ void ActionGameProcess::Update()
 			m_WhiteOut = 1;
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
+			SHADER.ResetPointLight();
 		}
 		break;
 	case FIELD:

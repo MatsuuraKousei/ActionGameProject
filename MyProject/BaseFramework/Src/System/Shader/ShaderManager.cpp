@@ -16,6 +16,9 @@ void ShaderManager::Init()
 	m_spriteShader.Init();
 	// 3Dモデル描画シェーダー
 	m_modelShader.Init();
+	// シャドウマップ生成シェーダー
+	m_genShadowMapShader.Init();
+
 
 	//============================================
 	// 定数バッファ
@@ -54,6 +57,7 @@ void ShaderManager::Init()
 
 	// ラスタライザステート作成
 	m_rs_CullBack = D3D.CreateRasterizerState(D3D11_CULL_BACK, D3D11_FILL_SOLID, true, false);
+	m_rs_CullFront = D3D.CreateRasterizerState(D3D11_CULL_FRONT, D3D11_FILL_SOLID, true, false);
 	m_rs_CullNone = D3D.CreateRasterizerState(D3D11_CULL_NONE, D3D11_FILL_SOLID, true, false);
 
 	// ブレンドステート
@@ -68,6 +72,7 @@ void ShaderManager::Release()
 	m_effectShader.Release();
 	m_spriteShader.Release();
 	m_modelShader.Release();
+	m_genShadowMapShader.Release();
 
 	m_cb7_Camera.Release();
 	m_cb8_Light.Release();
@@ -80,6 +85,7 @@ void ShaderManager::Release()
 
 	// ラスタライザステート解放
 	SafeRelease(m_rs_CullBack);
+	SafeRelease(m_rs_CullFront);
 	SafeRelease(m_rs_CullNone);
 
 	// ブレンドステート解散

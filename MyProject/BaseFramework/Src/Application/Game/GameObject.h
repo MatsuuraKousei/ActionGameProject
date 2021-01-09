@@ -43,6 +43,7 @@ public:
 	// virtualを付けることでそのまま使うことも上書きすることもできる(仮想関数)
 	virtual void Deserialize(const json11::Json& jsonObj);	// 初期化
 	virtual void Update();		// 更新
+	virtual void DrawShadowMap();
 	virtual void Draw();		// 描画
 
 	inline const std::string& GetName()const { return m_name; }

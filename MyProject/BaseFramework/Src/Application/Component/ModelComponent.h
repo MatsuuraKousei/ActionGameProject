@@ -53,6 +53,16 @@ public:
 
 	// StandardShaderで描画
 	void Draw();
+
+	// シャドウマップ生成描画
+	void DrawShadowMap();
+
+	// ディゾルブの閾値設定
+	void SetDissolveThreshold(float threshold)
+	{
+		m_dissolveThreshold = threshold;
+	}
+
 private:
 
 	std::vector<Model::Node> m_coppiedNodes;	// 個別管理のため、オリジナルからコピーして保持する配列
@@ -64,4 +74,7 @@ private:
 	std::shared_ptr<Model> m_spModel;
 
 	GameObject& m_owner;
+
+	// 描画設定
+	float			m_dissolveThreshold = 0.0f;
 };

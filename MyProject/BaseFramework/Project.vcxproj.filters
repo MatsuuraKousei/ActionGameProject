@@ -73,6 +73,9 @@
     <Filter Include="Src\System\Shader\ModelShader">
       <UniqueIdentifier>{9c412cb9-2d0a-43dd-a6de-c31ca70ebf37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\System\Shader\GenerateShadowMapShader">
+      <UniqueIdentifier>{2fcd5ebc-35d6-4989-a1b2-4ea80469f7a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -315,6 +318,9 @@
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Torch.h">
       <Filter>Src\Application\Game\Action\Gimmic</Filter>
     </ClInclude>
+    <ClInclude Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader.h">
+      <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -521,6 +527,9 @@
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Torch.cpp">
       <Filter>Src\Application\Game\Action\Gimmic</Filter>
     </ClCompile>
+    <ClCompile Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader.cpp">
+      <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\System\Shader\EffectShader\inc_EffectShader.hlsli">
@@ -537,6 +546,9 @@
     </None>
     <None Include="Src\System\Shader\ModelShader\Inc_ModelShader.hlsli">
       <Filter>Src\System\Shader\ModelShader</Filter>
+    </None>
+    <None Include="Src\System\Shader\GenerateShadowMapShader\inc_GenerateShadowMapShader.hlsli">
+      <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -563,6 +575,18 @@
     </FxCompile>
     <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_VS.hlsl">
       <Filter>Src\System\Shader\ModelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_Outline_PS.hlsl">
+      <Filter>Src\System\Shader\ModelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\ModelShader\ModelShader_Outline_VS.hlsl">
+      <Filter>Src\System\Shader\ModelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader_PS.hlsl">
+      <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader_VS.hlsl">
+      <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

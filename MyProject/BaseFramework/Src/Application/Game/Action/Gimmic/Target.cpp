@@ -52,7 +52,9 @@ void Target::Deserialize(const json11::Json& jsonObj)
 void Target::Update()
 {
 	if (!m_alive) { return; }
-
+	Vector3 pos = { 0,1,0 };
+	pos += m_mWorld.GetTranslation();
+	SHADER.AddPointLight(pos, 30, { 0.1f,0.1f,0.1f });
 	if (m_Hp == 1)
 	{
 		if (m_rot.z > -1)

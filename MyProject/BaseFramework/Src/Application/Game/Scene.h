@@ -58,7 +58,7 @@ public:
 
 	bool							debug = false;
 
-	StageProcess					stageProcess = OPNING;
+	StageProcess					stageProcess = FIELD;
 
 	std::string						Opning;
 	std::string						Field;

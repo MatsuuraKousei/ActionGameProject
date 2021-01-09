@@ -102,7 +102,7 @@ void Scene::Init()
 
 	// 文字列格納
 	Opning = "Data/JsonFile/Scene/Opning.json";
-	Field = "Data/JsonFile/Scene/Field1.json";
+	Field = "Data/JsonFile/Scene/Field0.json";
 	Gameclear = "Data/JsonFile/Scene/Clear.json";
 	Gameover = "Data/JsonFile/Scene/Over.json";
 
@@ -153,10 +153,6 @@ void Scene::Update()
 	if (EditorCameraEnable)
 	{
 		m_spCamera->Update();
-	}
-
-	{
-		
 	}
 
 	auto selectObject = m_wpImguiSelectObj.lock();
@@ -221,6 +217,19 @@ void Scene::Draw()
 		}
 	}
 
+	//============================
+	// シャドウマップ生成描画
+	//============================
+	SHADER.m_genShadowMapShader.Begin();
+
+	// 全オブジェクトを描画
+	for (auto& obj : m_spObjects)
+	{
+		obj->DrawShadowMap();
+	}
+
+	SHADER.m_genShadowMapShader.End();
+
 
 	// ライトの情報をセット
 	SHADER.m_cb8_Light.Write();
@@ -228,6 +237,8 @@ void Scene::Draw()
 	// エフェクトシェーダーを描画デバイスにセット
 	SHADER.m_effectShader.SetToDevice();
 
+	// シャドウマップをセット
+	D3D.GetDevContext()->PSSetShaderResources(102, 1, SHADER.m_genShadowMapShader.GetDirShadowMap()->GetSRViewAddress());
 
 	// 不透明物描画
 	SHADER.m_modelShader.SetToDevice();
@@ -241,6 +252,11 @@ void Scene::Draw()
 			pObject->Draw();
 		}
 	}
+
+	// シャドウマップを解除
+	ID3D11ShaderResourceView* nullSRV = nullptr;
+	D3D.GetDevContext()->PSSetShaderResources(102, 1, &nullSRV);
+
 
 	// 半透明物描画
 	SHADER.m_effectShader.SetToDevice();
@@ -426,6 +442,13 @@ void Scene::ImGuiUpdate()
 		{
 			SHADER.m_cb8_Light.Work().DL_Color = m_lightColor;
 		}
+	}
+	ImGui::End();
+
+	// Graphics Debug
+	if (ImGui::Begin("Graphics Debug"))
+	{
+		ImGui::Image((ImTextureID)SHADER.m_genShadowMapShader.GetDirShadowMap()->GetSRView(), ImVec2(200, 200));
 	}
 	ImGui::End();
 

@@ -1,5 +1,10 @@
 {
   "GameObjects": [
-
+    {
+      "ClassName": "Boss",
+      "Name": "Boss",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Enemy/Boss/Boss.gltf"
+    }
   ]
 }
