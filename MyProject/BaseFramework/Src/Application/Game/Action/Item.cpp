@@ -1,6 +1,7 @@
 ﻿#include "Item.h"
 #include"../Scene.h"
 #include"ActionGameProcess.h"
+#include "Manage/ScoreManager.h"
 
 void Item::Deserialize(const json11::Json& jsonObj)
 {
@@ -73,6 +74,7 @@ void Item::Update()
 		{
 			ActionGameProcess::GetInstance().getDia++;
 			ActionGameProcess::GetInstance().m_getFlg = true;
+			ScoreManager::GetInstance().AllDiamonds++;
 			m_alive = false;
 		}
 	}

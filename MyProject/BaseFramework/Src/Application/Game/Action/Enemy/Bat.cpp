@@ -2,6 +2,7 @@
 #include "../../Scene.h"
 #include"../../../../System/Debug/Debug.h"
 #include"../Manage/SpawnManager.h"
+#include"../Manage/ScoreManager.h"
 #include"BatBullet.h"
 #include"../Gimmic/Bullet.h"
 #include"../../AnimationEffect.h"
@@ -36,6 +37,11 @@ void Bat::Update()
 		{
 			IsEndless() = false;
 		}
+	}
+
+	if (m_Hp < 0)
+	{
+		ScoreManager::GetInstance().AllEnemies++;
 	}
 
 	if (!m_alive) { return; }

@@ -49,6 +49,8 @@ private:
 	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spHPTex[4];			// HPゲージ
 	std::shared_ptr<Texture> m_spNumbers[10];		// 数字
+	std::shared_ptr<Texture> m_spScores[10];		// スコア
+	std::shared_ptr<Texture> m_spScoreBoard;		// スコアボード
 	std::shared_ptr<Texture> m_spSlash;				// 「/」
 
 	std::shared_ptr<Texture> m_spBlack;				// 黒
@@ -64,4 +66,6 @@ private:
 	bool					m_WhiteOutFlg = false;
 	float					m_BlackOut = 0.0f;
 	bool					m_BlackOutFlg = false;;
+
+	int						m_Score = 00000;				// スコア
 };

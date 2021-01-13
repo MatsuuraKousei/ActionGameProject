@@ -2,6 +2,7 @@
 #include "../../Scene.h"
 #include "../Gimmic/Bullet.h"
 #include "../../../Component/ModelComponent.h"
+#include "../Manage/ScoreManager.h"
 #include "../../AnimationEffect.h"
 #include"../../../../System/Debug/Debug.h"
 
@@ -21,6 +22,11 @@ void Sentry::Deserialize(const json11::Json& jsonObj)
 
 void Sentry::Update()
 {
+	if (m_Hp < 0)
+	{
+		ScoreManager::GetInstance().AllEnemies++;
+	}
+
 	if (!m_alive) { return; }
 
 	switch (m_faze)

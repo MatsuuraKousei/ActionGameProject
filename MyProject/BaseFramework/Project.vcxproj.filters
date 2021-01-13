@@ -321,6 +321,9 @@
     <ClInclude Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader.h">
       <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Manage\ScoreManager.h">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -529,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="Src\System\Shader\GenerateShadowMapShader\GenerateShadowMapShader.cpp">
       <Filter>Src\System\Shader\GenerateShadowMapShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Manage\ScoreManager.cpp">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

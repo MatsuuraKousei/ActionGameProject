@@ -1,9 +1,10 @@
 ﻿#include "ActionGameProcess.h"
-#include"../../Component/SoundComponent.h"
+#include "../../Component/SoundComponent.h"
 #include "../Scene.h"
-#include"../SceneManage.h"
+#include "../SceneManage.h"
+#include "Manage/ScoreManager.h"
 #include "Human.h"
-#include"Item.h"
+#include "Item.h"
 
 
 void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
@@ -29,7 +30,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	// UI用テクスチャの読み込み
 	m_spMotherHPTex = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HPBer.png");
 
-
+	// スコアテキスト
+	m_spScoreBoard = ResFac.GetTexture("Data/Textures/2DTexture/GameClear/TotalScoresLogo.png");
 
 	m_spDiamond = ResFac.GetTexture("Data/Textures/2DTexture/UI/Jewelry/Diamond.png");
 	m_spDiaBack = ResFac.GetTexture("Data/Textures/2DTexture/UI/Back/Diamond.png");
@@ -41,12 +43,22 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 		m_spHPTex[i] = ResFac.GetTexture("Data/Textures/2DTexture/UI/Player/HP.png");
 	}
 
+	// 数字画像情報取得
 	for (int i = 0; i < 10; i++)
 	{
 		std::string s = "Data/Textures/2DTexture/UI/Fonts/";
 		s += std::to_string(i);
 		s += ".png";
 		m_spNumbers[i] = ResFac.GetTexture(s);
+	}
+
+	// 上に同じく（画像違う)
+	for (int i = 0; i < 10; i++)
+	{
+		std::string s = "Data/Textures/2DTexture/UI/ScoreFonts/";
+		s += std::to_string(i);
+		s += ".png";
+		m_spScores[i] = ResFac.GetTexture(s);
 	}
 
 	// バトルUI
@@ -138,6 +150,41 @@ void ActionGameProcess::Draw2D()
 	case CLEAR:
 		SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
 		SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
+		SHADER.m_spriteShader.DrawTex(m_spScoreBoard.get(), -150, -100);
+		for (int i = 0; i < 5; i++)
+		{
+			int bet = 0;
+			int score = m_Score;
+			static int Paragraph;
+
+			switch (i)
+			{
+			case 0:
+				bet = score / 10000;
+				Paragraph = bet * 10000;
+				break;
+			case 1:
+				score -= Paragraph;
+				bet = score / 1000;
+				Paragraph += bet * 1000;
+				break;
+			case 2:
+				score -= Paragraph;
+				bet = score / 100;
+				Paragraph += bet * 100;
+				break;
+			case 3:
+				score -= Paragraph;
+				bet = score / 10;
+				Paragraph += bet * 10;
+				break;
+			case 4:
+				score -= Paragraph;
+				bet = score;
+				break;
+			}
+			SHADER.m_spriteShader.DrawTex(m_spScores[bet].get(), 100 + (i * 35), -110);
+		}
 		break;
 	case OVER:
 		SHADER.m_spriteShader.DrawTex(m_spOverTex.get(), 0, m_OverY);
@@ -211,6 +258,9 @@ void ActionGameProcess::Update()
 		}
 		break;
 	case CLEAR:
+		ScoreManager::GetInstance().Calculation = true;
+		m_Score = ScoreManager::GetInstance().TotalScore;
+
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
 			Scene::GetInstance().stageProcess = OPNING;

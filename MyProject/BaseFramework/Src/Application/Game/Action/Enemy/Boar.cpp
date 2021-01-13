@@ -3,6 +3,7 @@
 #include "../../Scene.h"
 #include"../../FixedTexture.h"
 #include"../Manage/SpawnManager.h"
+#include"../Manage/ScoreManager.h"
 
 Boar::Boar()
 {
@@ -28,6 +29,11 @@ void Boar::Update()
 		{
 			IsEndless() = false;
 		}
+	}
+
+	if (m_Hp < 0)
+	{
+		ScoreManager::GetInstance().AllEnemies++;
 	}
 
 	if (!m_alive) { return; }

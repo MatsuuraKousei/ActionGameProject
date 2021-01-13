@@ -1,4 +1,5 @@
 ﻿#include "Monkey.h"
+#include "../Manage/ScoreManager.h"
 #include "../../Scene.h"
 
 void Monkey::Deserialize(const json11::Json& jsonObj)
@@ -22,6 +23,10 @@ void Monkey::Deserialize(const json11::Json& jsonObj)
 
 void Monkey::Update()
 {
+	if (m_Hp < 0)
+	{
+		ScoreManager::GetInstance().AllEnemies++;
+	}
 
 	if (!m_alive)
 	{
