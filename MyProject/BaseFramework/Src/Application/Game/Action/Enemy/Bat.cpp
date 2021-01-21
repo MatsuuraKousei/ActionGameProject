@@ -53,9 +53,9 @@ void Bat::Update()
 
 		// 羽アニメ
 		Move();
-		if (m_pos.y > 9)
+		if (m_pos.y > 7)
 		{
-			m_pos.y = 9;
+			m_pos.y = 7;
 
 			// 召喚アニメーション
 			Appearance();

@@ -1,6 +1,7 @@
 ﻿#include "Scene.h"
 #include "GameObject.h"
 #include "../Component/CameraComponent.h"
+#include "../Component/AudioComponent.h"
 #include"../../System/Debug/Debug.h"
 #include "./Application/Game/EditorCamera.h"
 #include "Application/ImGuiHelper.h"
@@ -20,6 +21,7 @@ Scene::~Scene()
 // 初期化
 void Scene::Init()
 {
+	AudioManager::GetInstance().Init();
 	// Jsonファイルを開く
 	std::ifstream ifs("Data/JsonFile/test.json");
 	if (ifs.fail()) { assert(0 && "Jsonファイルのパスが間違っています"); }
@@ -102,7 +104,7 @@ void Scene::Init()
 
 	// 文字列格納
 	Opning = "Data/JsonFile/Scene/Opning.json";
-	Field = "Data/JsonFile/Scene/Field0.json";
+	Field = "Data/JsonFile/Scene/Field1.json";
 	Gameclear = "Data/JsonFile/Scene/Clear.json";
 	Gameover = "Data/JsonFile/Scene/Over.json";
 
@@ -129,7 +131,7 @@ void Scene::Deserialize()
 		LoadScene(Gameover);
 		break;
 	case DEBUG:
-		LoadScene("Data/JsonFile/Scene/Debug.json");
+		LoadScene("Data/JsonFile/Scene/BossFloor.json");
 		break;
 	default:
 		LoadScene("Data/JsonFile/Scene/Field0.json");

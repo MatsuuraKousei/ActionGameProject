@@ -34,9 +34,9 @@
     {
       "ClassName": "GameObject",
       "Name": "Black",
-      "Tag":4,
+      "Tag":0,
       "ModelFileName": "Data/Textures/3DTexture/Map/MapDef/Area.gltf",
-      "Pos":[0,0,0],
+      "Pos":[0,1,0],
       "Rot":[0,0,0],
       "Scale": [ 1000, 1000, 1000 ]
     },
@@ -63,7 +63,7 @@
     },
     {
      "ClassName": "Lift",
-     "Name": "PointLift1",
+     "Name": "NormalLift0",
      "Tag":4,
      "LiftTag":0,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
@@ -77,8 +77,8 @@
      "Tag":4,
      "LiftTag":0,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-     "Pos":[27.8,4,-26.3],
-     "ToGoal":[27.8,10,-26.3],
+     "Pos":[27.2,4,-26.3],
+     "ToGoal":[27.2,9,-26.3],
      "Speed":0.01
     },
     {
@@ -345,6 +345,104 @@
      "Radius":15,
      "Pos":[-42.2,4.7,51],
      "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[36.9,6,54.4]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch1",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[36.9,6,37.67]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch2",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[11,6,30.6]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch3",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[-1.7,6,30.6]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch4",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[36.5,6,5.2]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch5",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[36.5,6,-18.7]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch6",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[32.5,6,-38.9]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch8",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[7.7,6,-32.7]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch9",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[7.7,6,-20.3]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch5",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[-8.6,6,-30.8]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch6",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[-8.6,6,-21.6]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch7",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[-21.5,6,-30.8]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch8",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[-21.5,6,-21.6]
+    },
+    {
+     "ClassName": "SceneManage",
+     "Name": "Goal",
+     "Tag":0,
+     "Pos":[ -47.8,4.7,-26.1 ],
+     "NextScene":"Data/JsonFile/Scene/Clear.json"
     }
   ]
 }

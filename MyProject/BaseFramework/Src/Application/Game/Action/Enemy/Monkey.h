@@ -1,4 +1,6 @@
-﻿#include "../../GameObject.h"
+﻿#pragma once
+
+#include "../../GameObject.h"
 
 class Monkey :public GameObject
 {
@@ -20,6 +22,8 @@ private:
 
 	void Move();
 
+	void MoveStop();
+
 	void Collision();
 
 	bool Ground(float);
@@ -30,6 +34,8 @@ private:
 	float						m_grabity = 0.3;
 	float						m_rotateAngle = 2;
 	float						m_speed = 0.05;
+
+	bool						m_moveStoper;
 
 	bool						m_isGround;
 

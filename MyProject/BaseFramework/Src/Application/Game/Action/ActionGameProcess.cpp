@@ -1,5 +1,4 @@
 ﻿#include "ActionGameProcess.h"
-#include "../../Component/SoundComponent.h"
 #include "../Scene.h"
 #include "../SceneManage.h"
 #include "Manage/ScoreManager.h"
@@ -94,8 +93,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 		break;
 	}
 
-	m_spSoundComponent = std::make_shared<TitleSoundComponent>(*this);
-	m_spSoundComponent->Desirealise();
+	// Audio初期化///////////////////////////////////////////////
+	GameBGM=GameBGM->Deserialize(Track::Title_BGM);
 }
 
 void ActionGameProcess::Draw2D()
@@ -202,6 +201,9 @@ void ActionGameProcess::Update()
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
+
+		//GameBGM->Play();
+
 		SHADER.AddPointLight(pos, 10000, { 0.1f,0.1f,0.1f });
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{

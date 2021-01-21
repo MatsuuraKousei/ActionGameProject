@@ -64,9 +64,9 @@ void Arrow::Collision()
 		// TAG_Characterとは球判定を行う
 		if ((obj->GetTag() & TAG_Enemy))
 		{
-			SphereResult sphereResult;
+			
 
-			if (obj->HitCheckBySphereToMesh(info, sphereResult))
+			if (obj->HitCheckBySphere(info))
 			{
 				obj->m_Hp--;
 				Explosion(m_mWorld.GetTranslation());

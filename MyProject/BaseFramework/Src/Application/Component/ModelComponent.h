@@ -45,6 +45,7 @@ public:
 				return &node;
 			}
 		}
+		return nullptr;
 	}
 
 	// モデルセット
@@ -77,4 +78,6 @@ private:
 
 	// 描画設定
 	float			m_dissolveThreshold = 0.0f;
+
+	
 };

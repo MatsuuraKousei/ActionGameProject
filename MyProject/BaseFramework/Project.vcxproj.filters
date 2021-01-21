@@ -309,9 +309,6 @@
     <ClInclude Include="Src\Application\Game\Action\Enemy\Monkey.h">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Component\SoundComponent.h">
-      <Filter>Src\Application\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Src\System\Shader\ModelShader\ModelShader.h">
       <Filter>Src\System\Shader\ModelShader</Filter>
     </ClInclude>
@@ -323,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Manage\ScoreManager.h">
       <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Component\AudioComponent.h">
+      <Filter>Src\Application\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -521,9 +521,6 @@
     <ClCompile Include="Src\Application\Game\Action\Enemy\Monkey.cpp">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Component\SoundComponent.cpp">
-      <Filter>Src\Application\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Src\System\Shader\ModelShader\ModelShader.cpp">
       <Filter>Src\System\Shader\ModelShader</Filter>
     </ClCompile>
@@ -535,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Manage\ScoreManager.cpp">
       <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Component\AudioComponent.cpp">
+      <Filter>Src\Application\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

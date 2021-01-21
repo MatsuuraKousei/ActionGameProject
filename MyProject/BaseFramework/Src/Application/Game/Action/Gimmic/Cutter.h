@@ -1,4 +1,6 @@
-﻿#include"../../GameObject.h"
+﻿#pragma once
+
+#include"../../GameObject.h"
 
 class Cutter :public GameObject
 {

@@ -155,10 +155,10 @@
     <ClInclude Include="..\Library\tinygltf\stb_image.h" />
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
+    <ClInclude Include="Src\Application\Component\AudioComponent.h" />
     <ClInclude Include="Src\Application\Component\CameraComponent.h" />
     <ClInclude Include="Src\Application\Component\InputComponent.h" />
     <ClInclude Include="Src\Application\Component\ModelComponent.h" />
-    <ClInclude Include="Src\Application\Component\SoundComponent.h" />
     <ClInclude Include="Src\Application\Game\Action\ActionGameProcess.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Alligator.h" />
     <ClInclude Include="Src\Application\Game\Action\Enemy\Bat.h" />
@@ -231,10 +231,10 @@
     <ClCompile Include="..\Library\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Library\json11KdCustom\json11.cpp" />
+    <ClCompile Include="Src\Application\Component\AudioComponent.cpp" />
     <ClCompile Include="Src\Application\Component\CameraComponent.cpp" />
     <ClCompile Include="Src\Application\Component\InputComponent.cpp" />
     <ClCompile Include="Src\Application\Component\ModelComponent.cpp" />
-    <ClCompile Include="Src\Application\Component\SoundComponent.cpp" />
     <ClCompile Include="Src\Application\Game\Action\ActionGameProcess.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Alligator.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Enemy\Bat.cpp" />

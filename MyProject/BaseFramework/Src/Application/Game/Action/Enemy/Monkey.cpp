@@ -1,6 +1,7 @@
 ﻿#include "Monkey.h"
 #include "../Manage/ScoreManager.h"
 #include "../../Scene.h"
+#include "System/Debug/Debug.h"
 
 void Monkey::Deserialize(const json11::Json& jsonObj)
 {
@@ -9,14 +10,16 @@ void Monkey::Deserialize(const json11::Json& jsonObj)
 
 	GameObject::Deserialize(jsonObj);
 
-
-
 	m_Hp = 3;
+
+	m_colRadius = 1;
+
+	m_moveStoper = false;
 
 	m_spShield = std::make_shared<GameObject>();
 	m_spShield->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Shield.json"));
 	m_spShield->m_Hp = 50;
-	m_spShield->m_colRadius = 1.5f;
+	m_spShield->m_colRadius = 2.0f;
 	Scene::GetInstance().AddObject(m_spShield);
 
 }
@@ -42,8 +45,9 @@ void Monkey::Update()
 		mat.SetTranslation(m_mWorld.GetAxisZ() + m_mWorld.GetTranslation() + Vector3(0, 1.5, 0));
 		m_spShield->SetMatrix(mat);
 	}
+	Debug::GetInstance().AddDebugSphereLine(m_spShield->GetMatrix().GetTranslation(), 2.0);
 
-	
+
 
 	switch (m_faze)
 	{
@@ -56,17 +60,21 @@ void Monkey::Update()
 		}
 		break;
 	case Action:
-		
+
 		//Collision();
-		Move();
+		MoveStop();
+		if (!m_moveStoper)
+		{
+			Move();
+		}
 		break;
 	case Attack:
-		
+
 		//Collision();
 		break;
 	}
 
-	
+
 
 	m_pos += m_force;
 	m_force = { 0,0,0 };
@@ -147,6 +155,34 @@ void Monkey::Move()
 	}
 }
 
+#define Stopcol 1.5
+
+void Monkey::MoveStop()
+{
+	// 球情報の作成
+	SphereInfo info;
+	info.m_pos = m_mWorld.GetTranslation();
+	info.m_radius = Stopcol;
+	for (auto& obj : Scene::GetInstance().GetObjects())
+	{
+		// 自分自身を無視
+		if (obj.get() == this) { continue; }
+
+		// キャラクターと当たり判定をするのでそれ以外は無視
+		if (!(obj->GetTag() & TAG_Player)) { continue; }
+
+		// 当たり判定
+		if (obj->HitCheckBySphere(info))
+		{
+			m_moveStoper = true;
+		}
+		else
+		{
+			m_moveStoper = false;
+		}
+	}
+}
+
 void Monkey::Collision()
 {
 	float distanceFromGround = FLT_MAX;
@@ -174,7 +210,7 @@ void Monkey::Collision()
 				m_bShield = false;
 			}
 
-			
+
 		}
 	}
 

@@ -33,16 +33,32 @@ void ModelComponent::Draw()
 	SHADER.m_modelShader.SetToDevice();
 
 	// 全てのノードを一つ一つ描画
-	for (UINT i = 0; i < m_coppiedNodes.size();i++)
+	for (UINT i = 0; i < m_coppiedNodes.size(); i++)
 	{
 		auto& rNode = m_coppiedNodes[i];
 		if (rNode.m_spMesh == nullptr) { continue; }
 		// 行列セット
 		SHADER.m_modelShader.SetWorldMatrix(rNode.m_localTransform * m_owner.GetMatrix());
 
-		// 描画
-		SHADER.m_modelShader.DrawMesh(rNode.m_spMesh.get(), m_spModel->GetMaterials());
+		Matrix mView;
+		Matrix mProj;
 
+		DirectX::BoundingOrientedBox obb;
+		DirectX::BoundingOrientedBox::CreateFromBoundingBox(obb, rNode.m_spMesh->GetBoundingBox());
+
+		DirectX::BoundingFrustum vf;
+		DirectX::BoundingFrustum::CreateFromMatrix(vf, mProj);
+
+		Matrix mCam = mView;
+		mCam.Inverse();
+		vf.Origin = mCam.GetTranslation();
+		vf.Orientation = Quaternion().CreateFromMatrix(mCam);
+
+		if (vf.Intersects(obb))
+		{
+			// 描画
+		}
+		SHADER.m_modelShader.DrawMesh(rNode.m_spMesh.get(), m_spModel->GetMaterials());
 	}
 
 	//------------------------

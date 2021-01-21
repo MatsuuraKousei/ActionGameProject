@@ -31,7 +31,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 	{
 		m_CameraTrans.x = 0.0f;
 		m_CameraTrans.y = 2.5;
-		m_CameraTrans.z = -5.0f;
+		m_CameraTrans.z = -3.0f;
 
 		m_spCameraComponent->OffsetMatrix().CreateTranslation(m_CameraTrans);
 		m_spCameraComponent->OffsetMatrix().RotateX(25.0f * Radians);
@@ -49,6 +49,7 @@ void Human::Deserialize(const json11::Json& jsonObj)
 		ArmL = m_spModelComponent->FileNode("Arm.L");
 		Body = m_spModelComponent->FileNode("Body");
 		Head = m_spModelComponent->FileNode("Head");
+		Leg = m_spModelComponent->FileNode("Leg");
 	}
 
 
@@ -83,7 +84,7 @@ void Human::Update()
 	//移動前の座標を覚える
 	m_prevPos = m_pos;
 
-	
+
 
 
 	if (m_spInputComponent->GetButton(Input::Buttons::Y) & m_spInputComponent->ENTER)
@@ -149,10 +150,9 @@ void Human::Update()
 	m_mWorld.RotateZ(m_rot.z);
 	m_mWorld.Move(m_pos);
 
-
-
 	//座標の更新を行った後に当たり判定
 	UpdateCollision();
+
 
 	if (!m_damegeStayFlg)
 	{
@@ -224,6 +224,7 @@ void Human::UpdateMove()
 	//キャラクターの回転処理
 	UpdateRotate(moveVec);
 
+
 	moveVec *= m_moveSpeed;
 
 	m_force.x = moveVec.x;
@@ -280,7 +281,6 @@ void Human::SwordUpdate()
 		if (!m_bSword)
 		{
 			m_bSword = true;
-
 		}
 		else
 		{
@@ -375,9 +375,8 @@ void Human::CrossbowUpdate()
 			Vector3 vec;
 			Matrix mat;
 
-			mat.RotateY(m_rot.y);
 			vec.x += m_pos.x;
-			vec.y += m_pos.y + 1.5;
+			vec.y += m_pos.y + 1.7;
 			vec.z += m_pos.z;
 
 			mat.CreateRotationX(m_spCameraComponent->GetCameraMatrix().GetAngles().x);
@@ -386,6 +385,8 @@ void Human::CrossbowUpdate()
 			mat.SetTranslation(vec);
 
 			m_spCrossbow->SetMatrix(mat);
+
+
 		}
 	}
 	else
@@ -397,11 +398,13 @@ void Human::CrossbowUpdate()
 			Vector3 vec;
 
 			vec.x += m_pos.x;
-			vec.y += m_pos.y + 1.5;
+			vec.y += m_pos.y + 1.7;
 			vec.z += m_pos.z;
 			mat.RotateY(m_rot.y);
 			mat.SetTranslation(vec);
 			m_spCrossbow->SetMatrix(mat);
+
+			Head->m_localTransform.RotateY(0);
 		}
 	}
 

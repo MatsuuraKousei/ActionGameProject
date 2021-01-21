@@ -4,11 +4,11 @@
 class CameraComponent;
 class InputComponent;
 class ModelComponent;
-class SoundComponent;
 
 struct SphereInfo;
 struct RayInfo;
 struct SphereResult;
+struct BoxResult;
 
 // タグ定数
 enum OBJECT_TAG
@@ -74,6 +74,7 @@ public:
 
 	bool HitCheckBySphereToMesh(const SphereInfo& rInfo, SphereResult& rResult);
 
+
 	// カメラコンポーネント取得
 	std::shared_ptr<CameraComponent> GetCameraComponent() { return m_spCameraComponent; }
 	// なんか先生の動画にうつってたから====================
@@ -81,8 +82,6 @@ public:
 	std::shared_ptr<InputComponent> GetInputComponent() { return m_spInputComponent; }
 	// モデルコンポーネント取得
 	std::shared_ptr<ModelComponent> GetModelComponent() { return m_spModelComponent; }
-	// サウンドコンポーネント取得
-	std::shared_ptr<SoundComponent> GetSoundComponent() { return m_spSoundComponent; }
 
 	const Matrix& GetPrevMatrix() { return m_mPrev; }
 
@@ -111,8 +110,6 @@ protected:
 	std::shared_ptr<InputComponent> m_spInputComponent = std::make_shared<InputComponent>(*this);
 	// モデルコンポーネント
 	std::shared_ptr<ModelComponent> m_spModelComponent = std::make_shared<ModelComponent>(*this);
-
-	std::shared_ptr<SoundComponent> m_spSoundComponent = std::make_shared<SoundComponent>(*this);
 
 	Matrix		m_mWorld;					// ゲーム内の絶対座標(座標と回転と拡大)
 
@@ -145,6 +142,12 @@ struct RayInfo
 };
 
 struct SphereResult
+{
+	Vector3 m_push;
+	bool m_hit = false;
+};
+
+struct BoxResult
 {
 	Vector3 m_push;
 	bool m_hit = false;

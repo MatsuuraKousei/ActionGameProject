@@ -125,17 +125,11 @@ void ActionPlayerInputComponent::Update()
 	GetCursorPos(&nowMousePos);	//マウスの現在位置の取得
 	m_axes[Input::R].x = (float)(nowMousePos.x - m_prevMousePos.x);
 	m_axes[Input::R].y = (float)(nowMousePos.y - m_prevMousePos.y);
+
 	if (!Scene::GetInstance().EditorCameraEnable)
 	{
 		SetCursorPos(m_prevMousePos.x, m_prevMousePos.y);
-		ShowCursor(false);
 	}
-	else
-	{
-		ShowCursor(true);
-	}
-
-	
 
 	//ボタン入力
 	//ジャンプ処理

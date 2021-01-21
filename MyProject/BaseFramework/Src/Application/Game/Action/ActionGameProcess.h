@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../GameProcess.h"
+#include "../../Component/AudioComponent.h"
 #include "Application/Game/Scene.h"
 
 class ActionGameProcess : public GameProcess
@@ -68,4 +69,8 @@ private:
 	bool					m_BlackOutFlg = false;;
 
 	int						m_Score = 00000;				// スコア
+
+	// Audioes//////////////////////////////////////////////////////////
+
+	std::shared_ptr<SoundInstance> GameBGM;
 };

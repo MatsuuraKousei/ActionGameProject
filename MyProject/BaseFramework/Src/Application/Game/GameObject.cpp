@@ -1,27 +1,27 @@
 ﻿#include "GameObject.h"
-#include"SceneManage.h"
 #include "../Component/CameraComponent.h"
 #include "../Component/InputComponent.h"
 #include "../Component/ModelComponent.h"
-#include "../Component/SoundComponent.h"
-#include"SceneCameraManage.h"
-#include"Action/Manage/SpawnManager.h"
-#include "Action/ActionGameProcess.h"
 #include "StageEdit.h"
+#include "SceneCameraManage.h"
+#include "SceneManage.h"
+#include "Action/Manage/SpawnManager.h"
+#include "Action/ActionGameProcess.h"
 #include "Action/Human.h"
-#include"Action/Lift.h"
-#include"Action/Enemy/Boss.h"
-#include"Action/Enemy/Boar.h"
-#include"Action/Enemy/Alligator.h"
-#include"Action/Enemy/Eagle.h"
-#include"Action/Enemy/Bat.h"
-#include"Action/Gimmic/Target.h"
-#include"Action/Gimmic/Wall.h"
-#include"Action/Gimmic/Cutter.h"
-#include"Action/Gimmic/Needle.h"
-#include"Action/Gimmic/Torch.h"
-#include"Action/Item.h"
+#include "Action/Lift.h"
+#include "Action/Item.h"
+#include "Action/Enemy/Boss.h"
+#include "Action/Enemy/Boar.h"
+#include "Action/Enemy/Alligator.h"
+#include "Action/Enemy/Eagle.h"
+#include "Action/Enemy/Bat.h"
+#include "Action/Gimmic/Target.h"
+#include "Action/Gimmic/Wall.h"
+#include "Action/Gimmic/Cutter.h"
+#include "Action/Gimmic/Needle.h"
+#include "Action/Gimmic/Torch.h"
 #include "Action/Gimmic/ShotGimmic.h"
+#include "Action/Gimmic/Righting.h"
 
 // コンストラクタ
 GameObject::GameObject()
@@ -341,6 +341,11 @@ std::shared_ptr<GameObject> CreateGameObject(const std::string& name)
 	if (name == "Torch")
 	{
 		return std::make_shared<Torch>();
+	}
+
+	if (name == "Righting")
+	{
+		return std::make_shared<Righting>();
 	}
 
 	if (name == "Lift")

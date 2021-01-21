@@ -1,0 +1,96 @@
+{
+  "GameObjects": [
+    {
+      "ClassName": "ActionGameProcess",
+      "Name": "GameProcess"
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Sky",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Sky/Sky.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1000, 1000, 1000 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Floor",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Floor/Floor.gltf",
+      "Pos":[0,0,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Pillar0",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Pillar/Pillar.gltf",
+      "Pos":[-90,20,-90],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+     {
+      "ClassName": "GameObject",
+      "Name": "Pillar1",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Pillar/Pillar.gltf",
+      "Pos":[-90,20,90],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+     {
+      "ClassName": "GameObject",
+      "Name": "Pillar2",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Pillar/Pillar.gltf",
+      "Pos":[90,20,-90],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Pillar3",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Pillar/Pillar.gltf",
+      "Pos":[90,20,90],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Roof",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/BossMap/Roof/Roof.gltf",
+      "Pos":[0,20,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "ClassName": "GameObject",
+      "Name": "Boss",
+      "Tag":4,
+      "ModelFileName": "Data/Textures/3DTexture/Enemy/Boss/Boss.gltf",
+      "Pos":[0,20,0],
+      "Rot":[0,0,0],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+     "ClassName": "Torch",
+     "Name": "Torch",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
+     "Pos":[0,0,0]
+    },
+    {
+      "ClassName": "Human",
+      "Name": "Player",
+      "Tag":2,
+      "ModelFileName": "Data/Textures/3DTexture/Player/Lobo.gltf",
+      "Pos":[-10,0,0],
+      "Scale": [ 1, 1, 1 ],
+      "Rot":[ 0 , 0 , 0 ]
+    }
+  ]
+}

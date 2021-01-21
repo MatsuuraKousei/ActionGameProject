@@ -230,3 +230,37 @@ void PointToTriangle(const DirectX::XMVECTOR& p, const DirectX::XMVECTOR& a, con
 	float w = vc * denom;
 	outPut = a + ab * v + ac * w; // = u*a + v*b + w*c, u = va*demon = 1.0f - v - w
 }
+
+void PointToBox(const Vector3& point, const DirectX::BoundingOrientedBox& obb, Vector3& outPos)
+{
+	using namespace DirectX;
+
+	// OBBの回転(クォーターニオン)
+	XMVECTOR obbQuat = XMLoadFloat4(&obb.Orientation);
+
+	// 点をOBBのローカル座標系へ変換(これでOBBからAABBの判定にできる)
+	Vector3 pointCenter = XMVector3InverseRotate(point - Vector3(obb.Center), obbQuat);
+
+	// Boxの最近接点を求める
+	outPos = { 0,0,0 };
+	for (int i = 0; i < 3; i++)
+	{
+		float dist = (&pointCenter.x)[i];
+		if ((&pointCenter.x)[i] > (&obb.Extents.x)[i])
+		{
+			dist = (&obb.Extents.x)[i];
+		}
+		else if (dist < -(&obb.Extents.x)[i])
+		{
+			dist = -(&obb.Extents.x)[i];
+		}
+
+		(&outPos.x)[i] += dist;
+	}
+
+	// OBBのローカル座標系からワールドへ戻す
+	outPos = XMVector3Rotate(outPos, obbQuat);
+	outPos.x += obb.Center.x;
+	outPos.y += obb.Center.y;
+	outPos.z += obb.Center.z;
+}

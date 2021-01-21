@@ -125,7 +125,7 @@ public:
 	{
 		return DirectX::XMVector3Dot(v1, v2).m128_f32[0];
 	}
-	
+
 	// 外積(2つのベクトルの直角となるベクトルを求めるらしい)
 	static Vector3 Cross(const Vector3& v1, const Vector3& v2)
 	{
@@ -149,7 +149,7 @@ public:
 			float radian = acos(Zvector); // ラジアン角に変換
 
 			//度数法
-			
+
 
 			// 角度制限　１フレームにつき最大で１度以上回転しない
 			if (radian > rot * Radians)
@@ -161,7 +161,7 @@ public:
 
 			mRot = DirectX::XMMatrixRotationAxis(vRotAxis, radian);
 
-			*this = TransformNormal(mRot);		
+			*this = TransformNormal(mRot);
 		}
 	}
 };
@@ -275,7 +275,7 @@ public:
 	}
 
 	// 透視影行列の作成
-	Matrix& CreateProjectionPerspectiveFov(float fovAngleY, float aspectRation,float nearZ, float farZ)
+	Matrix& CreateProjectionPerspectiveFov(float fovAngleY, float aspectRation, float nearZ, float farZ)
 	{
 		*this = DirectX::XMMatrixPerspectiveFovLH(fovAngleY, aspectRation, nearZ, farZ);
 		return *this;
@@ -358,7 +358,7 @@ public:
 	}
 
 	// 座標取得
-	Vector3 GetTranslation() const {return { _41,_42,_43 };}
+	Vector3 GetTranslation() const { return { _41,_42,_43 }; }
 
 	void SetTranslation(const Vector3& v)
 	{
@@ -425,7 +425,7 @@ public:
 	// 算術系はヘッダーの中での実体の宣言をしても大丈夫
 
 	////////////////////////////////////////////////
-	inline void SetBillboard(const Matrix& mat) 
+	inline void SetBillboard(const Matrix& mat)
 	{
 		// 参照した値を取得
 		Matrix TargetMat = mat;
@@ -477,6 +477,20 @@ public:
 	{
 		//変換して代入
 		DirectX::XMStoreFloat4(this, V);
+	}
+
+	XMFLOAT4 CreateFromMatrix(const Matrix& mat)
+	{
+		*this = DirectX::XMQuaternionRotationMatrix(mat);
+		
+		XMFLOAT4 f4;
+
+		f4.w = this->w;
+		f4.x = this->x;
+		f4.y = this->y;
+		f4.z = this->z;
+
+		return f4;
 	}
 
 	//XMVECTORへ変換

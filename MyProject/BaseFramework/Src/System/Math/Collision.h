@@ -26,6 +26,8 @@ bool SphereToMesh(
 	Math::Vector3& rPushedPos				// 当たっていた場合、押し返された球の中心点
 );
 
+void PointToBox(const Vector3& point, const DirectX::BoundingOrientedBox& obb, Vector3& outPos);
+
 
 // 点 vs 三角形との最近接点を求める
 // * p			… 点の座標

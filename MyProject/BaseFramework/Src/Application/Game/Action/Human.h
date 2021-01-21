@@ -100,7 +100,7 @@ private:
 	bool b = false;
 
 	bool m_damegeStayFlg = false;								// ダメージ受付
-	int m_damegeStayTime = 20.0f;								// ダメージ無敵時間
+	int m_damegeStayTime = 20;								// ダメージ無敵時間
 
 	std::shared_ptr<CrossBow>	m_spCrossbow = nullptr;
 	std::shared_ptr<GameObject> m_spCBCamera = nullptr;
@@ -109,6 +109,7 @@ private:
 	Model::Node* ArmL;
 	Model::Node* Body;
 	Model::Node* Head;
+	Model::Node* Leg;
 
 	float						m_fswordInitAngle = 0.0f;
 	bool						m_bswordAttck = false;
