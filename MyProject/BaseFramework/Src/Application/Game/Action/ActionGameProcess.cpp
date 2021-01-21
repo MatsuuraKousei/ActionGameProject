@@ -1,6 +1,6 @@
 ﻿#include "ActionGameProcess.h"
 #include "../Scene.h"
-#include "../SceneManage.h"
+#include "Manage/SceneManage.h"
 #include "Manage/ScoreManager.h"
 #include "Human.h"
 #include "Item.h"

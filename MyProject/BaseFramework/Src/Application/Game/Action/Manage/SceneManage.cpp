@@ -1,6 +1,6 @@
 ﻿#include "SceneManage.h"
-#include "Scene.h"
-#include"../../System/Debug/Debug.h"
+#include "../../Scene.h"
+#include"../../../../System/Debug/Debug.h"
 
 void SceneManeger::Deserialize(const json11::Json& jsonObj)
 {

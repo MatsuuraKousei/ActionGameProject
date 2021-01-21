@@ -1,8 +1,8 @@
 ﻿#include"SceneCameraManage.h"
-#include"Scene.h"
+#include"../../Scene.h"
 #include"SceneManage.h"
-#include "../Component/CameraComponent.h"
-#include "../Component/InputComponent.h"
+#include "../../../Component/CameraComponent.h"
+#include "../../../Component/InputComponent.h"
 
 
 void SceneCameraManage::Deserialize(const json11::Json& jsonObj)

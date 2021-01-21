@@ -173,6 +173,7 @@
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Cutter.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Door.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Needle.h" />
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Righting.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\ShotGimmic.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Target.h" />
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Torch.h" />
@@ -180,6 +181,8 @@
     <ClInclude Include="Src\Application\Game\Action\Human.h" />
     <ClInclude Include="Src\Application\Game\Action\Item.h" />
     <ClInclude Include="Src\Application\Game\Action\Lift.h" />
+    <ClInclude Include="Src\Application\Game\Action\Manage\SceneCameraManage.h" />
+    <ClInclude Include="Src\Application\Game\Action\Manage\SceneManage.h" />
     <ClInclude Include="Src\Application\Game\Action\Manage\ScoreManager.h" />
     <ClInclude Include="Src\Application\Game\Action\Manage\SpawnManager.h" />
     <ClInclude Include="Src\Application\Game\Action\Weapon\Arrow.h" />
@@ -193,8 +196,6 @@
     <ClInclude Include="Src\Application\Game\GameObject.h" />
     <ClInclude Include="Src\Application\Game\GameProcess.h" />
     <ClInclude Include="Src\Application\Game\Scene.h" />
-    <ClInclude Include="Src\Application\Game\SceneCameraManage.h" />
-    <ClInclude Include="Src\Application\Game\SceneManage.h" />
     <ClInclude Include="Src\Application\Game\StageEdit.h" />
     <ClInclude Include="Src\Application\ImGuiHelper.h" />
     <ClInclude Include="Src\Application\main.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Cutter.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Door.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Needle.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Righting.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\ShotGimmic.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Target.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Torch.cpp" />
@@ -256,6 +258,8 @@
     <ClCompile Include="Src\Application\Game\Action\Human.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Item.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Lift.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Manage\SceneCameraManage.cpp" />
+    <ClCompile Include="Src\Application\Game\Action\Manage\SceneManage.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Manage\ScoreManager.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Manage\SpawnManager.cpp" />
     <ClCompile Include="Src\Application\Game\Action\Weapon\Arrow.cpp" />
@@ -268,8 +272,6 @@
     <ClCompile Include="Src\Application\Game\FixedTexture.cpp" />
     <ClCompile Include="Src\Application\Game\GameObject.cpp" />
     <ClCompile Include="Src\Application\Game\Scene.cpp" />
-    <ClCompile Include="Src\Application\Game\SceneCameraManage.cpp" />
-    <ClCompile Include="Src\Application\Game\SceneManage.cpp" />
     <ClCompile Include="Src\Application\Game\StageEdit.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\System\Debug\Debug.cpp" />

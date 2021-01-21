@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Scene.h"
-#include "GameObject.h"
+#include "../../Scene.h"
+#include "../../GameObject.h"
 
 class SceneManeger:public GameObject
 {

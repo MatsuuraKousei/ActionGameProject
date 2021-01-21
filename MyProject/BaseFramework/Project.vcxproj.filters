@@ -228,9 +228,6 @@
     <ClInclude Include="Src\Application\Game\Action\Item.h">
       <Filter>Src\Application\Game\Action</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Game\SceneManage.h">
-      <Filter>Src\Application\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Gimmic\Bullet.h">
       <Filter>Src\Application\Game\Action\Gimmic</Filter>
     </ClInclude>
@@ -263,9 +260,6 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Enemy\Wolf.h">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Game\SceneCameraManage.h">
-      <Filter>Src\Application\Game</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Game\Action\Enemy\Bat.h">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
@@ -323,6 +317,15 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Component\AudioComponent.h">
       <Filter>Src\Application\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Gimmic\Righting.h">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Manage\SceneCameraManage.h">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Game\Action\Manage\SceneManage.h">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -440,9 +443,6 @@
     <ClCompile Include="Src\Application\Game\Action\Item.cpp">
       <Filter>Src\Application\Game\Action</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Game\SceneManage.cpp">
-      <Filter>Src\Application\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Gimmic\Bullet.cpp">
       <Filter>Src\Application\Game\Action\Gimmic</Filter>
     </ClCompile>
@@ -475,9 +475,6 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Enemy\Wolf.cpp">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Game\SceneCameraManage.cpp">
-      <Filter>Src\Application\Game</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\Game\Action\Enemy\Bat.cpp">
       <Filter>Src\Application\Game\Action\Enemy</Filter>
@@ -535,6 +532,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Component\AudioComponent.cpp">
       <Filter>Src\Application\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Gimmic\Righting.cpp">
+      <Filter>Src\Application\Game\Action\Gimmic</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Manage\SceneManage.cpp">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Game\Action\Manage\SceneCameraManage.cpp">
+      <Filter>Src\Application\Game\Action\Manage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
