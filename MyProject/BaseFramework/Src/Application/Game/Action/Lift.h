@@ -45,6 +45,8 @@ private:
 	int i = 0;
 	int j = 0;
 
+	int m_timer = 70;
+
 	LiftTag lifttag;
 
 	int m_PointStrike;

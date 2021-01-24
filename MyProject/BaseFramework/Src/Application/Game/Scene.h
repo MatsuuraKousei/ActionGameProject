@@ -58,10 +58,11 @@ public:
 
 	bool							debug = false;
 
-	StageProcess					stageProcess = FIELD;
+	StageProcess					stageProcess = OPNING;
 
 	std::string						Opning;
 	std::string						Field;
+	std::string						Field2;
 	std::string						Gameover;
 	std::string						Gameclear;
 

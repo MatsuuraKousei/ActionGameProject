@@ -18,39 +18,66 @@
         {
             "name" : "Light",
             "rotation" : [
-                0.16907575726509094,
-                0.7558803558349609,
-                -0.27217137813568115,
-                0.570947527885437
+                0.5232754945755005,
+                0.34203392267227173,
+                -0.7269423604011536,
+                0.284166157245636
             ],
             "translation" : [
                 4.076245307922363,
-                5.903861999511719,
-                -1.0054539442062378
+                5.903862476348877,
+                -1.0054532289505005
             ]
         },
         {
             "name" : "Camera",
             "rotation" : [
-                0.483536034822464,
-                0.33687159419059753,
-                -0.20870360732078552,
-                0.7804827094078064
+                0.8937963247299194,
+                0.09062855690717697,
+                -0.3857799172401428,
+                0.20997287333011627
             ],
             "translation" : [
                 7.358891487121582,
-                4.958309173583984,
-                6.925790786743164
+                4.958308696746826,
+                6.925792217254639
             ]
         },
         {
             "mesh" : 0,
             "name" : "Cylinder",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
+            ],
             "scale" : [
                 0.05000000074505806,
-                1,
-                0.05000000074505806
+                0.05000000819563866,
+                1
             ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.001",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.1832629293203354,
+                    0.1832629293203354,
+                    0.1832629293203354,
+                    1
+                ],
+                "metallicFactor" : 1,
+                "roughnessFactor" : 0.5
+            }
         }
     ],
     "meshes" : [
@@ -63,7 +90,8 @@
                         "NORMAL" : 1,
                         "TEXCOORD_0" : 2
                     },
-                    "indices" : 3
+                    "indices" : 3,
+                    "material" : 0
                 }
             ]
         }
@@ -72,29 +100,29 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 336,
             "max" : [
                 1,
-                1.6751527786254883,
-                1
+                1,
+                0.3248472213745117
             ],
             "min" : [
                 -1,
-                -0.3248472213745117,
-                -1
+                -1,
+                -1.6751527786254883
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 336,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 192,
+            "count" : 336,
             "type" : "VEC2"
         },
         {
@@ -107,28 +135,28 @@
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 2304,
+            "byteLength" : 4032,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 2304,
-            "byteOffset" : 2304
+            "byteLength" : 4032,
+            "byteOffset" : 4032
         },
         {
             "buffer" : 0,
-            "byteLength" : 1536,
-            "byteOffset" : 4608
+            "byteLength" : 2688,
+            "byteOffset" : 8064
         },
         {
             "buffer" : 0,
             "byteLength" : 744,
-            "byteOffset" : 6144
+            "byteOffset" : 10752
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 6888,
+            "byteLength" : 11496,
             "uri" : "proto.bin"
         }
     ]

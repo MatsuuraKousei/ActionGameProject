@@ -8,7 +8,7 @@
       "ClassName": "GameObject",
       "Name": "Dungen",
       "Tag":4,
-      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Dungen1/Dungen.gltf",
+      "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Dungen1/Dungen2.gltf",
       "Pos":[0,0,0],
       "Rot":[0,0,0],
       "Scale": [ 0.8, 0.8, 0.8 ]
@@ -49,15 +49,7 @@
       "Rot":[0,90,0],
       "Scale": [ 1, 1, 1 ]
     },
-    {
-      "ClassName": "GameObject",
-      "Name": "ManualSword",
-      "Tag":2,
-      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Manual/Sword.gltf",
-      "Pos":[0,5,35.5],
-      "Rot":[0,90,0],
-      "Scale": [ 1, 1, 1 ]
-    },
+   
     {
      "ClassName": "Item",
      "Name": "Jewelry",

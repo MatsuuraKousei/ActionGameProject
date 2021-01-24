@@ -18,34 +18,40 @@
         {
             "name" : "Light",
             "rotation" : [
-                0.16907575726509094,
-                0.7558803558349609,
-                -0.27217137813568115,
-                0.570947527885437
+                0.5232754945755005,
+                0.34203392267227173,
+                -0.7269423604011536,
+                0.284166157245636
             ],
             "translation" : [
                 4.076245307922363,
-                5.903861999511719,
-                -1.0054539442062378
+                5.903862476348877,
+                -1.0054532289505005
             ]
         },
         {
             "name" : "Camera",
             "rotation" : [
-                0.483536034822464,
-                0.33687159419059753,
-                -0.20870360732078552,
-                0.7804827094078064
+                0.8937963247299194,
+                0.09062855690717697,
+                -0.3857799172401428,
+                0.20997287333011627
             ],
             "translation" : [
                 7.358891487121582,
-                4.958309173583984,
-                6.925790786743164
+                4.958308696746826,
+                6.925792217254639
             ]
         },
         {
             "mesh" : 0,
-            "name" : "map"
+            "name" : "map",
+            "rotation" : [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071067094802856
+            ]
         }
     ],
     "materials" : [
@@ -56,24 +62,11 @@
                 0,
                 0
             ],
-            "name" : "Material.005",
-            "pbrMetallicRoughness" : {
-                "baseColorTexture" : {
-                    "index" : 0,
-                    "texCoord" : 0
-                },
-                "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
-            }
-        },
-        {
-            "doubleSided" : true,
-            "emissiveFactor" : [
-                0,
-                0,
-                0
-            ],
-            "name" : "Material.004",
+            "name" : "Material.003",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 1,
@@ -90,10 +83,31 @@
                 0,
                 0
             ],
-            "name" : "Material.001",
+            "name" : "Material.006",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 2,
+                    "texCoord" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        },
+        {
+            "doubleSided" : true,
+            "emissiveFactor" : [
+                0,
+                0,
+                0
+            ],
+            "name" : "Material.007",
+            "normalTexture" : {
+                "index" : 3,
+                "texCoord" : 0
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 4,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -103,7 +117,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Plane",
+            "name" : "Plane.002",
             "primitives" : [
                 {
                     "attributes" : {
@@ -143,14 +157,25 @@
             "source" : 1
         },
         {
+            "source" : 2
+        },
+        {
             "source" : 0
+        },
+        {
+            "source" : 1
         }
     ],
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "WallStone",
-            "uri" : "WallStone.png"
+            "name" : "WallStoneNormal",
+            "uri" : "WallStoneNormal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "WallStone.png",
+            "uri" : "WallStone_png.png"
         },
         {
             "mimeType" : "image/png",
@@ -162,29 +187,29 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 910,
+            "count" : 926,
             "max" : [
                 47.024696350097656,
-                13.858028411865234,
-                39.325584411621094
+                39.325584411621094,
+                0
             ],
             "min" : [
                 -0.33045196533203125,
-                0,
-                0.030887603759765625
+                0.030887603759765625,
+                -13.858028411865234
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 910,
+            "count" : 926,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 910,
+            "count" : 926,
             "type" : "VEC2"
         },
         {
@@ -196,29 +221,29 @@
         {
             "bufferView" : 4,
             "componentType" : 5126,
-            "count" : 4220,
+            "count" : 4312,
             "max" : [
                 37.956695556640625,
-                4.71079158782959,
-                39.325584411621094
+                39.325584411621094,
+                -4.71079158782959
             ],
             "min" : [
                 -0.33045101165771484,
-                4.71079158782959,
-                0.030885696411132812
+                0.030885696411132812,
+                -4.71079158782959
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 5,
             "componentType" : 5126,
-            "count" : 4220,
+            "count" : 4312,
             "type" : "VEC3"
         },
         {
             "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 4220,
+            "count" : 4312,
             "type" : "VEC2"
         },
         {
@@ -230,29 +255,29 @@
         {
             "bufferView" : 8,
             "componentType" : 5126,
-            "count" : 84,
+            "count" : 140,
             "max" : [
                 6.2557373046875,
-                13.838632583618164,
-                33.057498931884766
+                33.057498931884766,
+                -4.19863224029541
             ],
             "min" : [
                 5.755735397338867,
-                4.19863224029541,
-                19.957500457763672
+                19.957500457763672,
+                -13.838632583618164
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 9,
             "componentType" : 5126,
-            "count" : 84,
+            "count" : 140,
             "type" : "VEC3"
         },
         {
             "bufferView" : 10,
             "componentType" : 5126,
-            "count" : 84,
+            "count" : 140,
             "type" : "VEC2"
         },
         {
@@ -265,68 +290,68 @@
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 10920,
+            "byteLength" : 11112,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 10920,
-            "byteOffset" : 10920
+            "byteLength" : 11112,
+            "byteOffset" : 11112
         },
         {
             "buffer" : 0,
-            "byteLength" : 7280,
-            "byteOffset" : 21840
+            "byteLength" : 7408,
+            "byteOffset" : 22224
         },
         {
             "buffer" : 0,
             "byteLength" : 2748,
-            "byteOffset" : 29120
+            "byteOffset" : 29632
         },
         {
             "buffer" : 0,
-            "byteLength" : 50640,
-            "byteOffset" : 31868
+            "byteLength" : 51744,
+            "byteOffset" : 32380
         },
         {
             "buffer" : 0,
-            "byteLength" : 50640,
-            "byteOffset" : 82508
+            "byteLength" : 51744,
+            "byteOffset" : 84124
         },
         {
             "buffer" : 0,
-            "byteLength" : 33760,
-            "byteOffset" : 133148
+            "byteLength" : 34496,
+            "byteOffset" : 135868
         },
         {
             "buffer" : 0,
             "byteLength" : 12660,
-            "byteOffset" : 166908
+            "byteOffset" : 170364
         },
         {
             "buffer" : 0,
-            "byteLength" : 1008,
-            "byteOffset" : 179568
+            "byteLength" : 1680,
+            "byteOffset" : 183024
         },
         {
             "buffer" : 0,
-            "byteLength" : 1008,
-            "byteOffset" : 180576
+            "byteLength" : 1680,
+            "byteOffset" : 184704
         },
         {
             "buffer" : 0,
-            "byteLength" : 672,
-            "byteOffset" : 181584
+            "byteLength" : 1120,
+            "byteOffset" : 186384
         },
         {
             "buffer" : 0,
             "byteLength" : 312,
-            "byteOffset" : 182256
+            "byteOffset" : 187504
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 182568,
+            "byteLength" : 187816,
             "uri" : "Part2.bin"
         }
     ]

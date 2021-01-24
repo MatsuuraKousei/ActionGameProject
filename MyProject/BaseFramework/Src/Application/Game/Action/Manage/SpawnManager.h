@@ -36,7 +36,7 @@ private:
 
 	float				m_radius;
 
-	int					m_respawnTimer = 30;
+	int					m_respawnTimer = 0;
 
 	std::string			m_sNextStage;
 };

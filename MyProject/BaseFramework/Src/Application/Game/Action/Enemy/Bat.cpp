@@ -39,8 +39,9 @@ void Bat::Update()
 		}
 	}
 
-	if (m_Hp < 0)
+	if (m_Hp <= 0)
 	{
+		Explosion(m_mWorld.GetTranslation());
 		ScoreManager::GetInstance().AllEnemies++;
 	}
 
@@ -355,6 +356,23 @@ void Bat::Shot()
 			spBBullet->SetTarget(target);
 			Scene::GetInstance().AddObject(spBBullet);
 		}
-		m_AttackState = 50;
+		m_AttackState = 80;
 	}
+}
+
+void Bat::Explosion(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion05.png"), 10.0f, 5, 3, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
 }

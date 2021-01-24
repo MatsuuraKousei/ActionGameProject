@@ -10,7 +10,7 @@ void BatBullet::Deserialize(const json11::Json& jsonObj)
 	GameObject::Deserialize(jsonObj);
 
 	// ¶‚«‚éŠÔ(Å‘åFps‚ÉˆË‘¶?)
-	m_lifeSpan = APP.m_maxFps * 2;
+	m_lifeSpan = APP.m_maxFps;
 }
 
 void BatBullet::Update()
@@ -25,7 +25,9 @@ void BatBullet::Update()
 		Destroy();
 	}
 
-
+	Vector3 pos = { 0,0,0 };
+	pos += m_mWorld.GetTranslation();
+	SHADER.AddPointLight(pos, 5,Vector3(0.1,0.1,0.1));
 	auto target = m_wpTarget.lock();
 
 	if (target)
@@ -93,7 +95,7 @@ void BatBullet::Update()
 		// ‹…î•ñ‚Ìì¬
 		SphereInfo info;
 		info.m_pos = m_mWorld.GetTranslation();
-		info.m_radius = 0.1;
+		info.m_radius = 0.2;
 		for (auto& obj : Scene::GetInstance().GetObjects())
 		{
 			// ©•ª©g‚ğ–³‹

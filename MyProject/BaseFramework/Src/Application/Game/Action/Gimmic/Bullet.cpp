@@ -38,7 +38,7 @@ void Bullet::Update()
 	// ‹…î•ñ‚Ìì¬
 	SphereInfo info;
 	info.m_pos = m_mWorld.GetTranslation();
-	info.m_radius = 0.01;
+	info.m_radius = 0.2;
 	for (auto& obj : Scene::GetInstance().GetObjects())
 	{
 		// Ž©•ªŽ©g‚ð–³Ž‹
@@ -67,6 +67,7 @@ void Bullet::Update()
 
 			if (obj->HitCheckBySphereToMesh(info, sphereResult))
 			{
+				Explosion();
 				Destroy();
 			}
 		}
@@ -76,6 +77,7 @@ void Bullet::Update()
 
 			if (obj->HitCheckBySphereToMesh(info, sphereResult))
 			{
+				Explosion();
 				Destroy();
 			}
 		}

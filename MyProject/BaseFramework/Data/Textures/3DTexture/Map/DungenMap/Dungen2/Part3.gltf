@@ -10,7 +10,9 @@
             "nodes" : [
                 0,
                 1,
-                2
+                2,
+                3,
+                4
             ]
         }
     ],
@@ -46,6 +48,34 @@
         {
             "mesh" : 0,
             "name" : "map"
+        },
+        {
+            "name" : "Light.001",
+            "rotation" : [
+                -0.5709477066993713,
+                0.2721712291240692,
+                0.7558802962303162,
+                0.16907566785812378
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903862953186035,
+                -1.0054525136947632
+            ]
+        },
+        {
+            "name" : "Camera.001",
+            "rotation" : [
+                -0.7804825901985168,
+                0.20870345830917358,
+                0.33687177300453186,
+                0.4835361838340759
+            ],
+            "translation" : [
+                7.358891487121582,
+                4.958308219909668,
+                6.925793647766113
+            ]
         }
     ],
     "materials" : [
@@ -57,9 +87,13 @@
                 0
             ],
             "name" : "Material.005",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
-                    "index" : 0,
+                    "index" : 1,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -76,7 +110,7 @@
             "name" : "Material.004",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
-                    "index" : 1,
+                    "index" : 2,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -115,9 +149,17 @@
         },
         {
             "source" : 1
+        },
+        {
+            "source" : 2
         }
     ],
     "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "WallStoneNormal",
+            "uri" : "WallStoneNormal.png"
+        },
         {
             "mimeType" : "image/png",
             "name" : "WallStone",
@@ -125,15 +167,15 @@
         },
         {
             "mimeType" : "image/png",
-            "name" : "FloorStone",
-            "uri" : "FloorStone.png"
+            "name" : "FloorStone.png",
+            "uri" : "FloorStone_png.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 2204,
+            "count" : 2212,
             "max" : [
                 -0.33044910430908203,
                 13.858028411865234,
@@ -149,19 +191,19 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 2204,
+            "count" : 2212,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 2204,
+            "count" : 2212,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 3306,
+            "count" : 3318,
             "type" : "SCALAR"
         },
         {
@@ -202,48 +244,48 @@
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 26448,
+            "byteLength" : 26544,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 26448,
-            "byteOffset" : 26448
+            "byteLength" : 26544,
+            "byteOffset" : 26544
         },
         {
             "buffer" : 0,
-            "byteLength" : 17632,
-            "byteOffset" : 52896
+            "byteLength" : 17696,
+            "byteOffset" : 53088
         },
         {
             "buffer" : 0,
-            "byteLength" : 6612,
-            "byteOffset" : 70528
-        },
-        {
-            "buffer" : 0,
-            "byteLength" : 37584,
-            "byteOffset" : 77140
+            "byteLength" : 6636,
+            "byteOffset" : 70784
         },
         {
             "buffer" : 0,
             "byteLength" : 37584,
-            "byteOffset" : 114724
+            "byteOffset" : 77420
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 37584,
+            "byteOffset" : 115004
         },
         {
             "buffer" : 0,
             "byteLength" : 25056,
-            "byteOffset" : 152308
+            "byteOffset" : 152588
         },
         {
             "buffer" : 0,
             "byteLength" : 9396,
-            "byteOffset" : 177364
+            "byteOffset" : 177644
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 186760,
+            "byteLength" : 187040,
             "uri" : "Part3.bin"
         }
     ]

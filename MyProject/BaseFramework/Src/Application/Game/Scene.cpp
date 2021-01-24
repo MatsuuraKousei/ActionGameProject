@@ -104,7 +104,8 @@ void Scene::Init()
 
 	// 文字列格納
 	Opning = "Data/JsonFile/Scene/Opning.json";
-	Field = "Data/JsonFile/Scene/Field1.json";
+	Field = "Data/JsonFile/Scene/Field0.json";
+	Field2 = "Data/JsonFile/Scene/Field1.json";
 	Gameclear = "Data/JsonFile/Scene/Clear.json";
 	Gameover = "Data/JsonFile/Scene/Over.json";
 
@@ -137,6 +138,8 @@ void Scene::Deserialize()
 		LoadScene("Data/JsonFile/Scene/Field0.json");
 		break;
 	}
+
+	ShowCursor(false);
 }
 
 // 開放

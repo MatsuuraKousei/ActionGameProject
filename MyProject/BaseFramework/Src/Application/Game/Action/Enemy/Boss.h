@@ -6,6 +6,8 @@ class Boss :public GameObject
 {
 public:
 
+	virtual void Deserialize(const json11::Json& jsonObj)override;
+
 	virtual void Update()override;
 
 	inline void SetTarget(const std::shared_ptr<GameObject>& spTarget) { m_wpTarget = spTarget; }
@@ -31,6 +33,8 @@ protected:
 	
 	double						m_speed = 0.29f;
 
+	float						m_moveAngle;
+
 	bool						m_ActionState = false;
 
 	Matrix						m_WonderMove;
@@ -48,6 +52,8 @@ protected:
 	int							AnimCounter = 2;
 	int							AttackCounter = 60;
 	int							WaitCounter = 15;
+
+	bool						m_moveFlg = true;
 
 	bool						StopMove = false;
 	int i = 0;

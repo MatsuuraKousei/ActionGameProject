@@ -42,6 +42,8 @@ private:
 	void HP();
 
 	void Shot();
+
+	void Explosion(const Vector3& hitPos);
 	
 	float						m_moveAngle;
 
@@ -55,7 +57,7 @@ private:
 
 	bool						m_WingFlg[2] = { false,false };
 
-	int							m_AttackState = 50;
+	int							m_AttackState = 80;
 
 	float roop = 9;
 

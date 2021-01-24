@@ -31,6 +31,8 @@ private:
 
 	void Explosion();
 
+	void Explosion2();
+
 	std::weak_ptr<GameObject>	m_wpTarget;
 
 	std::shared_ptr<Bullet> m_spBullet;

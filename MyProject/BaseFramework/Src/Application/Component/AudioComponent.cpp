@@ -19,7 +19,7 @@ std::string SoundInstance::Conv(Track::Music music,bool &b3D)
 	if (music == Track::Title_BGM)
 	{
 		b3D = false;
-		return std::string("Data/Sounds/BGM/Castle.wav");
+		return std::string("Data/Sounds/BGM/MainBGM2.wav");
 	}
 	///////////////////////////////////////////////////////////
 

@@ -104,13 +104,6 @@
       "Rot":[ 0 , 90 , 0 ]
     },
     {
-     "ClassName": "Wall",
-     "Name": "Wall",
-     "Tag":16,
-     "ModelFileName": "Data/Textures/3DTexture/Gimmic/Wall/Wall.gltf",
-     "Pos":[40.9,5.7,49.0]
-    },
-    {
      "ClassName": "GameObject",
      "Name": "Magic",
      "Tag":0,
@@ -274,7 +267,7 @@
      "Tag":0,
      "EnemTag":1,
      "About":1,
-     "Radius":10,
+     "Radius":7,
      "Pos":[19.4,4.7,-25.9]
     },
     {
@@ -345,6 +338,12 @@
      "Radius":15,
      "Pos":[-42.2,4.7,51],
      "Rot":[0,3.3,0]
+    },
+    {
+     "ClassName": "Righting",
+     "Name": "Righting",
+     "Tag":0,
+     "Pos":[36.9,6,54.4]
     },
     {
      "ClassName": "Torch",

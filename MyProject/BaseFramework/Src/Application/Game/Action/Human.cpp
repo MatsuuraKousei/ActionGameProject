@@ -180,6 +180,7 @@ void Human::Update()
 	if (m_pos.y < 1)
 	{
 		m_Hp = -1;
+		m_pos.y = 0;
 	}
 }
 
@@ -251,7 +252,7 @@ void Human::SwordInit()
 
 	m_fBodyInit = Body->m_localTransform.GetAngles().y;
 
-	Scene::GetInstance().AddObject(m_spSword);
+	//Scene::GetInstance().AddObject(m_spSword);
 }
 
 void Human::SwordUpdate()

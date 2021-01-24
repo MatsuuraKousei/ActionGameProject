@@ -94,7 +94,8 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	}
 
 	// Audio初期化///////////////////////////////////////////////
-	GameBGM=GameBGM->Deserialize(Track::Title_BGM);
+
+	GameBGM = GameBGM->Deserialize(Track::Title_BGM);
 }
 
 void ActionGameProcess::Draw2D()
@@ -198,13 +199,10 @@ void ActionGameProcess::Draw2D()
 void ActionGameProcess::Update()
 {
 	Vector3 pos = { 0,10,0 };
+	SHADER.AddPointLight(pos, 10000, { 0.1f,0.1f,0.1f });
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
-
-		//GameBGM->Play();
-
-		SHADER.AddPointLight(pos, 10000, { 0.1f,0.1f,0.1f });
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
 			m_WhiteOutFlg = true;
@@ -216,12 +214,14 @@ void ActionGameProcess::Update()
 		if (m_WhiteOut > 1)
 		{
 			m_WhiteOut = 1;
+			SHADER.ResetPointLight();
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
-			SHADER.ResetPointLight();
 		}
 		break;
 	case FIELD:
+
+
 		if (m_WhiteOutFlg)
 		{
 			m_WhiteOut -= 0.01f;
@@ -233,7 +233,7 @@ void ActionGameProcess::Update()
 		}
 		if (m_BlackOutFlg)
 		{
-			m_BlackOut += 0.01f;
+			m_BlackOut += 0.05f;
 		}
 		if (m_BlackOut > 1)
 		{
@@ -254,6 +254,8 @@ void ActionGameProcess::Update()
 			}
 		}
 
+
+
 		if (GetInstance().m_getFlg)
 		{
 			ViewDiamond();
@@ -261,7 +263,7 @@ void ActionGameProcess::Update()
 		break;
 	case CLEAR:
 		ScoreManager::GetInstance().Calculation = true;
-		m_Score = ScoreManager::GetInstance().TotalScore;
+		//m_Score = ScoreManager::GetInstance().TotalScore;
 
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
@@ -289,6 +291,11 @@ void ActionGameProcess::Update()
 		{
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
+		}
+		if (GetAsyncKeyState('Q') & 0x8000)
+		{
+			Scene::GetInstance().stageProcess = FIELD;
+			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field2);
 		}
 		break;
 	}

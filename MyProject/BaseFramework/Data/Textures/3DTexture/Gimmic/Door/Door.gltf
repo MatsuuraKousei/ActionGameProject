@@ -68,9 +68,13 @@
                 0
             ],
             "name" : "Material",
+            "normalTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
-                    "index" : 0,
+                    "index" : 1,
                     "texCoord" : 0
                 },
                 "metallicFactor" : 0,
@@ -97,9 +101,17 @@
     "textures" : [
         {
             "source" : 0
+        },
+        {
+            "source" : 1
         }
     ],
     "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "DoorNormal",
+            "uri" : "DoorNormal.png"
+        },
         {
             "mimeType" : "image/png",
             "name" : "Door",

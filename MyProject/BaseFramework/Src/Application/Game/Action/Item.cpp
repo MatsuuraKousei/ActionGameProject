@@ -24,7 +24,7 @@ void Item::Update()
 {
 	if (!m_moveFlg)
 	{
-		m_force.y += 0.01f;
+		m_force.y += 0.02f;
 		m_Max++;
 		if (m_Max > 5)
 		{
@@ -33,7 +33,7 @@ void Item::Update()
 	}
 	else
 	{
-		m_force.y -= 0.01f;
+		m_force.y -= 0.02f;
 		m_Max--;
 		if (m_Max < 0)
 		{
@@ -41,11 +41,7 @@ void Item::Update()
 		}
 	}
 
-	m_rot.y ++;
-	if (m_rot.y > 360)
-	{
-		m_rot.y = 0;
-	}
+	m_rot.y +=0.01;
 
 	m_pos = m_pos + m_force;
 	m_force = { 0,0,0 };

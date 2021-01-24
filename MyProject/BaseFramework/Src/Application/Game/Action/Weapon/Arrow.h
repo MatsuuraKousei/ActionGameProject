@@ -18,6 +18,7 @@ private:
 	void Collision();
 	void Explosion(const Vector3& hitPos);
 	void Explosion2(const Vector3& hitPos);
+	void Explosion3(const Vector3& hitPos);
 
 	std::weak_ptr<GameObject>	m_wpOwner;				// 発射したオーナーオブジェクト
 	Vector3						m_force;				//キャラクターにかかる移動させる力(落下、跳躍、移動)

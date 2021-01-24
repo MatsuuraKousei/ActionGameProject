@@ -22,8 +22,9 @@ void Sentry::Deserialize(const json11::Json& jsonObj)
 
 void Sentry::Update()
 {
-	if (m_Hp < 0)
+	if (m_Hp <= 0)
 	{
+		Explosion2();
 		ScoreManager::GetInstance().AllEnemies++;
 	}
 
@@ -160,6 +161,23 @@ void Sentry::Explosion()
 	Matrix hitMat;
 	Vector3 vec = m_mWorld.GetAxisZ()/2;
 	hitMat.SetTranslation(vec+Vector3(0,1,0)+m_mWorld.GetTranslation());
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
+}
+
+void Sentry::Explosion2()
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion05.png"), 10.0f, 5, 3, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(m_mWorld.GetTranslation());
 	effect->SetMatrix(hitMat);
 
 	// リストに追加

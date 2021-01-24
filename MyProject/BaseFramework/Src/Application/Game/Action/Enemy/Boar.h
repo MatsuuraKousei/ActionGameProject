@@ -42,6 +42,8 @@ private:
 
 	void Hp();
 
+	void Explosion(const Vector3& hitPos);
+
 	float						m_rotateAngle = 4.0f;				//キャラクターの回転角度
 	
 	double						m_speed = 0.29f;

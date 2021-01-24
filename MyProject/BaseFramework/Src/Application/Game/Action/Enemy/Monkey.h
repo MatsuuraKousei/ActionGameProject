@@ -28,6 +28,8 @@ private:
 
 	bool Ground(float);
 
+	void Explosion(const Vector3& hitPos);
+
 	std::shared_ptr<GameObject> m_spShield;
 
 	float						m_uniqueCol = 20;

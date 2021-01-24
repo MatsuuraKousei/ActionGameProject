@@ -115,7 +115,12 @@ void SpawnManeger::Update()
 				OneSystem();
 				break;
 			case Tag_EndlessSystem:
-				EndlessSystem();
+				m_respawnTimer--;
+				if (m_respawnTimer < 0)
+				{
+					m_respawnTimer = 200;
+					EndlessSystem();
+				}
 				break;
 			}
 		}
@@ -195,7 +200,7 @@ void SpawnManeger::OneSystem()
 
 	case Tag_Sentry:
 		m_spSentry->m_pos.x = m_mWorld.GetTranslation().x;
-		m_spSentry->m_pos.y = m_mWorld.GetTranslation().y-4;
+		m_spSentry->m_pos.y = m_mWorld.GetTranslation().y - 4;
 		m_spSentry->m_pos.z = m_mWorld.GetTranslation().z;
 		m_spSentry->m_rot = m_rot;
 		Scene::GetInstance().AddObject(m_spSentry);
@@ -204,7 +209,7 @@ void SpawnManeger::OneSystem()
 
 	case Tag_Monkey:
 		m_spMonkey->m_pos.x = m_mWorld.GetTranslation().x;
-		m_spMonkey->m_pos.y = m_mWorld.GetTranslation().y-4;
+		m_spMonkey->m_pos.y = m_mWorld.GetTranslation().y - 4;
 		m_spMonkey->m_pos.z = m_mWorld.GetTranslation().z;
 		m_spMonkey->m_rot = m_rot;
 		Scene::GetInstance().AddObject(m_spMonkey);
@@ -217,7 +222,6 @@ void SpawnManeger::OneSystem()
 
 void SpawnManeger::EndlessSystem()
 {
-
 	auto m_spBoar = std::make_shared<Boar>();
 	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
 
@@ -226,7 +230,6 @@ void SpawnManeger::EndlessSystem()
 
 	auto m_spBat = std::make_shared<Bat>();
 	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
-
 
 	switch (m_enemTag)
 	{
@@ -260,8 +263,6 @@ void SpawnManeger::EndlessSystem()
 		m_spBat->IsEndless() = true;
 		Scene::GetInstance().AddObject(m_spBat);
 
-		break;
-	default:
 		break;
 	}
 }

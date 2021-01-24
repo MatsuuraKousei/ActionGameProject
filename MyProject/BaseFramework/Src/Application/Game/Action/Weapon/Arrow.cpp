@@ -2,6 +2,7 @@
 #include"../../../main.h"
 #include"../../Scene.h"
 #include"../../AnimationEffect.h"
+#include "../Manage/ScoreManager.h"
 
 void Arrow::Deserialize(const json11::Json& jsonObj)
 {
@@ -69,7 +70,8 @@ void Arrow::Collision()
 			if (obj->HitCheckBySphere(info))
 			{
 				obj->m_Hp--;
-				Explosion(m_mWorld.GetTranslation());
+				ScoreManager::GetInstance().AllEnemies++;
+				Explosion3(m_mWorld.GetTranslation());
 				Destroy();
 			}
 		}
@@ -162,6 +164,23 @@ void Arrow::Explosion2(const Vector3& hitPos)
 
 	// 爆発のテクスチャとアニメーション情報を渡す
 	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion03.png"), 5.0f, 5, 3, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
+}
+
+void Arrow::Explosion3(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion04.png"), 5.0f, 5, 2, (float)(rand() % 360), 0.9f);
 
 	// 場所を自分の位置に合わせる
 	Matrix hitMat = m_mWorld;

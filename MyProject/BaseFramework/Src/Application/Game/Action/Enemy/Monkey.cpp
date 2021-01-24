@@ -1,6 +1,7 @@
 ﻿#include "Monkey.h"
 #include "../Manage/ScoreManager.h"
 #include "../../Scene.h"
+#include "../../AnimationEffect.h"
 #include "System/Debug/Debug.h"
 
 void Monkey::Deserialize(const json11::Json& jsonObj)
@@ -26,8 +27,9 @@ void Monkey::Deserialize(const json11::Json& jsonObj)
 
 void Monkey::Update()
 {
-	if (m_Hp < 0)
+	if (m_Hp <= 0)
 	{
+		Explosion(m_mWorld.GetTranslation());
 		ScoreManager::GetInstance().AllEnemies++;
 	}
 
@@ -292,4 +294,21 @@ bool Monkey::Ground(float rDstDistance)
 
 	//着地したかを返す
 	return m_isGround;
+}
+
+void Monkey::Explosion(const Vector3& hitPos)
+{
+	// アニメーションエフェクトをインスタンス化
+	std::shared_ptr<AnimationEffect> effect = std::make_shared<AnimationEffect>();
+
+	// 爆発のテクスチャとアニメーション情報を渡す
+	effect->SetAnimationInfo(ResFac.GetTexture("Data/Textures/2DTexture/Explosion/Explosion05.png"), 10.0f, 5, 3, (float)(rand() % 360), 0.9f);
+
+	// 場所を自分の位置に合わせる
+	Matrix hitMat = m_mWorld;
+	hitMat.SetTranslation(hitPos);
+	effect->SetMatrix(hitMat);
+
+	// リストに追加
+	Scene::GetInstance().AddObject(effect);
 }

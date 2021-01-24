@@ -38,7 +38,7 @@ void Lift::Deserialize(const json11::Json& jsonObj)
 	{
 		m_speed = jsonObj["Speed"].number_value();
 	}
-	
+
 	switch (lifttag)
 	{
 	case Lift::Normal:
@@ -105,8 +105,13 @@ void Lift::SToG()
 		m_progress += m_speed;
 		if (m_progress >= 1.0f)
 		{
-			m_goTo = false;
+			if (m_timer < 0)
+			{
+				m_goTo = false;
+				m_timer = 70;
+			}
 			m_progress = 1.0f;
+			m_timer--;
 		}
 	}
 	else
@@ -115,17 +120,22 @@ void Lift::SToG()
 		m_progress -= m_speed;
 		if (m_progress <= 0.0f)
 		{
-			m_goTo = true;
+			if (m_timer < 0)
+			{
+				m_goTo = true;
+				m_timer = 70;
+			}
 			m_progress = 0.0f;
+			m_timer--;
 		}
 	}
 }
 
 void Lift::PointStage()
 {
-	if (i > m_PointStrike-1)
+	if (i > m_PointStrike - 1)
 	{
-		i = m_PointStrike-1;
+		i = m_PointStrike - 1;
 	}
 	if (i < 0)
 	{
@@ -158,7 +168,6 @@ void Lift::PointStage()
 		m_pointprogress[i] += m_speed;
 		if (m_pointprogress[i] >= 1.0f)
 		{
-
 			m_goTo2[i] = false;
 			m_pointprogress[i] = 1.0f;
 			i++;
@@ -181,7 +190,7 @@ void Lift::PointStage()
 
 void Lift::XYZRoattion()
 {
-	
+
 }
 
 void Lift::NormalLift(const json11::Json& jsonObj)
