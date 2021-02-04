@@ -2,6 +2,11 @@
 
 #include "../../GameObject.h"
 
+class Boar;
+class Bat;
+class Monkey;
+class Sentry;
+
 class SpawnManeger:public GameObject
 {
 public:
@@ -39,4 +44,9 @@ private:
 	int					m_respawnTimer = 0;
 
 	std::string			m_sNextStage;
+
+	std::shared_ptr<Boar> m_setBoar;
+	std::shared_ptr<Bat> m_setBat;
+	std::shared_ptr<Monkey> m_setMonkey;
+	std::shared_ptr<Sentry> m_setSentry;
 };

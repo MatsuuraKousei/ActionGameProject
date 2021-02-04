@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../GameObject.h"
+#include "../../Component/AudioComponent.h"
 
 class Item :public GameObject
 {
@@ -23,4 +24,6 @@ private:
 	float			m_Rotate;
 	// アイテム上下
 	Vector3			m_Trans;
+
+	std::shared_ptr<SoundInstance> m_spGetSE;
 };

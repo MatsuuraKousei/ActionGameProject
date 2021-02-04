@@ -70,7 +70,7 @@ void Bat::Update()
 		}
 		break;
 	case Action:
-		HP();
+		//HP();
 		Shot();
 		break;
 	case Attack:

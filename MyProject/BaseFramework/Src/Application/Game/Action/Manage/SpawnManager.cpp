@@ -86,6 +86,15 @@ void SpawnManeger::Deserialize(const json11::Json& jsonObj)
 		m_spBat->IsEndless() = false;
 	}
 
+	m_setBoar = std::make_shared<Boar>();
+	m_setBat = std::make_shared<Bat>();
+	m_setMonkey = std::make_shared<Monkey>();
+	m_setSentry = std::make_shared<Sentry>();
+
+	m_setBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
+	m_setBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
+	m_setMonkey->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Monkey.json"));
+	m_setSentry->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sentry.json"));
 }
 
 void SpawnManeger::Update()
@@ -153,19 +162,19 @@ void SpawnManeger::OneSystem()
 	if (Respawn) { return; }
 
 	auto m_spBoar = std::make_shared<Boar>();
-	m_spBoar->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Boar.json"));
+	m_spBoar = m_setBoar;
 
 	auto m_spAlligator = std::make_shared<Alligator>();
 	m_spAlligator->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Alligator.json"));
 
 	auto m_spBat = std::make_shared<Bat>();
-	m_spBat->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Bat.json"));
+	m_spBat = m_setBat;
 
 	auto m_spSentry = std::make_shared<Sentry>();
-	m_spSentry->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Sentry.json"));
+	m_spSentry = m_setSentry;
 
 	auto m_spMonkey = std::make_shared<Monkey>();
-	m_spMonkey->Deserialize(ResFac.GetJSON("Data/JsonFile/Object/Monkey.json"));
+	m_spMonkey = m_setMonkey;
 
 
 	switch (m_enemTag)

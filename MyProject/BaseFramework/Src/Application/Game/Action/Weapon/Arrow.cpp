@@ -11,6 +11,9 @@ void Arrow::Deserialize(const json11::Json& jsonObj)
 
 	GameObject::Deserialize(jsonObj);
 
+	Hit1 = Hit1->Deserialize(Track::Hit1);
+	Hit2 = Hit2->Deserialize(Track::Hit2);
+
 	// 生きる時間(最大Fpsに依存?)
 	m_lifeSpan = APP.m_maxFps * 2;
 
@@ -18,6 +21,8 @@ void Arrow::Deserialize(const json11::Json& jsonObj)
 	m_mWorld.RotateY(m_rot.y);
 	m_mWorld.RotateZ(m_rot.z);
 	m_mWorld.SetTranslation(m_pos);
+
+	
 }
 
 void Arrow::Update()
@@ -65,10 +70,9 @@ void Arrow::Collision()
 		// TAG_Characterとは球判定を行う
 		if ((obj->GetTag() & TAG_Enemy))
 		{
-			
-
 			if (obj->HitCheckBySphere(info))
 			{
+				
 				obj->m_Hp--;
 				ScoreManager::GetInstance().AllEnemies++;
 				Explosion3(m_mWorld.GetTranslation());
@@ -82,6 +86,7 @@ void Arrow::Collision()
 
 			if (obj->HitCheckBySphereToMesh(info, sphereResult))
 			{
+				
 				m_stop = true;
 				Explosion(m_mWorld.GetTranslation());
 				Destroy();
@@ -94,6 +99,7 @@ void Arrow::Collision()
 
 			if (obj->HitCheckBySphere(info))
 			{
+				
 				if (obj->m_Hp > 1)
 				{
 					obj->m_Hp--;

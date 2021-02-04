@@ -64,6 +64,10 @@ void Human::Deserialize(const json11::Json& jsonObj)
 
 	m_Hp = 4;
 
+	
+	m_spBowSE = m_spBowSE->Deserialize(Track::Bow);
+	m_spJumpSE = m_spJumpSE->Deserialize(Track::Jump);
+	
 }
 
 void Human::Update()
@@ -233,6 +237,7 @@ void Human::UpdateMove()
 
 	if (m_spInputComponent->GetButton(Input::A) & m_spInputComponent->ENTER && m_isGround)
 	{
+		m_spJumpSE->Play();
 		m_force.y = 0.3f;
 	}
 
@@ -257,6 +262,7 @@ void Human::SwordInit()
 
 void Human::SwordUpdate()
 {
+	return;
 	if (!m_bSword)
 	{
 		Matrix mat;
@@ -446,6 +452,8 @@ void Human::CrossbowUpdate()
 	{
 		if (m_spInputComponent->GetButton(Input::Buttons::X) & m_spInputComponent->ENTER)
 		{
+			if (m_spBowSE->IsPlay()) return;
+
 			POINT center = { 1280 / 2,720 / 2 };
 
 			Matrix mView = m_spCameraComponent->GetViewMatrix();
@@ -473,6 +481,9 @@ void Human::CrossbowUpdate()
 			m_spArrow->Position(Angle);
 
 			m_spArrow->SetOwner(shared_from_this());
+
+			m_spBowSE->Play();
+
 			Scene::GetInstance().AddObject(m_spArrow);
 
 		}
@@ -736,7 +747,8 @@ void Human::Damege()
 			if (obj->HitCheckBySphere(info))
 			{
 				Explosion(Body->m_localTransform.GetTranslation() + m_pos);
-				//m_Hp--;
+				m_force.y += 0.3;
+				m_Hp--;
 			}
 		}
 
@@ -750,7 +762,7 @@ void Human::Damege()
 				Vector3 KnockBack = -m_mWorld.GetAxisZ();
 				KnockBack.Normalize();
 				m_force = KnockBack;
-				m_force.y += 0.5;
+				//m_force.y += 0.5;
 				m_Hp--;
 			}
 		}

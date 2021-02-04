@@ -94,8 +94,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 	}
 
 	// Audio初期化///////////////////////////////////////////////
-
-	GameBGM = GameBGM->Deserialize(Track::Title_BGM);
+	m_spSystemSE = m_spSystemSE->Deserialize(Track::System);
 }
 
 void ActionGameProcess::Draw2D()
@@ -117,6 +116,7 @@ void ActionGameProcess::Draw2D()
 		}
 		break;
 	case FIELD:
+	
 		// ダイヤ
 		SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
 
@@ -142,8 +142,6 @@ void ActionGameProcess::Draw2D()
 		{
 			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -30);
 		}
-
-
 
 
 		break;
@@ -199,12 +197,14 @@ void ActionGameProcess::Draw2D()
 void ActionGameProcess::Update()
 {
 	Vector3 pos = { 0,10,0 };
-	SHADER.AddPointLight(pos, 10000, { 0.1f,0.1f,0.1f });
+	
 	switch (Scene::GetInstance().stageProcess)
 	{
 	case OPNING:
+		
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
+			m_spSystemSE->Play();
 			m_WhiteOutFlg = true;
 		}
 		if (m_WhiteOutFlg)
@@ -214,17 +214,16 @@ void ActionGameProcess::Update()
 		if (m_WhiteOut > 1)
 		{
 			m_WhiteOut = 1;
-			SHADER.ResetPointLight();
+			
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
 		}
 		break;
 	case FIELD:
-
-
 		if (m_WhiteOutFlg)
 		{
-			m_WhiteOut -= 0.01f;
+			m_WhiteOut -= 0.02f;
+			SHADER.ResetPointLight();
 		}
 		if (m_WhiteOut < 0)
 		{
@@ -263,10 +262,11 @@ void ActionGameProcess::Update()
 		break;
 	case CLEAR:
 		ScoreManager::GetInstance().Calculation = true;
-		//m_Score = ScoreManager::GetInstance().TotalScore;
+		m_Score = Scene::GetInstance().ManageScore;
 
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
+			m_spSystemSE->Play();
 			Scene::GetInstance().stageProcess = OPNING;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Opning);
 		}
@@ -289,11 +289,13 @@ void ActionGameProcess::Update()
 		}
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
+			m_spSystemSE->Play();
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field);
 		}
 		if (GetAsyncKeyState('Q') & 0x8000)
 		{
+			return;
 			Scene::GetInstance().stageProcess = FIELD;
 			Scene::GetInstance().RequestChangeScene(Scene::GetInstance().Field2);
 		}

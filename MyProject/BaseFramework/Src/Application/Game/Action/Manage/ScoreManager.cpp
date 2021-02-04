@@ -1,4 +1,5 @@
 ﻿#include "ScoreManager.h"
+#include "../../Scene.h"
 
 void ScoreManager::Deserialize(const json11::Json& jsonObj)
 {
@@ -10,10 +11,10 @@ void ScoreManager::Update()
 	if (GetInstance().Calculation)
 	{
 		// ダイヤモンドによるスコア換算
-		m_iAllDiamondsScore += GetInstance().AllDiamonds * 100;
+		m_iAllDiamondsScore = GetInstance().AllDiamonds * 1000;
 
 		// 敵撃破によるスコア換算
-		m_iAllEnemiesScore += GetInstance().AllEnemies * 10;
+		m_iAllEnemiesScore = GetInstance().AllEnemies * 100;
 
 
 		// 総合得点
@@ -21,5 +22,7 @@ void ScoreManager::Update()
 		
 		// 引き渡し
 		GetInstance().TotalScore = m_iTotalScore;
+
+		Scene::GetInstance().ManageScore = m_iTotalScore;
 	}
 }

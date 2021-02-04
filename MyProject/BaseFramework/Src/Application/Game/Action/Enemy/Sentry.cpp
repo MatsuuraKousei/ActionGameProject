@@ -17,7 +17,7 @@ void Sentry::Deserialize(const json11::Json& jsonObj)
 
 	Head = m_spModelComponent->FileNode("Head");
 
-	
+	m_spBulletSE = m_spBulletSE->Deserialize(Track::Bullet);
 }
 
 void Sentry::Update()

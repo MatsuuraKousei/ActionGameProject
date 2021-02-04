@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include"../../GameObject.h"
+#include "../../../Component/AudioComponent.h"
 
 class Arrow :public GameObject
 {
@@ -27,5 +28,8 @@ private:
 	float						m_speed = 0.2f;
 	Vector3						m_Axiz;
 	float						m_gravity = 0.00f;		//重力の強さ
-	bool						m_stop = false;;
+	bool						m_stop = false;
+
+	std::shared_ptr<SoundInstance> Hit1;
+	std::shared_ptr<SoundInstance> Hit2;
 };

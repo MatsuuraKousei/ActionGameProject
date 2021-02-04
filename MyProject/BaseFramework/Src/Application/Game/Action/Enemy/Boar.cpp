@@ -55,11 +55,11 @@ void Boar::Update()
 		break;
 	case Action:
 		Snipe();
-		Hp();
+		//Hp();
 		break;
 	case Attack:
 		Move();
-		Hp();
+		//Hp();
 		break;
 	}
 

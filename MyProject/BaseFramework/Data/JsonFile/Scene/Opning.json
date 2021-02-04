@@ -19,6 +19,14 @@
       "Scale": [ 1000, 1000, 1000 ]
     },
     {
+      "ClassName": "Righting",
+      "Name": "Light",
+      "Tag":0,
+      "Pos":[0,10,0],
+      "col":10000,
+      "Color":[0.1,0.1,0.1]
+    },
+    {
       "ClassName": "GameObject",
       "Name": "Water",
       "Tag":256,

@@ -21,6 +21,24 @@ std::string SoundInstance::Conv(Track::Music music,bool &b3D)
 		b3D = false;
 		return std::string("Data/Sounds/BGM/MainBGM2.wav");
 	}
+	// ゲーム
+	if (music == Track::Game_BGM)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/BGM/MainBGM.wav");
+	}
+	// クリア
+	if (music == Track::Game_Clear)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/BGM/GameClear.wav");
+	}
+	// オーバー
+	if (music == Track::Game_Over)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/BGM/GameOver.wav");
+	}
 	///////////////////////////////////////////////////////////
 
 	// SE群////////////////////////////////////////////////////
@@ -28,6 +46,66 @@ std::string SoundInstance::Conv(Track::Music music,bool &b3D)
 	{
 		b3D = false;
 		return std::string("Data/Sounds/SE/ItemGet.wav");
+	}
+	if (music == Track::Get)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Get.wav");
+	}
+	if (music == Track::Boar)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Boar.wav");
+	}
+	if (music == Track::Bat)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Bat.wav");
+	}
+	if (music == Track::Bullet)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Bullet.wav");
+	}
+	if (music == Track::Jump)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Jump.wav");
+	}
+	if (music == Track::Door1)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Door1.wav");
+	}
+	if (music == Track::Needle)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Needle.wav");
+	}
+	if (music == Track::Bow)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Bow.wav");
+	}
+	if (music == Track::System)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/System.wav");
+	}
+	if (music == Track::Hit1)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Hit.wav");
+	}
+	if (music == Track::Hit2)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Hit2.wav");
+	}
+	if (music == Track::Hit3)
+	{
+		b3D = false;
+		return std::string("Data/Sounds/SE/Hit3.wav");
 	}
 	///////////////////////////////////////////////////////////
 

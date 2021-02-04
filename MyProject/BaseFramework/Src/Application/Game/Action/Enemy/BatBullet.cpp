@@ -25,9 +25,7 @@ void BatBullet::Update()
 		Destroy();
 	}
 
-	Vector3 pos = { 0,0,0 };
-	pos += m_mWorld.GetTranslation();
-	SHADER.AddPointLight(pos, 5,Vector3(0.1,0.1,0.1));
+
 	auto target = m_wpTarget.lock();
 
 	if (target)
@@ -91,6 +89,7 @@ void BatBullet::Update()
 		move *= (float)m_speed;
 
 		m_mWorld.Move(move);
+
 
 		// ‹…î•ñ‚Ìì¬
 		SphereInfo info;

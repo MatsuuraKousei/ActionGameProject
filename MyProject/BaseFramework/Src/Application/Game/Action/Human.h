@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../GameObject.h"
+#include "../../Component/AudioComponent.h"
 
 class Arrow;
 class CrossBow;
@@ -133,5 +134,9 @@ private:
 
 	void LockonPoint(const Vector3& hitPos);
 	Vector3 m_enemypos;
+
+	std::shared_ptr<SoundInstance> m_spBowSE;
+	std::shared_ptr<SoundInstance> m_spJumpSE;
+	
 };
 

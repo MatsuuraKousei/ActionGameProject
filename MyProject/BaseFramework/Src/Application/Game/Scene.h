@@ -1,5 +1,7 @@
 ﻿#pragma once	// 多重インクルード防止
 
+#include "../Component/AudioComponent.h"
+
 // 前方宣言
 //	ヘッダーの中では絶対にインクルードしないとだめって場合じゃない時は前方宣言のほうがいい
 class EditorCamera;
@@ -58,6 +60,8 @@ public:
 
 	bool							debug = false;
 
+	int								ManageScore;
+
 	StageProcess					stageProcess = OPNING;
 
 	std::string						Opning;
@@ -107,4 +111,9 @@ private:
 	std::string							m_PathText;	// ImGuiのjsonのパスを入れる
 	std::shared_ptr<CustomImGui>		m_Editor_Log;	//ImGuiHelperのポインタ
 	////////////////////////////////////////////////////////////////////////////////
+
+	std::shared_ptr<SoundInstance> TitleBGM;
+	std::shared_ptr<SoundInstance> GameBGM;
+	std::shared_ptr<SoundInstance> ClearBGM;
+	std::shared_ptr<SoundInstance> OverBGM;
 };

@@ -68,9 +68,9 @@ private:
 	float					m_BlackOut = 0.0f;
 	bool					m_BlackOutFlg = false;;
 
-	int						m_Score = 10000;				// スコア
+	int						m_Score = 00000;				// スコア
 
 	// Audioes//////////////////////////////////////////////////////////
 
-	std::shared_ptr<SoundInstance> GameBGM;
+	std::shared_ptr<SoundInstance> m_spSystemSE;
 };

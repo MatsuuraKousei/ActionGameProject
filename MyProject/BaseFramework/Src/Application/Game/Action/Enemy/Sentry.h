@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "../../GameObject.h"
+#include "../../../Component/AudioComponent.h"
+
 
 class Bullet;
 
@@ -46,4 +48,7 @@ private:
 
 	Vector3						m_force;							// キャラの移動量
 	Vector3						m_prevPos = {};
+
+
+	std::shared_ptr<SoundInstance> m_spBulletSE;
 };

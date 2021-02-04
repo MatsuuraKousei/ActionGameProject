@@ -18,6 +18,8 @@ void Item::Deserialize(const json11::Json& jsonObj)
 	m_Trans = { 0,0,0 };
 
 	ActionGameProcess::GetInstance().MAXDia++;
+
+	m_spGetSE = m_spGetSE->Deserialize(Track::Get);
 }
 
 void Item::Update()
@@ -68,6 +70,7 @@ void Item::Update()
 		// 当たり判定
 		if (obj->HitCheckBySphere(info))
 		{
+			m_spGetSE->Play();
 			ActionGameProcess::GetInstance().getDia++;
 			ActionGameProcess::GetInstance().m_getFlg = true;
 			ScoreManager::GetInstance().AllDiamonds++;

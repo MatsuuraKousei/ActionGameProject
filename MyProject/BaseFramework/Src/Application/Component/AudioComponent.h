@@ -12,7 +12,22 @@ namespace Track
 	{
 		// タイトル
 		Title_BGM,
-		ItemGet
+		Game_BGM,
+		Game_Clear,
+		Game_Over,
+		ItemGet,
+		Bat,
+		Boar,
+		Bow,
+		Bullet,
+		Jump,
+		Door1,
+		Get,
+		Needle,
+		System,
+		Hit1,
+		Hit2,
+		Hit3
 	};
 
 }

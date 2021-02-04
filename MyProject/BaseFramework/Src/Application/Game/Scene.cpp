@@ -5,6 +5,7 @@
 #include"../../System/Debug/Debug.h"
 #include "./Application/Game/EditorCamera.h"
 #include "Application/ImGuiHelper.h"
+#include "Action/Manage/ScoreManager.h"
 
 // コンストラクタ
 Scene::Scene()
@@ -115,8 +116,12 @@ void Scene::Init()
 // 初期化
 void Scene::Deserialize()
 {
-	//アクションゲームシーン
+	TitleBGM = TitleBGM->Deserialize(Track::Title_BGM);
+	GameBGM = GameBGM->Deserialize(Track::Game_BGM);
+	ClearBGM = ClearBGM->Deserialize(Track::Game_Clear);
+	OverBGM = OverBGM->Deserialize(Track::Game_Over);
 
+	//アクションゲームシーン
 	switch (stageProcess)
 	{
 	case OPNING:
@@ -154,6 +159,34 @@ void Scene::Update()
 {
 	Debug::GetInstance().Update();
 
+	switch (stageProcess)
+	{
+	case OPNING:
+		if (!TitleBGM->IsPlay())
+		{
+			TitleBGM->Play(true);
+		}
+		break;
+	case FIELD:
+		if (!GameBGM->IsPlay())
+		{
+			GameBGM->Play(true);
+		}
+		break;
+	case CLEAR:
+		if (!ClearBGM->IsPlay())
+		{
+			ClearBGM->Play();
+		}
+		break;
+	case OVER:
+		if (!OverBGM->IsPlay())
+		{
+			OverBGM->Play();
+		}
+		break;
+	}
+
 	// カメラ
 	if (EditorCameraEnable)
 	{
@@ -189,6 +222,22 @@ void Scene::Update()
 	// シーン遷移のリクエストがあった場合、変更する
 	if (m_isRequestChangeScene)
 	{
+		if (TitleBGM->IsPlay())
+		{
+			TitleBGM->Stop();
+		}
+		if (GameBGM->IsPlay())
+		{
+			GameBGM->Stop();
+		}
+		if (ClearBGM->IsPlay())
+		{
+			ClearBGM->Stop();
+		}
+		if (OverBGM->IsPlay())
+		{
+			OverBGM->Stop();
+		}
 		ExecChangeScene();
 	}
 

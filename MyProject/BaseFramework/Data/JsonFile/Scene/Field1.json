@@ -5,6 +5,10 @@
       "Name": "GameProcess"
     },
     {
+      "ClassName": "ScoreManage",
+      "Name": "ScoreManager"
+    },
+    {
       "ClassName": "GameObject",
       "Name": "Sky",
       "Tag":4,
@@ -50,15 +54,22 @@
     },
     {
      "ClassName": "Lift",
-     "Name": "PointLift0",
+     "Name": "NormalLift0",
      "Tag":4,
-     "LiftTag":1,
+     "LiftTag":0,
      "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
-     "Points":3,
      "Pos":[34,4.7,43.9],
-     "MoveTo0":[26.3,4.7,49.3],
-     "MoveTo1":[14.3,4.7,49.3],
-     "MoveTo2":[5.1,4.7,33.5],
+     "ToGoal":[22.3,4.7,49.3],
+     "Speed":0.01
+    },
+     {
+     "ClassName": "Lift",
+     "Name": "NormalLift0",
+     "Tag":4,
+     "LiftTag":0,
+     "ModelFileName": "Data/Textures/3DTexture/Lift/StoneLift/StoneLift.gltf",
+     "Pos":[5.1,4.7,33.5],
+     "ToGoal":[18.3,4.7,49.3],
      "Speed":0.01
     },
     {
@@ -197,6 +208,13 @@
      "Tag":256,
      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Cutter/Cutter.gltf",
      "Pos":[21,5.5,43.9]
+    },
+    {
+     "ClassName": "GameObject",
+     "Name": "Pone",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Dungen2/tree.gltf",
+     "Pos":[21,-0.1,43.9]
     },
     {
      "ClassName": "Item",
@@ -435,6 +453,13 @@
      "Tag":4,
      "ModelFileName": "Data/Textures/3DTexture/Gimmic/Torch/Torch.gltf",
      "Pos":[-21.5,6,-21.6]
+    },
+    {
+     "ClassName": "GameObject",
+     "Name": "Stairs",
+     "Tag":4,
+     "ModelFileName": "Data/Textures/3DTexture/Map/DungenMap/Stairs.gltf",
+     "Pos":[ -47.8,4.7,-26.1 ]
     },
     {
      "ClassName": "SceneManage",
