@@ -93,9 +93,14 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 		break;
 	}
 
+	m_iPlayerHP = Human::GetInstance().m_Hp;
+
 	// Audio初期化///////////////////////////////////////////////
 	m_spSystemSE = m_spSystemSE->Deserialize(Track::System);
 }
+
+#define HPMainX 80
+#define HPhosei 45
 
 void ActionGameProcess::Draw2D()
 {
@@ -109,46 +114,84 @@ void ActionGameProcess::Draw2D()
 	case OPNING:
 		if (!m_WhiteOutFlg)
 		{
-			SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200, 1.1);
-			SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
+			if (m_spTitleTex.get())
+			{
+				SHADER.m_spriteShader.DrawTex(m_spTitleTex.get(), 0, 200, 1.1);
+			}
+			if (m_spEnterTex.get())
+			{
+				SHADER.m_spriteShader.DrawTex(m_spEnterTex.get(), 0, -200);
+			}
 			//SHADER.m_spriteShader.DrawTex(m_spBMotherHPTex.get(), -45, -300);
 			//SHADER.m_spriteShader.DrawTex(m_spWolfHPTex.get(), 0, -300);
 		}
 		break;
 	case FIELD:
 	
-		// ダイヤ
-		SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
-
-		// 体力
-		SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
-		for (int i = 0; i < m_iPlayerHP; i++)
+		if (m_spDiaBack.get())
 		{
-			SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (80 - (45 * i)), UIPos.y);
+			// ダイヤ
+			SHADER.m_spriteShader.DrawTex(m_spDiaBack.get(), Dia.x + 400, Dia.y);
 		}
 
+		if (m_spMotherHPTex.get())
+		{
+			// 体力
+			SHADER.m_spriteShader.DrawTex(m_spMotherHPTex.get(), UIPos.x, UIPos.y);
+		}
+		for (int i = 0; i < m_iPlayerHP; i++)
+		{
+			if (m_spHPTex[i].get())
+			{
+				SHADER.m_spriteShader.DrawTex(m_spHPTex[i].get(), UIPos.x - (HPMainX - (HPhosei * i)), UIPos.y);
+			}
+		}
 
-		SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
+		if (m_spDiamond.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spDiamond.get(), Dia.x + 300, Dia.y);
+		}
 
-		// 分母
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().MAXDia].get(), Dia.x + 500.0f, Dia.y);
-		//「/」
-		SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
-		// 分子
-		SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400.0f, Dia.y);
+		if (m_spNumbers[GetInstance().MAXDia].get())
+		{
+			// 分母
+			SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().MAXDia].get(), Dia.x + 500.0f, Dia.y);
+		}
+		if (m_spSlash.get())
+		{
+			//「/」
+			SHADER.m_spriteShader.DrawTex(m_spSlash.get(), Dia.x + 450, Dia.y);
+		}
+		if (m_spNumbers[GetInstance().getDia].get())
+		{
+			// 分子
+			SHADER.m_spriteShader.DrawTex(m_spNumbers[GetInstance().getDia].get(), Dia.x + 400.0f, Dia.y);
+		}
 
 
 		if (Human::IsSnipe())
 		{
-			SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -30);
+			if (m_spScope.get())
+			{
+				SHADER.m_spriteShader.DrawTex(m_spScope.get(), 0, -30);
+			}
 		}
 
 
 		break;
 	case CLEAR:
-		SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
-		SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
-		SHADER.m_spriteShader.DrawTex(m_spScoreBoard.get(), -150, -100);
+		if (m_spClearTex.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spClearTex.get(), 0, 0);
+		}
+		if (m_spSpaceTex.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
+		}
+		if (m_spScoreBoard.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spScoreBoard.get(), -150, -100);
+		}
 		for (int i = 0; i < 5; i++)
 		{
 			int bet = 0;
@@ -181,17 +224,32 @@ void ActionGameProcess::Draw2D()
 				bet = score;
 				break;
 			}
-			SHADER.m_spriteShader.DrawTex(m_spScores[bet].get(), 100 + (i * 35), -110);
+			if (m_spScores[bet].get())
+			{
+				SHADER.m_spriteShader.DrawTex(m_spScores[bet].get(), 100 + (i * 35), -110);
+			}
 		}
 		break;
 	case OVER:
-		SHADER.m_spriteShader.DrawTex(m_spOverTex.get(), 0, m_OverY);
-		SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
+		if (m_spOverTex.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spOverTex.get(), 0, m_OverY);
+		}
+		if (m_spSpaceTex.get())
+		{
+			SHADER.m_spriteShader.DrawTex(m_spSpaceTex.get(), 0, -200);
+		}
 		break;
 	}
 
-	SHADER.m_spriteShader.DrawTex(m_spWhite.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_WhiteOut)));
-	SHADER.m_spriteShader.DrawTex(m_spBlack.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_BlackOut)));
+	if (m_spWhite.get())
+	{
+		SHADER.m_spriteShader.DrawTex(m_spWhite.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_WhiteOut)));
+	}
+	if (m_spBlack.get())
+	{
+		SHADER.m_spriteShader.DrawTex(m_spBlack.get(), 0, 0, 1, nullptr, &Math::Color(Math::Vector4(1, 1, 1, m_BlackOut)));
+	}
 }
 
 void ActionGameProcess::Update()

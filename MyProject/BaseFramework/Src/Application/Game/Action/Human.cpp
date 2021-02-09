@@ -10,6 +10,7 @@
 #include "../../Component/CameraComponent.h"
 #include "../../Component/InputComponent.h"
 #include "../../Component/ModelComponent.h"
+#include "../../Component/AudioComponent.h"
 #include"../AnimationEffect.h"
 #include"../FixedTexture.h"
 #include"ActionGameProcess.h"
@@ -72,6 +73,8 @@ void Human::Deserialize(const json11::Json& jsonObj)
 
 void Human::Update()
 {
+	AudioManager::GetInstance().GetListener().SetPosition(m_pos);
+
 	if (Scene::GetInstance().debug) { return; }
 
 	if (!m_alive) { return; }

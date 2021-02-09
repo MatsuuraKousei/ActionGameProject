@@ -46,6 +46,12 @@ public:
 		return KnockBack;
 	}
 
+	static Human& GetInstance()
+	{
+		static Human human;
+		return human;
+	}
+
 
 private:
 

@@ -72,7 +72,7 @@ void Arrow::Collision()
 		{
 			if (obj->HitCheckBySphere(info))
 			{
-				
+				//Hit1->Play3D(m_mWorld.GetTranslation(), false, true);
 				obj->m_Hp--;
 				ScoreManager::GetInstance().AllEnemies++;
 				Explosion3(m_mWorld.GetTranslation());
@@ -86,7 +86,7 @@ void Arrow::Collision()
 
 			if (obj->HitCheckBySphereToMesh(info, sphereResult))
 			{
-				
+				//Hit1->Play3D(m_mWorld.GetTranslation(),false,true);
 				m_stop = true;
 				Explosion(m_mWorld.GetTranslation());
 				Destroy();

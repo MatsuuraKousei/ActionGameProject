@@ -23,6 +23,7 @@ Scene::~Scene()
 void Scene::Init()
 {
 	AudioManager::GetInstance().Init();
+
 	// Jsonファイルを開く
 	std::ifstream ifs("Data/JsonFile/test.json");
 	if (ifs.fail()) { assert(0 && "Jsonファイルのパスが間違っています"); }
@@ -158,6 +159,8 @@ void Scene::Release()
 void Scene::Update()
 {
 	Debug::GetInstance().Update();
+
+	AudioManager::GetInstance().Update();
 
 	switch (stageProcess)
 	{

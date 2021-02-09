@@ -37,22 +37,23 @@ private:
 	int						m_iPlayerHP;
 
 	int						m_OverY = 500;
+
 	DirectX::SimpleMath::Rectangle rc;
-	std::shared_ptr<Texture> m_spTitleTex;			// タイトル
-	std::shared_ptr<Texture> m_spEnterTex;			// タイトル
-	std::shared_ptr<Texture> m_spSpaceTex;			// タイトル
-	std::shared_ptr<Texture> m_spClearTex;			// クリア
-	std::shared_ptr<Texture> m_spOverTex;			// オーバー
-	std::shared_ptr<Texture> m_spMotherHPTex;		// HPバー
-	std::shared_ptr<Texture> m_spWolfHPTex;			// WolfHPバー
-	std::shared_ptr<Texture> m_spBMotherHPTex;		// BossMotherHPバー
-	std::shared_ptr<Texture> m_spDiamond;			// ダイアモンドUI
-	std::shared_ptr<Texture> m_spDiaBack;			// ダイアモンドUI
+	std::shared_ptr<Texture> m_spTitleTex = nullptr;;			// タイトル
+	std::shared_ptr<Texture> m_spEnterTex = nullptr;			// タイトル
+	std::shared_ptr<Texture> m_spSpaceTex = nullptr;			// タイトル
+	std::shared_ptr<Texture> m_spClearTex = nullptr;			// クリア
+	std::shared_ptr<Texture> m_spOverTex = nullptr;			// オーバー
+	std::shared_ptr<Texture> m_spMotherHPTex = nullptr;		// HPバー
+	std::shared_ptr<Texture> m_spWolfHPTex = nullptr;			// WolfHPバー
+	std::shared_ptr<Texture> m_spBMotherHPTex = nullptr;		// BossMotherHPバー
+	std::shared_ptr<Texture> m_spDiamond = nullptr;			// ダイアモンドUI
+	std::shared_ptr<Texture> m_spDiaBack = nullptr;			// ダイアモンドUI
 	std::shared_ptr<Texture> m_spHPTex[4];			// HPゲージ
 	std::shared_ptr<Texture> m_spNumbers[10];		// 数字
 	std::shared_ptr<Texture> m_spScores[10];		// スコア
-	std::shared_ptr<Texture> m_spScoreBoard;		// スコアボード
-	std::shared_ptr<Texture> m_spSlash;				// 「/」
+	std::shared_ptr<Texture> m_spScoreBoard = nullptr;		// スコアボード
+	std::shared_ptr<Texture> m_spSlash = nullptr;				// 「/」
 
 	std::shared_ptr<Texture> m_spBlack;				// 黒
 	std::shared_ptr<Texture> m_spWhite;				// 白
