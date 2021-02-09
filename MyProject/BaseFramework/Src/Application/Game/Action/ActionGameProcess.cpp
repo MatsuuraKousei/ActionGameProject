@@ -101,6 +101,7 @@ void ActionGameProcess::Deserialize(const json11::Json& jsonobj)
 
 #define HPMainX 80
 #define HPhosei 45
+#define ScoreCounterStop 99999
 
 void ActionGameProcess::Draw2D()
 {
@@ -197,6 +198,11 @@ void ActionGameProcess::Draw2D()
 			int bet = 0;
 			int score = m_Score;
 			static int Paragraph;
+
+			if (score < ScoreCounterStop)
+			{
+				score = ScoreCounterStop;
+			}
 
 			switch (i)
 			{
