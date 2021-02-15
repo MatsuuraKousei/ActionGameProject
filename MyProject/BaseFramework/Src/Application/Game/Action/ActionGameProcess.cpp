@@ -199,7 +199,7 @@ void ActionGameProcess::Draw2D()
 			int score = m_Score;
 			static int Paragraph;
 
-			if (score < ScoreCounterStop)
+			if (score > ScoreCounterStop)
 			{
 				score = ScoreCounterStop;
 			}
